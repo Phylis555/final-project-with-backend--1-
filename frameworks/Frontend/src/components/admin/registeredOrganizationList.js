@@ -41,7 +41,7 @@ export default function OrganizationRequestList() {
             <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
                 <div className="container-fluid py-4" onClick={toggleSidenav}>
                     <div className="row">
-                        <h2>ארגונים רשומים</h2>
+                        <h2> ארגונים רשומים</h2>
                         <div className="col-lg-4 col-md-6 col-sm-8 my-3">
                             <div className="input-group input-group-outline bg-white">
                                 <input

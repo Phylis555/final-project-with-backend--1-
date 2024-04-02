@@ -39,6 +39,11 @@ export default function CreateDonation() {
   const [userId, setUserId] = useState("");
   const [category, setCategory] = useState(""); 
 
+  const [wantedItems, setWantedItems] = useState([]); 
+  const [itemName, setItemName] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [wantedQuantity, setWantedQuantity] = useState('');
+
   const handleCategoryChange = (e) => {
     setCategory(e.target.value); 
   };
@@ -53,12 +58,36 @@ export default function CreateDonation() {
     // console.log(filesarr.base64);
   };
 
+  const handleAddItem = () => {
+    // Validate input fields
+    if (!itemName || !selectedCategory || !wantedQuantity) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    // Create a new item object
+    const newItem = {
+      itemName: itemName,
+      category: selectedCategory,
+      quantity: wantedQuantity
+    };
+
+    // Add the new item to the array of wanted items
+    setWantedItems(prevItems => [...prevItems, newItem]);
+
+    // Clear input fields
+    setItemName('');
+    setSelectedCategory('');
+    setWantedQuantity('');
+  };
+
   const createDonation = async (e) => {
     setLoading(true);
     e.preventDefault();
     const donationImage = filesarr.base64;
     console.log(donationImage);
     const userID = userId;
+
 
     const donation = {
       userID,
@@ -69,7 +98,7 @@ export default function CreateDonation() {
       contactNumber,
       donationImage,
       donationDescription,
-      category,
+      wantedItems
     };
     console.log(donation);
     await newDonation(donation)
@@ -204,7 +233,45 @@ export default function CreateDonation() {
                         }}
                       />
                     </div>
-                    <div className="input-group mb-3  input-group-outline mb-3">
+                    <div className="input-group mb-3 input-group-outline mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Item Name"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                      />
+                      <select
+                        className="form-select"
+                        aria-label="Select Category"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                      >
+                        <option value="">Select Category</option>
+                        {categories.map((cat, index) => (
+                          <option key={index} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Wanted Quantity"
+                        value={wantedQuantity}
+                        onChange={(e) => setWantedQuantity(e.target.value)}
+                      />
+                      <button className="btn btn-primary" onClick={handleAddItem}>Add Item</button>
+                    </div>
+                    <div>
+                      <h2>Wanted Items:</h2>
+                      <ul>
+                        {wantedItems.map((item, index) => (
+                          <li key={index}>
+                            {item.itemName} - {item.category} - {item.quantity}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    {/* <div className="input-group mb-3  input-group-outline mb-3">
                       <select
                         className="form-select"
                         aria-label="בחר קטגוריה"
@@ -216,7 +283,7 @@ export default function CreateDonation() {
                           <option key={index} value={cat}>{cat}</option>
                         ))}
                       </select>
-                  </div>
+                  </div> */}
                     <div class="input-group mb-3 input-group input-group-outline mb-3">
                       <textarea
                         class="form-control"

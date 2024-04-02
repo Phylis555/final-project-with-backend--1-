@@ -9,7 +9,7 @@ const app = express();
 
 require("dotenv").config();
 
-const PORT = 8070;
+const PORT = process.env.PORT || 8070;
 
 app.use(credentials);
 
@@ -54,7 +54,6 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Mongodb connection success!");
 });
-console.log("kkkkkkkkkkkkkkk");
 
 app.listen(PORT, () => {
   console.log(`Server is up and running on port ${PORT}`);

@@ -1,4 +1,8 @@
 const express = require("express");
+const { body } = require('express-validator');
+
+
+
 const { getAllDonations } = require("../../controllers/donator/allDonations");
 const { createDonation } = require("../../controllers/donator/createDonation");
 const { deleteDonation } = require("../../controllers/donator/deleteDonation");
@@ -32,7 +36,15 @@ const { validate } = require("../../middleware/donationValidation");
 
 const router = express.Router();
 
-router.post("/createDonation", validate("createDonation"), createDonation);
+router.post("/createDonation", [
+  body('donationTitle').trim().isLength({min : 5}).withMessage('Title too short'),
+  body('email').trim().isEmail().withMessage("Not a legal email"),
+  body('donationEndDate').isDate().custom((value, {req}) => {
+      return new Date(req.body.donationEndDate) > Date.now();
+  }),
+  body('contactNumber').trim().isMobilePhone('he-IL'),
+  body('donationDescription').trim().isLength({min : 5})
+], createDonation);
 router.get("/getDonations", getAllDonations);
 router.delete("/deleteDonation/:id", deleteDonation);
 router.get("/getCompletedDonations/:id", getCompletedDonations);
@@ -41,7 +53,12 @@ router.get("/getPendingDonations/:id", getPendingDonations);
 router.get("/getRejectedDonations/:id", getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
 router.put("/updateDonation/:id", editDonation);
-router.post("/sendRequest", sendDonationRequest);
+router.post("/sendRequest",[
+  body('requesterName').trim().notEmpty(),
+  body('requesterEmail').trim().isEmail().withMessage("Not a legal email"),
+  body('requesterContact').trim().isMobilePhone('he-IL'),
+  body('requestDescription').trim().isLength({min : 5})
+], sendDonationRequest);
 router.post("/donateFund/:id", donateToFund);
 
 router.get("/getPendingRequests/:id", getPendingRequests);
