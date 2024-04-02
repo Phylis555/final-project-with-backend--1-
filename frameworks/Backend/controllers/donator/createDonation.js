@@ -1,16 +1,16 @@
 const { imageUpload } = require("../../common/imageUpload");
 const { sendEmail } = require("../../common/sendEmail");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require('express-validator/check');
 const Donation = require("../../models/donation.model");
+const Item = require("../../models/item.model");
 
 const createDonation = async (req, res) => {
   try {
-    var donationImage;
+    let donationImage;
     const errors = validationResult(req);
     console.log(errors);
     if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
     }
     // const emailArray = [
     //   "akilakavinda909@gmail.com",
@@ -37,8 +37,41 @@ const createDonation = async (req, res) => {
       contactNumber,
       donationDescription,
       donationEndDate,
+      wantedItems
     } = req.body;
-    const newDonation = new Donation({
+
+    console.log(wantedItems);
+    let databaseItems = [];
+    // await wantedItems.forEach(async (item) => {
+    //   try{
+    //   let foundItem = await Item.findOne({ 'itemCategory': item.category, 'itemName' : item.itemName}, 'name occupation');
+    //   if(!foundItem){
+    //     const newDBItem = new Item({itemCategory : item.category, itemName : item.itemName});
+    //     await newDBItem.save();
+    //     foundItem = newDBItem;
+    //   }
+    //   databaseItems.push({item: foundItem, wantedQuantity: item.quantity });
+    //   }
+    //   catch(error)
+    //   {
+    //     console.log(error);
+    //   }
+    // });
+    await Promise.all(wantedItems.map(async (item) => {
+      try {
+        let foundItem = await Item.findOne({ 'itemCategory': item.category, 'itemName': item.itemName }, 'name occupation');
+        if (!foundItem) {
+          const newDBItem = new Item({ itemCategory: item.category, itemName: item.itemName });
+          await newDBItem.save();
+          foundItem = newDBItem;
+        }
+        databaseItems.push({ item: foundItem, wantedQuantity: item.quantity });
+      } catch (error) {
+        console.log(error);
+      }
+    }));
+
+    const newDonation = await new Donation({
       userID,
       donationTitle,
       email,
@@ -47,9 +80,10 @@ const createDonation = async (req, res) => {
       contactNumber,
       donationImage: donationImage,
       donationDescription,
+      wantedItems : databaseItems
     });
 
-    newDonation
+    await newDonation
       .save()
       .then((donation) => {
         // for (let index = 0; index < emailArray.length; index++) {

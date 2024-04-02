@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const item = require("./item.model");
 const Schema = mongoose.Schema;
 
 const donationSchema = new Schema({
@@ -48,6 +49,22 @@ const donationSchema = new Schema({
   donationEndDate: {
     type: Date,
   },
+  wantedItems: [{
+    item: {
+      type: Schema.Types.ObjectId,
+      ref: 'Item'
+    },
+    wantedQuantity: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    receivedAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+    }
+  }]
 });
 
 const Donation = mongoose.model("Donation", donationSchema);
