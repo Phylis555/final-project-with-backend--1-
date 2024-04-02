@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.cardH3{
+   margin-right: 10;
+   margin-top: 20;
+   color: black;
+   font-family: "Fredoka", sans-serif;
+font-weight: bold;
+}
+.cardScall{
+   width: 380px;
+   height: 180px;
+   border-radius: 20px;
+
+}
+
+@media (max-width: 1300px){
+   .cardScall{
+      width: 92%;
+      height: 98%;
+      border-radius: 20px;
+   }
+}
