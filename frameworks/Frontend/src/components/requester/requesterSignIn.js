@@ -253,6 +253,7 @@ import { useNavigate } from "react-router-dom";
 const LOGIN_URL = "/main/login";
 
 export default function RequesterSignIn() {
+  const setAuth = useAuth();
   const [cookies, setCookie] = useCookies(["access_token", "roles", "_id"]);
   const Navigate = useNavigate();
   const userRef = useRef();
