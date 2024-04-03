@@ -219,7 +219,7 @@ export default function CreateDonation() {
                         required
                       />
                     </div>
-                    <div class="input-group mb-3 input-group input-group-outline mb-3">
+                    <div class="input-group input-group input-group-outline ">
                       <input
                         placeholder="תאריך סיום התרומה"
                         class="form-control"
@@ -233,43 +233,55 @@ export default function CreateDonation() {
                         }}
                       />
                     </div>
-                    <div className="input-group mb-3 input-group-outline mb-3">
+                    <div className="input-group   input-group-outline align-items-center">
                       <input
                         type="text"
-                        className="form-control"
-                        placeholder="Item Name"
+                        className="form-control ms-2 rounded-2"
+                        placeholder="שם הפריט"
                         value={itemName}
                         onChange={(e) => setItemName(e.target.value)}
+                        
                       />
                       <select
-                        className="form-select"
+                        className="form-select ms-2 rounded-2"
                         aria-label="Select Category"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
+                        
                       >
-                        <option value="">Select Category</option>
+                        <option value="">בחר קטגוריה</option>
                         {categories.map((cat, index) => (
                           <option key={index} value={cat}>{cat}</option>
                         ))}
+                        
                       </select>
                       <input
                         type="number"
-                        className="form-control"
-                        placeholder="Wanted Quantity"
+                        className="form-control ms-2 rounded-2"
+                        placeholder="כמות מבוקשת"
                         value={wantedQuantity}
                         onChange={(e) => setWantedQuantity(e.target.value)}
+                        
                       />
-                      <button className="btn btn-primary" onClick={handleAddItem}>Add Item</button>
+                      <button className="btn btn-primary rounded-start me-2 mt-3" onClick={handleAddItem}>                        
+                        <i className="fas fa-plus" style={{ marginLeft: '5px' }}></i>
+                          הוסף
+                      </button>
                     </div>
                     <div>
-                      <h2>Wanted Items:</h2>
-                      <ul>
-                        {wantedItems.map((item, index) => (
-                          <li key={index}>
-                            {item.itemName} - {item.category} - {item.quantity}
-                          </li>
-                        ))}
-                      </ul>
+                      {wantedItems.length > 0 && (
+                        <div>
+                          <h2>הפריטים המבוקשים:</h2>
+                          <ul>
+                            {wantedItems.map((item, index) => (
+                              <li key={index}>
+                                {item.itemName} - {item.category} - {item.quantity}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
                     </div>
                     {/* <div className="input-group mb-3  input-group-outline mb-3">
                       <select
