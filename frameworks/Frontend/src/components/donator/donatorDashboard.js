@@ -170,8 +170,7 @@ export default function DonatorDashboard() {
 
         if (res.data.length > 0) {
           // setLoading(true);
-
-          (res.data);
+          setOngoingDonations(res.data);
           console.log(res.data);
           console.log(donations);
         }
