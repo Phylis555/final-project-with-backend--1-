@@ -171,7 +171,7 @@ export default function DonatorDashboard() {
         if (res.data.length > 0) {
           // setLoading(true);
 
-          setOngoingDonations(res.data);
+          (res.data);
           console.log(res.data);
           console.log(donations);
         }

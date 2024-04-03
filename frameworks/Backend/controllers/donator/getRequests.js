@@ -20,7 +20,7 @@ const DonationRequest = require("../../models/donationRequest.model");
 const getPendingRequests = async (req, res) => {
   await DonationRequest.find({
     donationID: req.params.id,
-    requestStatus: "pending",
+    requestStatus: { $in: ["pending", "accepted"] }
   })
     .then((requests) => {
       res.json(requests);

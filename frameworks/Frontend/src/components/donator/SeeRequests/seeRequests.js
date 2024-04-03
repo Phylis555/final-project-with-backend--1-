@@ -182,7 +182,7 @@ export default function SeeRequests() {
                       contact={f.requesterContact}
                       description={f.requestDescription}
                       id={f._id}
-                      accepted={fromAccepted}
+                      accepted={f.requestStatus}
                       title={donation.donationTitle}
                     />
                   </div>

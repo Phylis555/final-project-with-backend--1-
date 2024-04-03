@@ -89,7 +89,6 @@ export default function RequestCard(props) {
           marginRight: 20,
         }}
       >
-       
         <div class="card-body">
           
           <h4
@@ -110,8 +109,14 @@ export default function RequestCard(props) {
             <h6>מספר איש קשר - {props.contact}</h6>
             <h6>תיאור - {props.description}</h6>
           </div>
-          {props.accepted ? (
-            <></>
+          {props.accepted === 'accepted' ? (
+            <div
+              class="d-flex justify-content-around"
+              style={{
+                marginTop: 20,
+              }}
+            >
+          </div>
           ) : (
             <div
               class="d-flex justify-content-around"
