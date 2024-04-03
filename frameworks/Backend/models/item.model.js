@@ -12,5 +12,6 @@ const itemSchema = new Schema({
   }
 });
 
-const item = mongoose.model("item", itemSchema);
-module.exports = item;
+
+const Item = mongoose.model("Item", itemSchema);
+module.exports = Item;
