@@ -1,13 +1,17 @@
 import React from "react";
 import { getRemainingTime } from '../../common/getRemainingTime';
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function DonationHomeCard({donation}) {
+  const totalReceived = donation.wantedItems.reduce((acc, item) => acc + item.receivedAmount, 0);
+  const totalAmount = donation.wantedItems.reduce((acc, item) => acc + item.wantedQuantity, 0);
+
   return (
     <div class="col col-lg-14 ">
       <div
-        className="card mb-3 p-2 "
+        className="card mb-3 p-1 "
         style={{
-          height: 340,
+          height: 440,
           width:340,
           // height: 280,
           // marginBottom: 20,
@@ -18,14 +22,28 @@ export default function DonationHomeCard({donation}) {
           className="card-img-top p-1 shadow border-radius-xl"
           alt="image"
           style={{
-            maxHeight: 180,
-            minHeight: 140,
+            maxHeight: 240,
+            minHeight: 240,
+            
           }}
         />
         <div class="card-body ">
           <h5 class="card-title">{donation.donationTitle}</h5>
-          <p class="card-text">{donation.donationDescription}</p>
-          
+          <p className="card-text py-0">
+            {donation.donationDescription.split(" ").slice(0, 10).join(" ")}
+            {donation.donationDescription.split(" ").length > 10 && "..."}
+          </p>
+
+          <div>
+            {totalReceived > 0 &&  (
+              <ProgressBar
+                completed={Math.round(totalReceived / totalAmount * 100 * 100) / 100}
+                height="12px"
+                className="px-0 pb-1"
+              />
+            )}
+          </div>
+
           <div className='row d-flex text-dark text-center'>
             <div className='col-sm-3 col-md-4 fs-7'>
                 <div>מספר תורמים</div>

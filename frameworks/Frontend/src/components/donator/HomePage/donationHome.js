@@ -16,7 +16,7 @@ import { getRemainingTime } from "../../common/getRemainingTime";
 export default function DonationHome() {
   const [userId, setUserId] = useState("");
   const navigate = useNavigate();
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false); // הוספת סטייט לפתיחה או סגירה של חלון המיון
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false); 
 
   const markAsCompleted = (id) => {
     if (userId == false) {

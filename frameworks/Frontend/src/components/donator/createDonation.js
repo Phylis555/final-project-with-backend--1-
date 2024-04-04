@@ -37,16 +37,16 @@ export default function CreateDonation() {
 
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
-  const [category, setCategory] = useState(""); 
+  // const [category, setCategory] = useState(""); 
 
   const [wantedItems, setWantedItems] = useState([]); 
   const [itemName, setItemName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [wantedQuantity, setWantedQuantity] = useState('');
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value); 
-  };
+  // const handleCategoryChange = (e) => {
+  //   setCategory(e.target.value); 
+  // };
   
   useEffect(() => {
     setUserId(getCookie("uId"));
