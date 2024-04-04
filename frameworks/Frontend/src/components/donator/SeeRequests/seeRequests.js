@@ -16,15 +16,14 @@ export default function SeeRequests() {
   const location = useLocation();
   const fromAccepted = location.state?.fromAccepted;
   console.log(location);
-  const [requests, setRequests] = useState([]);
+  const [approvedRequests, setApprovedRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const [donation, setDonation] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
     setLoading(true);
-    //fetching all inbound item data from the database
     if (fromAccepted) {
       getApprovedRequests(id)
         .then((res) => {
@@ -32,7 +31,7 @@ export default function SeeRequests() {
           console.log("sd");
           console.log(res);
           if (res.data.length > 0) {
-            setRequests(res.data);
+            setApprovedRequests(res.data);
             console.log(res.data);
           }
         })
@@ -46,8 +45,12 @@ export default function SeeRequests() {
           setLoading(false);
           console.log(res);
           if (res.data.length > 0) {
-            setRequests(res.data);
-            console.log(res.data);
+            const approved = res.data.filter(request => request.requestStatus === 'accepted');
+            const pending = res.data.filter(request => request.requestStatus !== 'accepted');
+            setApprovedRequests(approved);
+            setPendingRequests(pending);
+            console.log(approved);
+            console.log(pending);
           }
         })
         .catch((e) => {
@@ -59,15 +62,12 @@ export default function SeeRequests() {
 
   useEffect(() => {
     setLoading(true);
-    //fetching all inbound item data from the database
     getOneDonation(id)
       .then((res) => {
         setLoading(false);
         console.log("dsd");
         console.log(res);
-
         setDonation(res.data.donation);
-        // console.log(res.data);
       })
       .catch((e) => {
         setLoading(false);
@@ -108,6 +108,7 @@ export default function SeeRequests() {
     // doc.text(, 14, 23).setFontSize(9);
     doc.save(`Donations_Requests-${donation.donationTitle}_${dateStr}.pdf`);
   };
+
   return (
     <div dir="rtl"
       style={{
@@ -141,54 +142,113 @@ export default function SeeRequests() {
         >
           <LoadingSpinner />
         </div>
-      ) : requests.length == 0 ? (
-        <h4
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            alignContent: "center",
-          }}
-        >
-          אין עדיין בקשות
-        </h4>
       ) : (
         <>
           <div className="d-flex justify-content-center">
             <button
               className="btn btn-danger "
-              onClick={() => generateReport(requests)}
+              onClick={() => generateReport([...approvedRequests, ...pendingRequests])}
             >
             יצירת דוח
-
             </button>
           </div>
 
-          <div
-            class="row row-cols-2"
-            style={{
-              marginLeft: 150,
-              overflow: "hidden",
-            }}
-          >
-            {requests.map(function (f) {
-              return (
-                <div>
-                  <div class="col">
-                    <RequestCard
-                      name={f.requesterName}
-                      email={f.requesterEmail}
-                      contact={f.requesterContact}
-                      description={f.requestDescription}
-                      id={f._id}
-                      accepted={f.requestStatus}
-                      title={donation.donationTitle}
-                    />
-                  </div>
+          <ul className="nav nav-tabs" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link active"
+                id="pending-requests-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#pending-requests"
+                type="button"
+                role="tab"
+                aria-controls="pending-requests"
+                aria-selected="true"
+              >
+              בקשות שלא אושרו עדיין
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link "
+                id="approved-requests-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#approved-requests"
+                type="button"
+                role="tab"
+                aria-controls="approved-requests"
+                aria-selected="false"
+              >
+              בקשות שאושרו
+              </button>
+            </li>
+            
+          </ul>
+          <div className="tab-content my-3">
+            <div
+              className="tab-pane fade "
+              id="approved-requests"
+              role="tabpanel"
+              aria-labelledby="approved-requests-tab"
+            >
+              {approvedRequests.length === 0 ? (
+                <NoItems />
+              ) : (
+                <div
+                  className="row row-cols-2"
+                  style={{
+                    marginLeft: 150,
+                    overflow: "hidden",
+                  }}
+                >
+                  {approvedRequests.map((request) => (
+                    <div key={request._id} className="col">
+                      <RequestCard
+                        name={request.requesterName}
+                        email={request.requesterEmail}
+                        contact={request.requesterContact}
+                        description={request.requestDescription}
+                        id={request._id}
+                        accepted={request.requestStatus}
+                        title={donation.donationTitle}
+                      />
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
+              )}
+            </div>
+            <div
+              className="tab-pane fade show active"
+              id="pending-requests"
+              role="tabpanel"
+              aria-labelledby="pending-requests-tab"
+            >
+              {pendingRequests.length === 0 ? (
+                <NoItems />
+              ) : (
+                <div
+                  className="row row-cols-2"
+                  style={{
+                    marginLeft: 150,
+                    overflow: "hidden",
+                  }}
+                >
+                  {pendingRequests.map((request) => (
+                    <div key={request._id} className="col">
+                      <RequestCard
+                        name={request.requesterName}
+                        email={request.requesterEmail}
+                        contact={request.requesterContact}
+                        description={request.requestDescription}
+                        id={request._id}
+                        accepted={request.requestStatus}
+                        title={donation.donationTitle}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

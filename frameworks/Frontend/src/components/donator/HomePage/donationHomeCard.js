@@ -38,8 +38,10 @@ export default function DonationHomeCard({donation}) {
             {totalReceived > 0 &&  (
               <ProgressBar
                 completed={Math.round(totalReceived / totalAmount * 100 * 100) / 100}
-                height="12px"
+                height="14px"
                 className="px-0 pb-1"
+                labelSize= {"10px"}
+                labelAlignment="center"
               />
             )}
           </div>
