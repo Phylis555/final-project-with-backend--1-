@@ -131,7 +131,7 @@ export default function DonationHome() {
 
             <div
               dir="rtl"
-              class="row row-cols-4"
+              className="row row-cols-4"
               style={{
                 marginLeft: 20,
                 marginRight: 20,

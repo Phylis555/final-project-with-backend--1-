@@ -3,31 +3,34 @@
 
 
 
-
-
-
-.courses-container {}
-
-.fade{
-max-height: 500px;
+/* .fade{
+    max-height: 700px;
     overflow: auto;
-}
+} */
 .kgcard{
     /* width: 300px; */
-    width:1000px;
+    width:100%;
     align-items: center;
     font-family: 'Muli', sans-serif;
    
 }
+
+
+.courses-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
 .course {
     background-color: #fff;
     border-radius: 10px;
-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    /* display: flex; */
     max-width: 100%;
-    margin: 20px;
+    margin: 10px;
     overflow: hidden;
-    width: 700px;
+    width: 450px;
 }
 
 .course h6 {
@@ -39,7 +42,7 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 .course h2 {
     /* letter-spacing: 1px; */
     margin: 10px 0;
-font-weight: 1000;
+    font-weight: 1000;
     font-family: 'Poppins', sans-serif;
 }
 
