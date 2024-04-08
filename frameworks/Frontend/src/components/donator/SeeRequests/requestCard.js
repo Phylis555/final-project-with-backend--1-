@@ -109,15 +109,18 @@ export default function RequestCard(props) {
             <h6>Email - {props.email}</h6>
             <h6>מספר איש קשר - {props.contact}</h6>
             <h6>תיאור - {props.description}</h6>
-            <h6>פריטים לתרומה:</h6>
-              <ul className="list-group">
-                {props.items.map((items, index) => (
-                  <li className="" key={index}>
-                    <span>שם הפריט:{items.item.itemName}</span>
-                    <span className="badge bg-light text-dark me-3 m-1">כמות: {items.receivedAmount}</span>
-                  </li>
-                ))}
-              </ul>
+            {props.items.length > 0 && (
+              <h6>פריטים לתרומה:</h6>
+            )}
+            <ul className="list-group">
+              {props.items.map((items, index) => (
+                <li className="" key={index}>
+                  <span>שם הפריט: {items.item.itemName}</span>
+                  <span className="badge bg-light text-dark fs-7 me-3 m-1">כמות: {items.receivedAmount}</span>
+                </li>
+              ))}
+            </ul>
+
           </div>
           {props.accepted === 'accepted' ? (
             <div
