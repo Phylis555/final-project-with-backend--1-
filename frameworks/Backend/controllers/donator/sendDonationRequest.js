@@ -32,7 +32,7 @@ const sendDonationRequest = async (req, res) => {
           .then(async (donation) => {
             console.log(donation);
             //increment number of requests
-            numberOfRequests = donation.numberOfRequests;
+            numberOfRequests = donation.numberOfRequests;//********change this */
             numberOfRequests++;
             const updateDonation = {
               numberOfRequests,

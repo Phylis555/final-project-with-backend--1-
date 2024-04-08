@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // For hashing passwords
 const { validationResult } = require('express-validator/check');
+const { sendEmail } = require('../common/sendEmail');
 
 const User = require("../models/user");
 
@@ -27,6 +28,7 @@ const createUser = async (req, res) => {
                 const newUser = new User(formData); // create a new organization
                 newUser.save() // save the new organization to the database
                     .then(user => {
+                        //sendEmail(user.email, "You have registered successfully!");
                         res.status(201).json({
                             message: "User created successfully",
                             user:user

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
 const SignUp = require("../../models/requester.model");
 const { validationResult } = require('express-validator/check');
+const { sendEmail } = require('../../common/sendEmail');
 
 
 
@@ -28,6 +29,7 @@ const requesterSignUp = async (req, res) => {
       await newRequester
         .save()
         .then((SignUp) => {
+          sendEmail(userData.email, "Your account was created!");
           res.status(201).json({
             message: "User account created successfully",
             Signup: SignUp,

@@ -1,38 +1,38 @@
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
-const username = "foodforallplatform@gmail.com"
-const senderEmail = "foodforallplatform@gmail.com"
-const password = "loqwplnxvfonmfyi"
+const username = "instantgivingproject@gmail.com";
+const senderEmail = "instantgivingproject@gmail.com";
+const password = "1728394652Instant!";
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
+
+const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
+    api_key: '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'
   },
-});
+}));
 var transporter2 = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
+    user: username,
+    pass: password,
   },
 });
 
 var transporter3 = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
+    user: username,
+    pass: password,
   },
 });
 
 var transporter4 = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
+    user: username,
+    pass: password,
   },
 });
 
@@ -65,24 +65,20 @@ transporter4.use(
   })
 );
 function sendEmail(email, text) {
-  var mailOptions = {
-    from: "foodforallplatform@gmail.com",
-    to: email,
-    subject: "Food for all ",
-    text: `${text}`,
-    template: "index",
-    context: {
-      name: text,
-    },
+    transporter.sendMail({
+      to: email,
+      from: 'instantgivingproject@gmail.com',
+      subject: 'Signup succeeded!',
+      html: '<h1>You successfully singed up!</h1>'
+    })
   };
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-}
+  // transporter.sendMail(mailOptions, function (error, info) {
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log("Email sent: " + info.response);
+  //   }
+  // });
 function sendAcceptedEmail(email, text) {
   var mailOptions = {
     from: "foodforallplatform@gmail.com",
