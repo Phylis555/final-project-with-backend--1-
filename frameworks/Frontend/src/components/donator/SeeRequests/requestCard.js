@@ -85,6 +85,7 @@ export default function RequestCard(props) {
         style={{
           width: 500,
           height: 400,
+          maxHeight:500,
           marginBottom: 20,
           marginRight: 20,
         }}
@@ -110,10 +111,10 @@ export default function RequestCard(props) {
             <h6>תיאור - {props.description}</h6>
             <h6>פריטים לתרומה:</h6>
               <ul className="list-group">
-                {props.items.map((item, index) => (
+                {props.items.map((items, index) => (
                   <li className="" key={index}>
-                    <span>שם הפריט:{item.itemName}</span>
-                    <span className="badge bg-light text-dark me-3 m-1">כמות: {item.receivedAmount}</span>
+                    <span>שם הפריט:{items.item.itemName}</span>
+                    <span className="badge bg-light text-dark me-3 m-1">כמות: {items.receivedAmount}</span>
                   </li>
                 ))}
               </ul>
