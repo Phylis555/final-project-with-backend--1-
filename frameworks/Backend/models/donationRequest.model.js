@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Item = require("./item.model");
 const Schema = mongoose.Schema;
 
 const donationRequestSchema = new Schema({

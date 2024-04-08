@@ -1,4 +1,5 @@
 const DonationRequest = require("../../models/donationRequest.model");
+const Item = require("../../models/donationRequest.model"); 
 
 // const getRequests = async (req, res) => {
 //   console.log(req.params.id);
@@ -21,7 +22,7 @@ const getPendingRequests = async (req, res) => {
   await DonationRequest.find({
     donationID: req.params.id,
     requestStatus: { $in: ["pending", "accepted"] }
-  })
+  }).populate('items')
     .then((requests) => {
       res.json(requests);
     })
