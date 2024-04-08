@@ -84,7 +84,7 @@ export default function RequestCard(props) {
         class="card z-index-0 fadeIn3 fadeInBottom"
         style={{
           width: 500,
-          height: 330,
+          height: 400,
           marginBottom: 20,
           marginRight: 20,
         }}
@@ -108,6 +108,15 @@ export default function RequestCard(props) {
             <h6>Email - {props.email}</h6>
             <h6>מספר איש קשר - {props.contact}</h6>
             <h6>תיאור - {props.description}</h6>
+            <h6>פריטים לתרומה:</h6>
+              <ul className="list-group">
+                {props.items.map((item, index) => (
+                  <li className="" key={index}>
+                    <span>שם הפריט:{item.itemName}</span>
+                    <span className="badge bg-light text-dark me-3 m-1">כמות: {item.receivedAmount}</span>
+                  </li>
+                ))}
+              </ul>
           </div>
           {props.accepted === 'accepted' ? (
             <div
