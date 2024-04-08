@@ -26,6 +26,17 @@ const donationRequestSchema = new Schema({
     type: String,
     default: "pending",
   },
+  items: [{
+    item: {
+      type: Schema.Types.ObjectId,
+      ref: 'Item'
+    },
+    receivedAmount: {
+      type: Number,
+      required: true,
+      default: 0,
+    }
+  }]
 });
 
 const DonationRequest = mongoose.model(

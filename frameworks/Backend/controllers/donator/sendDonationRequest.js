@@ -10,7 +10,9 @@ const sendDonationRequest = async (req, res) => {
       requesterEmail,
       requesterContact,
       requestDescription,
+      donatedItems
     } = req.body;
+    console.log(donatedItems);
 
     const newRequest = new DonationRequest({
       donationID,
@@ -18,6 +20,7 @@ const sendDonationRequest = async (req, res) => {
       requesterEmail,
       requesterContact,
       requestDescription,
+      items : donatedItems
     });
     await newRequest
       .save()

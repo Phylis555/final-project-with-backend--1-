@@ -31,7 +31,7 @@ export default function SendRequest() {
   const handleItemQuantityChange = (itemId, quantity) => {
     setDonationItems((prevItems) =>
       prevItems.map((item) =>
-        item.item._id === itemId ? { ...item, donatedQuantity: quantity } : item
+        item.item._id === itemId ? { ...item, receivedAmount: quantity } : item
       )
     );
   };
@@ -44,9 +44,10 @@ export default function SendRequest() {
       requesterEmail,
       requesterContact,
       requestDescription,
-      donatedItems: donationItems.filter((item) => item.donatedQuantity > 0),
+      donatedItems: donationItems
+      .filter((item) => item.receivedAmount > 0)
+      .map(({ wantedQuantity, ...rest }) => rest),
     };
-
     newRequest(request)
       .then(() => {
         swal("הבקשה נשלחה בהצלחה", "", "success").then(() => {
@@ -141,7 +142,7 @@ export default function SendRequest() {
                                     type="number"
                                     min="0"
                                     max={item.wantedQuantity}
-                                    value={item.donatedQuantity || 0}
+                                    value={item.receivedAmount || 0}
                                     onChange={(e) => handleItemQuantityChange(item.item._id, parseInt(e.target.value))}
                                     className="form-control fw-bold fs-6 text-center"
                                   />

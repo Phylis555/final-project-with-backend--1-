@@ -6,7 +6,7 @@ const API = axios.create({
   // withCredentials: true
 });
 
-export const newRequest= (newRequest) => API.post("/createRequest", newRequest);
+export const newRequest= (newRequest) => API.post("/CreateRequest", newRequest);
 export const getAllRequests = () => API.get("/allRequests");
 export const getOneRequest = (requestId) => API.get(`/view/request/${requestId}`);
 export const requesterProfile = (requestId) => API.get(`/profile/${requestId}`);
