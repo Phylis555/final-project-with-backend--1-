@@ -1,6 +1,6 @@
 const Donation = require("../../models/donation.model");
 const DonationRequest = require("../../models/donationRequest.model");
-const Item = require("../../models/item.model");s
+const Item = require("../../models/item.model");
 
 const sendDonationRequest = async (req, res) => {
   var numberOfRequests = 0;
