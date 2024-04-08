@@ -24,9 +24,6 @@ const getPendingRequests = async (req, res) => {
     requestStatus: { $in: ["pending", "accepted"] }
   }).populate('items.item')
     .then((requests) => {
-      requests.forEach((request) =>{
-        console.log(request.items);
-      })
       res.json(requests);
     })
     .catch((err) => {
