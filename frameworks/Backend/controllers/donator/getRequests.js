@@ -22,8 +22,11 @@ const getPendingRequests = async (req, res) => {
   await DonationRequest.find({
     donationID: req.params.id,
     requestStatus: { $in: ["pending", "accepted"] }
-  }).populate('items')
+  }).populate('items.item')
     .then((requests) => {
+      requests.forEach((request) =>{
+        console.log(request.items);
+      })
       res.json(requests);
     })
     .catch((err) => {

@@ -15,6 +15,7 @@ const sendDonationRequest = async (req, res) => {
     } = req.body;
     console.log(donatedItems);
 
+
     const newRequest = new DonationRequest({
       donationID,
       requesterName,
