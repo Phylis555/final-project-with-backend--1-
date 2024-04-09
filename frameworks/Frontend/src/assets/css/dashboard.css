@@ -939,7 +939,24 @@ progress {
   flex: 0 0 auto;
   width: 25%;
 }
-
+@media(max-width: 1300px){
+  .row-cols-4>* {
+    flex: 0 0 auto;
+    width: 33.3%;
+  }
+}
+@media(max-width: 1000px){
+  .row-cols-4>* {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}
+@media(max-width: 700px){
+  .row-cols-4>* {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
 .row-cols-5>* {
   flex: 0 0 auto;
   width: 20%;
@@ -2841,6 +2858,7 @@ progress {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+  
 }
 
 @media (max-width: 1399.98px) {
@@ -22048,6 +22066,9 @@ body.dark-version {
   .dropdown-lg-responsive {
     min-width: 19rem;
   }
+  .card-body{
+    width: 90%;
+  }
 }
 
 .dropup .dropdown-menu {
@@ -27837,5 +27858,6 @@ pre[class*="language-"] {
     overflow: auto !important;
   }
 }
+
 
 /*# sourceMappingURL=dashboard-free.css.map */

@@ -5,7 +5,9 @@
 
 .fade{
     max-height: 700px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+
 }
 .kgcard{
     /* width: 300px; */
@@ -70,8 +72,8 @@
 
 .progress-container {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 6px;
+    left: 15px;
     text-align: left;
     width: 150px;
     justify-content: right;

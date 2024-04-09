@@ -90,7 +90,7 @@ export default function DonationHome() {
         ) : (
           <>
               
-              <div class="row d-flex justify-content-sm-around  my-3" dir="rtl">
+              <div class="row d-flex justify-content-sm-around ms-1 my-3" dir="rtl">
                  <div className="col-lg-2 col-md-6 me-7">
                   <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
                     <button
@@ -131,12 +131,13 @@ export default function DonationHome() {
 
             <div
               dir="rtl"
-              className="row row-cols-4"
+              className="row don-home-card row-cols-4 "
               style={{
                 marginLeft: 20,
                 marginRight: 20,
                 overflow: "hidden",
-              }}
+              }
+            }
             >
               {filterDonations(donation)
                 .filter((val) => {
