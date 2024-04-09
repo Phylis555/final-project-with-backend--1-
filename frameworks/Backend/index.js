@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const app = express();
+const schedule = require('node-schedule');
+const completeDonations = require('./middleware/completeAllDonations.js');
 
 require("dotenv").config();
 
@@ -58,3 +60,7 @@ connection.once("open", () => {
 app.listen(PORT, () => {
   console.log(`Server is up and running on port ${PORT}`);
 });
+
+completeDonations();
+
+const job = schedule.scheduleJob('0 0 * * *', completeDonations);
