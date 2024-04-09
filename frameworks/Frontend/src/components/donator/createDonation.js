@@ -64,7 +64,7 @@ export default function CreateDonation() {
       alert('Please fill all fields');
       return;
     }
-
+  
     // Create a new item object
     const newItem = {
       itemName: itemName,
@@ -82,6 +82,11 @@ export default function CreateDonation() {
   };
 
   const createDonation = async (e) => {
+    if (wantedItems.length === 0) {
+      alert('אנא הוסף פריט לפני הגשת הבקשה');
+      return;
+    }
+
     setLoading(true);
     e.preventDefault();
     const donationImage = filesarr.base64;

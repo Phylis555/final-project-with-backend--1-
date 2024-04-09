@@ -110,25 +110,24 @@ export default function SeeRequests() {
         </div>
       ) : (
         <>
-          <div className="d-flex justify-content-center">
+        {donation.status === 'completed'? (
+          <> 
+             <div className="d-flex justify-content-center">
             <button className="btn btn-danger" onClick={() => generateReport([...approvedRequests, ...pendingRequests])}>
               יצירת דוח
             </button>
           </div>
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item" role="presentation">
-              <button className="nav-link active" id="pending-requests-tab" data-bs-toggle="tab" data-bs-target="#pending-requests" type="button" role="tab" aria-controls="pending-requests" aria-selected="true">
-                בקשות שלא אושרו עדיין
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button className="nav-link" id="approved-requests-tab" data-bs-toggle="tab" data-bs-target="#approved-requests" type="button" role="tab" aria-controls="approved-requests" aria-selected="false">
+              <button className="nav-link active" id="approved-requests-tab" 
+              data-bs-toggle="tab" data-bs-target="#approved-requests" 
+              type="button" role="tab" aria-controls="approved-requests" aria-selected="true">
                 בקשות שאושרו
               </button>
             </li>
           </ul>
           <div className="tab-content my-3">
-            <div className="tab-pane fade" id="approved-requests" role="tabpanel" aria-labelledby="approved-requests-tab">
+            <div className="tab-pane show active" id="approved-requests" role="tabpanel" aria-labelledby="approved-requests-tab">
               {approvedRequests.length === 0 ? (
                 <NoItems />
               ) : (
@@ -150,7 +149,57 @@ export default function SeeRequests() {
                 </div>
               )}
             </div>
-            <div className="tab-pane fade show active" id="pending-requests" role="tabpanel" aria-labelledby="pending-requests-tab">
+            </div>
+
+          </> 
+        ):(
+          <> 
+          <div className="d-flex justify-content-center">
+            <button className="btn btn-danger" onClick={() => generateReport([...approvedRequests, ...pendingRequests])}>
+              יצירת דוח
+            </button>
+          </div>
+          <ul className="nav nav-tabs" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button className="nav-link active" id="pending-requests-tab" 
+              data-bs-toggle="tab" data-bs-target="#pending-requests" 
+              type="button" role="tab" aria-controls="pending-requests" aria-selected="true">
+                בקשות שלא אושרו עדיין
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button className="nav-link" id="approved-requests-tab" 
+              data-bs-toggle="tab" data-bs-target="#approved-requests" 
+              type="button" role="tab" aria-controls="approved-requests" aria-selected="false">
+                בקשות שאושרו
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content my-3">
+            <div className="tab-pane" id="approved-requests" role="tabpanel" aria-labelledby="approved-requests-tab">
+              {approvedRequests.length === 0 ? (
+                <NoItems />
+              ) : (
+                <div className="row row-cols-2" style={{ marginLeft: 150, overflow: "hidden" }}>
+
+                  {approvedRequests.map((request) => (
+                    <div key={request._id} className="col">
+                      <RequestCard
+                        name={request.requesterName}
+                        email={request.requesterEmail}
+                        contact={request.requesterContact}
+                        description={request.requestDescription}
+                        id={request._id}
+                        accepted={request.requestStatus}
+                        title={donation.donationTitle}
+                        items={request.items} 
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="tab-pane  show active" id="pending-requests" role="tabpanel" aria-labelledby="pending-requests-tab">
               {pendingRequests.length === 0 ? (
                 <NoItems />
               ) : (
@@ -173,6 +222,8 @@ export default function SeeRequests() {
               )}
             </div>
           </div>
+        </>
+        )}
         </>
       )}
     </div>

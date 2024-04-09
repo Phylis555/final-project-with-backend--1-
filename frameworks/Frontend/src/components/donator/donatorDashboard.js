@@ -189,7 +189,7 @@ export default function DonatorDashboard() {
         style={{ overflow: "hidden" }}
       >
         <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav} dir="rtl">
+        <div className="container-fluid  py-4" onClick={toggleSidenav} dir="rtl">
           <div className="row align-items-center">
             <>
               <div
@@ -239,10 +239,8 @@ export default function DonatorDashboard() {
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="profile-tab">
                       {" "}
-                      <div
-                        class="d-flex justify-content-between"
-                        style={{ marginTop: 10 }}
-                      >
+                      <div class="d-flex justify-content-between" style={{ marginTop: 10 }}>
+
                         {loading ? (
                           <div
                             style={{
@@ -384,8 +382,8 @@ export default function DonatorDashboard() {
                           );
                         })}
                     </div>
-                    <div class="tab-pane  active " id="profile" role="tabpanel" aria-labelledby="contact-tab">
-                      <div class="d-flex justify-content-between" style={{ marginTop: 10 }}>
+                    <div class="tab-pane active " id="profile" role="tabpanel" aria-labelledby="contact-tab">
+                      <div class="d-flex justify-content-between fade" style={{ marginTop: 10 }}>
                           {donations.length === 0 ? (
                               <>
                                   <NoItems />
