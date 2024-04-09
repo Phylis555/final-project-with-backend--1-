@@ -283,6 +283,8 @@ export default function DonatorDashboard() {
                           </>
                         )}
                       </div>
+                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3">
+
                       {ongoingDonations
                         .filter((val) => {
                           if (searchTerm === "") {
@@ -381,9 +383,10 @@ export default function DonatorDashboard() {
                             </div>
                           );
                         })}
+                      </div>
                     </div>
-                    <div class="tab-pane active " id="profile" role="tabpanel" aria-labelledby="contact-tab">
-                      <div class="d-flex justify-content-between fade" style={{ marginTop: 10 }}>
+                    <div className="tab-pane show active fade" id="profile" role="tabpanel" aria-labelledby="contact-tab">
+                      <div class="d-flex justify-content-between  kgcard" style={{ marginTop: 10 }}>
                           {donations.length === 0 ? (
                               <>
                                   <NoItems />
@@ -409,7 +412,7 @@ export default function DonatorDashboard() {
                               </>
                           )}
                       </div>
-                      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3">
                           {donations
                             .filter((val) => {
                               if (searchTerm === "") {
@@ -459,13 +462,15 @@ export default function DonatorDashboard() {
                                                 ערוך
                                               </span>
                                             </Link>
-                                          </div>
-                                          <Link to={"/donator/view/" + f._id} style={{ color: "black" }}>
-                                            <h2>{f.donationTitle}</h2>
-                                          </Link>
-                                            <h6 className="my-3">{f.donationDescription.split(" ").slice(0, 8).join(" ")}
-                                                {f.donationDescription.split(" ").length > 10 && " ... "}
-                                            </h6>
+                                          </div >
+                                          <div className="justify-content-around">
+                                            <Link to={"/donator/view/" + f._id} style={{ color: "black" }}>
+                                              <h2>{f.donationTitle}</h2>
+                                            </Link>
+                                              <h6 className="my-3">{f.donationDescription.split(" ").slice(0, 8).join(" ")}
+                                                  {f.donationDescription.split(" ").length > 10 && " ... "}
+                                              </h6>
+                                          </div >
                                           <div className="d-flex justify-content-around">
                                             <div>
                                               <svg

@@ -8,10 +8,15 @@
 font-weight: bold;
 }
 .cardScall{
-   width: 380px;
+   width: 370px;
    height: 180px;
    border-radius: 20px;
 
+}
+.don-card{
+  
+      height: 440px;
+      width:340px;  
 }
 
 @media (max-width: 1300px){
@@ -19,5 +24,21 @@ font-weight: bold;
       width: 92%;
       height: 98%;
       border-radius: 20px;
+   }
+   .don-card{
+  
+      height: 100%;
+      width:100%;  
+   }
+
+}
+@media (max-width: 1450px)and (min-width: 1300px){
+   .don-card{
+  
+      height: 480px;
+      width:100%;  
+   }
+   .fs-7{
+      font-size: 0.75rem !important;
    }
 }
