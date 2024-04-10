@@ -7,6 +7,7 @@ import NavButton from "../orgrequestlist/NavButton";
 import swal from "sweetalert";
 import axios from "axios";
 
+
 export default function GetUserList() {
 
     const toggleSidenav = (e) => {
@@ -23,12 +24,17 @@ export default function GetUserList() {
     const getReqOrgList=async()=>{
         try{
             const data=await axios.get(`http://localhost:8070/admin/getusers/`);
-            setDatatable(data.data)
-
+            setDatatable(data.data);
         }catch(e){
             console.log(e)
         }
     }
+
+    const onViewUser = (id, userData) => {
+        // Navigate to the user view page with the user's ID
+
+        navigate(`/admin/userview/${id}`, {state: {userData}});
+    };
 
     useEffect(()=>{
         getReqOrgList();
@@ -94,7 +100,9 @@ export default function GetUserList() {
                                                 <td>{org.email}</td>
                                                 <td>
                                                 <div className={classes.ActionBtnSec}>
-                                                    <button className="btn btn-outline-info" onClick={()=>{onView(org._id)}} >צפה</button>
+                                                <button className="btn btn-outline-info" onClick={() => onViewUser(org._id, org)}>
+                                                    צפה
+                                                </button>
                                                 </div>
                                                 </td>
                                             </tr>

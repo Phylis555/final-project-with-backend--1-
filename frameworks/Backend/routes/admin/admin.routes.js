@@ -17,6 +17,7 @@ const { editOrganizationStatus } = require("../../controllers/admin/updateOrgSta
 const { updateFundStatus } = require("../../controllers/admin/updateFundStatus");
 const { deleteDonationRequest } = require("../../controllers/admin/deleteDonationRequest");
 const { rejectDonation } = require("../../controllers/admin/rejectDonation");
+const { deleteUser } = require("../../controllers/admin/deleteUser");
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.get("/getaccepteddon/",getAllAcceptedDonations)
 router.get("/getusers",getAllUsers);
 router.delete("/deletedonreq/:id",deleteDonationRequest);
 router.put("/rejectdonation/:id",rejectDonation);
+router.delete("/deleteuser/:id", deleteUser);
 
 
 
