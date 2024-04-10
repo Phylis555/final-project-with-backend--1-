@@ -32,6 +32,8 @@ const acceptDonationRequest = async (req, res) => {
     }, 1)
     if(completed)
       currDonation.status = 'completed';
+
+    currDonation.numberOfRequests++;
     //currDonation.wantedItems.forEach((item) => console.log(item.receivedAmount));
     //sendAcceptedEmail(req.body.email, req.body.title); **** NEED TO CHANGE ****
     await currDonation.save();
