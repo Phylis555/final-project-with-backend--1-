@@ -241,7 +241,7 @@ export default function DonationView() {
                   <>
                     <h2>_</h2>
                   </>
-                ) : donation.status === "completed" ? (
+                ) : donation.status === "completed" ||donation.status === "pending" ? (
                   <>
                     <h2></h2>
                   </>

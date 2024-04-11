@@ -126,6 +126,23 @@ export default function CreateDonation() {
         );
       });
   };
+  const handleDeleteItem = (index) => {
+    const updatedItems = [...wantedItems];
+    updatedItems.splice(index, 1);
+    setWantedItems(updatedItems);
+  };
+  const handleEditItem = (index) => {
+    const editedItem = wantedItems[index];
+  
+    // Set the values of the input fields to the values of the edited item
+    setItemName(editedItem.itemName);
+    setSelectedCategory(editedItem.category);
+    setWantedQuantity(editedItem.quantity);
+  
+    // Remove the edited item from the list of wanted items
+    const updatedItems = wantedItems.filter((item, i) => i !== index);
+    setWantedItems(updatedItems);
+  };
 
   return (
     <>
@@ -174,6 +191,8 @@ export default function CreateDonation() {
                         maxLength={35}
                         class="form-control"
                         placeholder="כותרת*"
+                        title="כותרת חייבת לכלול לפוחת 5 תווים "
+                        minLength={5}
                         aria-label="Donation Title"
                         aria-describedby="basic-addon1"
                         onChange={(e) => {
@@ -205,7 +224,7 @@ export default function CreateDonation() {
                         aria-label="Contact Number"
                         aria-describedby="basic-addon1"
                         title="מספר טלפון בעל 10 ספרות"
-                        pattern="[0]{1}[0-9]{9}"
+                        pattern="[0]{1}[5]{1}[0-9]{8}"
                         class="form-control"
                         onChange={(e) => {
                           setContactNumber(e.target.value);
@@ -275,15 +294,44 @@ export default function CreateDonation() {
                     </button>
                     </div>
                   <div>
-                    {wantedItems.length > 0 && (
+                  {wantedItems.length > 0 && (
                       <div>
-                        <h2>הפריטים המבוקשים:</h2>
+                        <h4>הפריטים המבוקשים:</h4>
                         <ul>
-                          {wantedItems.map((item, index) => (
-                            <li key={index}>
-                              {item.itemName} - {item.category} - {item.quantity}
-                            </li>
-                          ))}
+                        <table className="table  table-hover text-center">
+                          <thead className="table-primary ">
+                            <tr>
+                              <th scope="col">קטגוריה</th>
+                              <th scope="col">שם הפריט</th>
+                              <th scope="col">כמות</th>
+                              <th scope="col">פעולות</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {wantedItems.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item.category}</td>
+                                <td>{item.itemName}</td>
+                                <td>{item.quantity}</td>
+                                <td>
+                                <button
+                                  className="btn btn p-0 ms-5"
+                                  onClick={() => handleEditItem(index)}
+                                >
+                                  <i className="fas fa-edit text-info fs-5"></i>
+                                </button>
+                                  <button
+                                    className="btn p-0"
+                                    onClick={() => handleDeleteItem(index)}
+                                  >
+                                    <i className="bi bi-trash text-danger fs-5"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+
                         </ul>
                       </div>
                     )}
