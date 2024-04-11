@@ -187,7 +187,7 @@ export default function SeeRequests() {
                       <RequestCard
                         name={request.requesterName}
                         email={request.requesterEmail}
-                        contact={request.requesterContact}
+                        contact={"0"+request.requesterContact}
                         description={request.requestDescription}
                         id={request._id}
                         accepted={request.requestStatus}
@@ -209,7 +209,7 @@ export default function SeeRequests() {
                       <RequestCard
                         name={request.requesterName}
                         email={request.requesterEmail}
-                        contact={request.requesterContact}
+                        contact={"0"+request.requesterContact}
                         description={request.requestDescription}
                         id={request._id}
                         accepted={request.requestStatus}

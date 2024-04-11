@@ -4,8 +4,12 @@ import { getOneDonation } from "../../../api/donator.api";
 import { newRequest } from "../../../api/donator.api";
 import NavBar from "../../NavBar";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+
 
 export default function SendRequest() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [donation, setDonation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,19 +18,30 @@ export default function SendRequest() {
   const [requesterContact, setRequesterContact] = useState("");
   const [requestDescription, setRequestDescription] = useState("");
   const [donationItems, setDonationItems] = useState([]);
+  const [donationItemsForItenAmount, setDonationItemsForItenAmount] = useState([]);
 
+  const [hasSelectedItem,seyHasSelectedItem]=useState(false);
   useEffect(() => {
     getOneDonation(id)
       .then((res) => {
         setDonation(res.data.donation);
         setDonationItems(res.data.donation.wantedItems);
+        setDonationItemsForItenAmount(res.data.donation.wantedItems);
         setLoading(false);
+        whenStartItemQuantityChange();
+          
       })
       .catch((error) => {
         console.error("Error fetching donation:", error);
         setLoading(false);
       });
   }, [id]);
+  const whenStartItemQuantityChange = () => {
+    setDonationItems((prevItems) =>
+      prevItems.map((item) => ({ ...item, receivedAmount: 0 }))
+    );
+  };
+
 
   const handleItemQuantityChange = (itemId, quantity) => {
     setDonationItems((prevItems) =>
@@ -34,10 +49,18 @@ export default function SendRequest() {
         item.item._id === itemId ? { ...item, receivedAmount: quantity } : item
       )
     );
+    seyHasSelectedItem(true);
+
   };
 
-  const createRequest = (e) => {
+  const createRequest = async (e) => {
     e.preventDefault();
+
+    if (!hasSelectedItem) {
+      alert('אנא הוסף פריט לפני הגשת הבקשה');        
+      return;
+      
+    }
     const request = {
       donationID: id,
       requesterName,
@@ -48,16 +71,26 @@ export default function SendRequest() {
       .filter((item) => item.receivedAmount > 0)
       .map(({ wantedQuantity, ...rest }) => rest),
     };
-    newRequest(request)
-      .then(() => {
-        swal("הבקשה נשלחה בהצלחה", "", "success").then(() => {
-          // Navigate to dashboard or other appropriate page
-        });
+    await newRequest(request)
+      .then((res) => {
+        setLoading(false);
+        swal("הבקשה נשלחה בהצלחה", "", "success").then((value) => {
+          if (value) {
+            navigate("/");
+          }
+        });     
       })
-      .catch((err) => {
-        console.error("Error sending request:", err);
-        swal("שליחת הבקשה נכשלה", "בבקשה נסה שוב", "error");
+      .catch((error) => {
+        console.log(error);
+        swal("שליחת הבקשה נכשלה", "בבקשה נסה שוב", "error").then(
+          (value) => {
+            if (value) {
+              navigate("/");
+            }
+          }
+        );
       });
+      
   };
 
   if (loading) {
@@ -128,6 +161,7 @@ export default function SendRequest() {
                           <tr>
                             <th scope="col">שם הפריט</th>
                             <th scope="col">כמות מבוקשת</th>
+                            <th scope="col">כמות שותרה להשלמת התורמה</th>
                             <th scope="col">בחירת כמות לתרומה</th>
                           </tr>
                         </thead>
@@ -136,18 +170,21 @@ export default function SendRequest() {
                             <tr className=""  key={item.item._id}>
                               <td>{item.item.itemName}</td>
                               <td>{item.wantedQuantity}</td>
+                              <td>{donationItemsForItenAmount.find((donationItem) => donationItem.item._id === item.item._id).wantedQuantity - 
+                              donationItemsForItenAmount.find((donationItem) => donationItem.item._id === item.item._id).receivedAmount}</td>
+                                  
                               <td>
                                 <div className="input-group ">
                                   <input
                                     type="number"
                                     min="0"
                                     max={item.wantedQuantity}
-                                    value={item.receivedAmount || 0}
+                                    placeholder="הכנס כמות"
                                     onChange={(e) => handleItemQuantityChange(item.item._id, parseInt(e.target.value))}
                                     className="form-control fw-bold fs-6 text-center"
                                   />
-                                
                                 </div>
+                                
                               </td>
                             </tr>
                           ))}
