@@ -1,23 +1,38 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import axios from "axios";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Footer from '../Footer';
 import NavBar from '../NavBar';
-
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 export default function RequesterSignUp() {
 
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2(!showPassword2);
+  };
 
   const registerUser = (e) => {
     e.preventDefault();
-    console.log("afdaf")
+
+    if (password !== confirmPassword) {
+      setPasswordMatch(false);
+      return;
+    }
 
     const signup = {
       firstName,
@@ -27,21 +42,18 @@ export default function RequesterSignUp() {
       password,
     };
 
-    axios.post("http://localhost:8070/requester/requesterSignup", signup).then((res) => {
-      swal("נרשם בהצלחה", "", "success").then((value) => {
-        if (value) {
-          navigate("../signin");
-        }
-      });
-    }).catch((err) => {
-      console.log(err);
-        swal("נכשל", "בבקשה נסה שוב", "error").then(
-          (value) => {
-            if (value) {
-            }
+    axios.post("http://localhost:8070/requester/requesterSignup", signup)
+      .then((res) => {
+        swal("נרשם בהצלחה", "", "success").then((value) => {
+          if (value) {
+            navigate("../signin");
           }
-        );
-    });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("נכשל", "בבקשה נסה שוב", "error");
+      });
   };
 
   return (
@@ -59,67 +71,89 @@ export default function RequesterSignUp() {
           <p className="h3 fw-bold text-center mb-2 pt-4">הירשם כדי להתחיל לתמוך </p>
           <p className="text-center mb-5 fs-5 fw-normal">   רוצה להרשם כארגון? <Link to="/organization/new">לחץ כאן</Link></p> 
 
-            <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-              <div className="col-md-6 mb-4   ps-4"> 
-                <input className="form-control" 
-                        type="text" 
-                        placeholder="שם פרטי" 
-                        onChange={(e) => {
-                          setFirstName(e.target.value);
-                      }}
-                      required/>
+            <div className="row input-group input-group-outline me-0 px-4 "> 
+              <div className="col-md-6 mb-4 px-1 "> 
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="שם פרטי"
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
+                    required
+                  />
               </div>
-              <div className="col-md-6 mb-4 pe-4 ">
-                <input className="form-control" 
-                        type="text" 
-                        placeholder="שם משפחה"
-                        onChange={(e) => {
-                          setLastName(e.target.value);
-                      }}
-                      required
-                        />
+              <div className="col-md-6 mb-4 px-1  ">
+              <input
+                    className="form-control"
+                    type="text"
+                    placeholder="שם משפחה"
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
+                    required
+                  />
               </div> 
             </div>
             
             <div className="input-group input-group-outline mb-4 px-4"> 
-              <input type="email" 
-                      placeholder="מייל" 
-                      className="form-control"
-                      onChange={(e) => {
-                        setemail(e.target.value);
-                    }}
-                    required/> 
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="form-control"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  required
+                />
             </div> 
             <div className="input-group input-group-outline mb-4 px-4"> 
-              <input type="text" 
-                      placeholder="מספר טלפון" 
-                      className="form-control"
-                      title="מספר טלפון בעל 10 ספרות"
-                      pattern="[0]{1}[0-9]{9}"
-                      onChange={(e) => {
-                        setContactNumber(e.target.value);
-                    }}
-                    required/> 
+              <input
+                  type="text"
+                  placeholder="מספר טלפון"
+                  className="form-control"
+                  title="מספר טלפון בעל 10 ספרות"
+                  pattern="[0]{1}[0-9]{9}"
+                  onChange={(e) => {
+                    setContactNumber(e.target.value);
+                  }}
+                  required
+                />
             </div> 
-            <div className="input-group input-group-outline mb-4 px-4"> 
-              <input type="password" 
-                      placeholder="סיסמה" 
-                      className="form-control"
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                    required/> 
+            <div className="input-group input-group-outline mb-4 px-4 ps-1"> 
+            <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="סיסמה"
+                  className="form-control rounded-end"
+                  title="סיסמה מכילה לפחות 6 תווים "
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordMatch(true); 
+                  }}
+                  required
+                />
+                <span className="mt-1 me-2" onClick={togglePasswordVisibility}>
+                  {showPassword ? <VscEye /> : <VscEyeClosed />}
+                </span>
             </div> 
             
-            {/* <div className="input-group input-group-outline mb-4 px-4"> 
-              <input type="password" 
-                      placeholder="Confirm Password" 
-                      className="form-control"
-                      onChange={(e) => {
-                        firstName(e.target.value);
-                    }}
-                    required/> 
-            </div>  */}
+            <div className="input-group input-group-outline mb-4 px-4 ps-1"> 
+              <input
+                  type={showPassword2 ? "text" : "password"}
+                  placeholder="אימות סיסמה"
+                  className={`form-control rounded-end ${passwordMatch ? '' : 'is-invalid'}`}
+                  title="סיסמה מכילה לפחות 6 תווים "
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    setPasswordMatch(true); // Reset password match validation
+                  }}
+                  required
+                />
+                 <span className="mt-1 me-2" onClick={togglePasswordVisibility2}>
+                  {showPassword2 ? <VscEye /> : <VscEyeClosed />}
+                </span>
+                {!passwordMatch && <label className="invalid-feedback">הסיסמה לא תואמת לסיסמה המקורית</label>} 
+            </div> 
            
            
            <div className="mb-4 px-4"> 
@@ -149,3 +183,5 @@ export default function RequesterSignUp() {
   </div>
   )
 }
+
+

@@ -66,6 +66,7 @@ export default function DonationHome() {
   // };
 
   const filterDonations = (donations) => {
+    
     if (sortBy === "closestEndDate") {
       return donations.sort((a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate));
     } else if (sortBy === "furthestEndDate") {
@@ -101,10 +102,14 @@ export default function DonationHome() {
                     >  מיון{" "}
                     </button>
                     <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
-                      <li><button className="dropdown-item" onClick={() => setSortBy("closestEndDate")}>תאריך סיום קרוב ביותר</button></li>
-                      <li><button className="dropdown-item" onClick={() => setSortBy("furthestEndDate")}>תאריך סיום רחוק ביותר</button></li>
-                      <li><button className="dropdown-item" onClick={() => setSortBy("oldestCreatedDate")}>תאריך יצירה רחוק ביותר</button></li>
-                      <li><button className="dropdown-item" onClick={() => setSortBy("newestCreatedDate")}>תאריך יצירה קרוב ביותר</button></li>
+                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                        <button className="dropdown-item" onClick={() => setSortBy("closestEndDate")} >תאריך סיום קרוב ביותר</button></li>
+                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                        <button className="dropdown-item" onClick={() => setSortBy("furthestEndDate")}>תאריך סיום רחוק ביותר</button></li>
+                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                        <button className="dropdown-item" onClick={() => setSortBy("oldestCreatedDate")}>תאריך יצירה רחוק ביותר</button></li>
+                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                        <button className="dropdown-item" onClick={() => setSortBy("newestCreatedDate")}>תאריך יצירה קרוב ביותר</button></li>
                     </ul>
                   </div>
                 </div>
