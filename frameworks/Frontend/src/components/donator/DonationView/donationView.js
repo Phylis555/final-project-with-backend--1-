@@ -201,7 +201,7 @@ export default function DonationView() {
                   <div class="card-body">
                     <ContactDetails
                       email={donation.email}
-                      mobile={donation.contactNumber}
+                      mobile={"0"+donation.contactNumber}
                     />
                   </div>
                 </div>

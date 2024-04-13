@@ -2847,6 +2847,7 @@ progress {
 }
 
 @media (max-width: 991.98px) {
+  
   .table-responsive-lg {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -2866,6 +2867,7 @@ progress {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
 }
 
 .form-label {
@@ -4387,6 +4389,7 @@ fieldset:disabled .btn {
     right: 0;
     left: auto;
   }
+ 
 }
 
 @media (min-width: 1400px) {
@@ -4406,6 +4409,9 @@ fieldset:disabled .btn {
   .dropdown-menu-xxl-end[data-bs-popper] {
     right: 0;
     left: auto;
+  }
+  .fundWidth{
+    max-width:700px ;
   }
 }
 

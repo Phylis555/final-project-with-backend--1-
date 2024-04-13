@@ -17,7 +17,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
     if (donationAmount <= 0 || donationAmount === undefined) {
       setFormErrors({
         ...formErrors,
-        donationAmount: "סכום התרומה חייב להיות גדול מ-0",
+        donationAmount: "סכום התרומה חייב להיות גדול מאפס ",
       });
     } else if (donationAmount > fund.budget - fund.currentAmount) {
       setFormErrors({
@@ -64,7 +64,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
           <input
             type="number"
             className="form-control"
-            placeholder="9999"
+            placeholder="הכנס סכום לתרומה"
             value={donationAmount}
             onChange={(e) => {
               setDonationAmount(e.target.value);
@@ -82,7 +82,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
           <input
             type="text"
             className="form-control"
-            placeholder="e.g. John E Cash"
+            placeholder="שם מלא"
             value={cardDetails["name"]}
             onChange={(e) => {
               setCardDetails({ ...cardDetails, name: e.target.value });
@@ -96,7 +96,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
           <input
             type="text"
             className="form-control"
-            placeholder="16-digit card number"
+            placeholder="מספר כרטיס בעל 16 ספרות"
             value={cardDetails["cardNumber"]}
             onChange={(e) => {
               setCardDetails({ ...cardDetails, cardNumber: e.target.value });
@@ -109,7 +109,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
 
         <div className="row">
           <div className="col-6">
-            <label className="form-label">תוקף הכרטיס</label>
+            <label className="form-label">תוקף </label>
             <div className="input-group input-group-outline mb-1">
               <input
                 type="text"

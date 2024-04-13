@@ -60,9 +60,12 @@ export default function ViewAllOngoing() {
                             >  מיון{" "}
                             </button>
                             <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
-                                <li><button className="dropdown-item" onClick={() => setSortBy("endingDateClosest")}>תאריך סיום קרוב ביותר</button></li>
-                                <li><button className="dropdown-item" onClick={() => setSortBy("endingDateFurthest")}>תאריך סיום רחוק ביותר</button></li>
-                                <li><button className="dropdown-item" onClick={() => setSortBy("creationDateFurthest")}>תאריך יצירה רחוק ביותר</button></li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateClosest")}>תאריך סיום קרוב ביותר</button></li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateFurthest")}>תאריך סיום רחוק ביותר</button></li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("creationDateFurthest")}>תאריך יצירה רחוק ביותר</button></li>
                             </ul>
                         </div>
                     </div>
@@ -85,7 +88,7 @@ export default function ViewAllOngoing() {
                 ongoingFunds.length > 0 && showingFunds.length === 0 ? (
                     <NoItems message="לא נמצאו תוצאות" />
                 ) :
-                    <div className="row d-flex" dir="rtl">
+                    <div className="row d-flex justify-content-center mb-4" dir="rtl">
                         {
                             showingFunds.map(fund =>
                                 <ViewFundsCard key={fund._id} fund={fund} />

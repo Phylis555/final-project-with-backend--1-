@@ -7,11 +7,12 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function ViewFundsCard({ fund }) {
     return (
-        <div className='col-xxl-6 col-lg-10 col-sm-12 h-100' dir="rtl">
+        <div className='col-xxl-6 col-lg-8 col-lg-10 col-sm-12 h-100' dir="rtl"
+        >
             <Link to={`/fund/${fund._id}`} className="disable-hover-color">
                 <div className="card mb-3">
-                    <div className="row g-0">
-                        <div className="col-md-4 p-2">
+                    <div className="row g-0 row-cols-md-4">
+                        <div className="col-md-4 col-lg-4 col-xl-4 col-xxl-3 p-2">
                             <img src={fund.fundImage} className="img-fluid card-image shadow border-radius-xl" alt={fund.title} />
                         </div>
                         <div className="col-md-8">
@@ -30,8 +31,11 @@ export default function ViewFundsCard({ fund }) {
                                         }
                                     </div>
                                 </div>
-                                <p className="card-text">{fund.target}</p>
-
+                                <p className="card-text">
+                                    {fund.target.split(" ").slice(0, 8).join(" ")}
+                                    {fund.target.split(" ").length > 8 && "..."}
+                                </p>
+            
                                 <div>
                                     <ProgressBar
                                         completed={Math.round(fund.currentAmount / fund.budget * 100 * 100) / 100} // rounded to 2 decimal places

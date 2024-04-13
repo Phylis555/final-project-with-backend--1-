@@ -11,7 +11,7 @@ export default function DonationHomeCard({donation}) {
       <div className="don-card card mb-3 p-1 ">
         <img
           src={donation.donationImage}
-          className="card-img-top p-1 shadow border-radius-xl"
+          className="card-img-top p-1 shadow border-radius-xl img-fluid card-image"
           alt="image"
           style={{
             maxHeight: 240,
