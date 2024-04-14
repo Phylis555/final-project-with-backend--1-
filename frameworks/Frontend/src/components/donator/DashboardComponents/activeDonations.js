@@ -78,12 +78,12 @@ export default function ActiveDonations() {
   return (
     <>
       <SideNav dashboard="true" />
-      <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg text-sans-serif">
+      <main className="main-content position-relative h-100 border-radius-lg ">
         <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav}>
-          <div className="row align-items-center"></div>
+        <div className="container-fluid py-4 " onClick={toggleSidenav}>
+          {/* <div className="row align-items-center"></div> */}
           <div class="container" style={{ paddingTop: 20 }}>
-            <div class="row">
+            <div class="row d-flex justify-content-center mb-4">
               <div class="col-4">
                 <DashboardCard
                   image="https://i.postimg.cc/5t0vBGNQ/ds-5.png"
@@ -107,13 +107,12 @@ export default function ActiveDonations() {
                 />
               </div>
             </div>
-            <div className="row">
-              <div class="col-2">
+            <div className="row d-flex">
+              {/* <div class="col-2">
                 {" "}
                 <LatestRequestsDisplay />
-              </div>
-              <div class="col-2" style={{ paddingLeft: 550, paddingTop: 20 }}>
-                {" "}
+              </div> */}
+              <div className="col col-6 row-cols-auto h-100 " >
                 <DonationChart />
               </div>
             </div>

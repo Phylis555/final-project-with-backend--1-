@@ -13,6 +13,7 @@ export default function UpdateProfileDetails() {
   const [userData, setUserData] = useState({});
   const [passData, setPassData] = useState({});
   const navigate = useNavigate();
+  const [changePassword, setChangePassword] = useState(false);
 
   useEffect(() => {
     requesterProfile(userId)
@@ -45,6 +46,8 @@ export default function UpdateProfileDetails() {
 
   const handlePassword = (e) => {
     e.preventDefault()
+    setChangePassword(!changePassword);
+
 
     if (passData.npassword === passData.rpassword) {
       updatePassword(userId, {
@@ -88,7 +91,7 @@ export default function UpdateProfileDetails() {
                 </div>
 
                 <div class="row m-auto pt-5">
-                  <div class="col ms-2 pe-5 border-end">
+                  <div class="col ms-2 pe-5 ">
                     <div class="row">
                       <div class="col">
 
@@ -135,38 +138,48 @@ export default function UpdateProfileDetails() {
                       <button className="btn btn-success" onClick={handleUpdate}>
                         שמור שינויים
                       </button>
-                    </div>
-
-                  </div>
-
-                  <div class="row input-group input-group-outline col align-self-start me-5">
-                    <div class="mb-4 ms-5">
-                      <label for="formFile">סיסמה חדשה</label>
-                      <input type="password"
-                        placeholder="סיסמה חדשה"
-                        class="form-control"
-                        onChange={(e) => { setPassData({ ...passData, "npassword": e.target.value }) }}
-                      />
-                    </div>
-                    <div class="mb-4 ms-5">
-                      <label for="formFile">אימות סיסמה</label>
-                      <input type="password"
-                        placeholder="אימות סיסמה"
-                        class="form-control"
-                        onChange={(e) => { setPassData({ ...passData, "rpassword": e.target.value }) }}
-                      />
-                    </div>
-                    <div class="mb-4 d-flex justify-content-center">
-                      <button className="btn btn-success ms-4" onClick={handlePassword}>
-                        שנה סיסמה
+                      <button className="btn btn-info me-4" onClick={handlePassword}>
+                        {changePassword ? "סגור שינוי סיסמה" : "שינוי סיסמה"}
                       </button>
                     </div>
+                  
                   </div>
-                </div>
-                <div class="row pt-5">
 
 
+                    {changePassword && (
+                      <div class="row input-group input-group-outline col align-self-start me-5 border-end">
+                        <div class="mb-4 ms-5">
+                          <label for="formFile">סיסמה חדשה</label>
+                          <input
+                            type="password"
+                            placeholder="סיסמה חדשה"
+                            class="form-control"
+                            onChange={(e) =>
+                              setPassData({ ...passData, npassword: e.target.value })
+                            }
+                          />
+                        </div>
+                        <div class="mb-4 ms-5">
+                          <label for="formFile">אימות סיסמה</label>
+                          <input
+                            type="password"
+                            placeholder="אימות סיסמה"
+                            class="form-control"
+                            onChange={(e) =>
+                              setPassData({ ...passData, rpassword: e.target.value })
+                            }
+                          />
+                        </div>
+                        <div class="mb-4 d-flex justify-content-center">
+                          <button className="btn btn-success ms-4" onClick={handlePassword}>
+                            שנה סיסמה
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                 </div>
+              
               </form>
             </div>
           </div>

@@ -7,7 +7,7 @@ export default function DonationChart() {
 
   return (
     <div>
-      <div className="card" style={{ width: 430 }}>
+      <div className="card d-flex  " >
         <div className="card-body p-0 ps-4 pt-4 ">
           <h6 className="mb-0 ">דוח בקשות</h6>
         </div>

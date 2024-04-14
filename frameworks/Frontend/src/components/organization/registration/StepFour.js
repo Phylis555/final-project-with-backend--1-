@@ -10,31 +10,31 @@ export default function StepFour() {
                     <div className="form-group text-center pb-3">יצירת סיסמה</div>
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
 
-                        <label className="form-label">סיסמה</label>
+                        {/* <label className="form-label">סיסמה</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="password"
                                 className="form-control"
-                                // placeholder="Password"
+                                placeholder="סיסמה"
                                 value={userData['password']}
                                 onChange={(e) => { setUserData({ ...userData, "password": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.password}
                         </div>
                     </div>
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
 
-                        <label className="form-label">אימות סיסמה</label>
+                        {/* <label className="form-label">אימות סיסמה</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="password"
                                 className="form-control"
-                                // placeholder="Re-type Password"
+                                placeholder="אימות סיסמה"
                                 value={userData['repassword']}
                                 onChange={(e) => { setUserData({ ...userData, "repassword": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.repassword}
                         </div>
                     </div>

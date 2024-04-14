@@ -24448,11 +24448,11 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
   }
 
   .g-sidenav-show:not(.rtl) .sidenav {
-    transform: translateX(-17.125rem);
+    transform: translateX(0);
   }
 
   .g-sidenav-show .sidenav.fixed-start+.main-content {
-    margin-right: 0 !important;
+    margin-right: 17.125rem !important;
   }
 
   .g-sidenav-show.g-sidenav-pinned .sidenav {

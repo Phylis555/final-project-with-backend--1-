@@ -5,7 +5,7 @@ export default function DashboardCard(props) {
   let Background = "https://i.postimg.cc/523fVDtk/ds.png";
   return (
     <>
-      <div className="cardScall"
+      <div className="cardScall "
         style={{
           backgroundImage: `url(${props.image})`,
           boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", 
@@ -13,16 +13,12 @@ export default function DashboardCard(props) {
       >
         <h3  dir="rtl"
           className="cardH3"
-          style={{ paddingRight: 80, paddingTop: 10, fontWeight: 700 }}
         >
           {props.title}
         </h3>
         <div  
           style={{
-            // borderRadius: 50,
-            // backgroundColor: "blue",
-            // width: 35,
-            // height: 35,
+            
             marginLeft: 150,
             marginTop: 20,
           }}

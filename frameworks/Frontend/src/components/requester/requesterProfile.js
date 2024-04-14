@@ -52,7 +52,7 @@ export default function RequesterProfile() {
         </div>
 
           <div className="row m-auto pt-5">
-            <div className="col ms-2 pe-5 border-end">
+            <div className="col ms-2 pe-5 ">
                 <div className="row">
                     <div className="col">
 
@@ -94,7 +94,7 @@ export default function RequesterProfile() {
 
             </div>
 
-            <div className="row input-group input-group-outline col align-self-start me-5">
+            {/* <div className="row input-group input-group-outline col align-self-start me-5">
             <div className="mb-4 ms-5"> 
                 <label for="formFile">סיסמה חדשה</label>
                 <input type="password" 
@@ -107,13 +107,13 @@ export default function RequesterProfile() {
                       placeholder="אימות סיסמה" 
                       className="form-control"/> 
             </div> 
-            </div>
+            </div> */}
         </div>
             <div className="row pt-5"> 
 
               <div className="mb-4 d-flex justify-content-center"> 
                 <Link to={`/user/profile/update/${userId}`} key={userId}>
-                  <button class="btn btn-primary d-block px-5"> ערוך פרופיל </button>
+                  <button class="btn btn-primary d-block px-5"> ערוך פרופיל / שינוי סיסמה </button>
                 </Link>
               </div> 
            </div>

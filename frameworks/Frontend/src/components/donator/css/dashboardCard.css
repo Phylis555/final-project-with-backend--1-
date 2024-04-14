@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .cardH3{
-   margin-right: 10;
-   margin-top: 20;
+   margin-right: 10px;
+   text-align: center;
+   margin-top: 20px;
+   padding-right: 80px;
+   padding-top:  10px;
+   font-weight:  700;
    color: black;
    font-family: "Fredoka", sans-serif;
-font-weight: bold;
+   font-weight: bold;
 }
 .cardScall{
    width: 370px;
@@ -40,5 +44,10 @@ font-weight: bold;
    }
    .fs-7{
       font-size: 0.75rem !important;
+   }
+   .cardScall{
+      width: 100%;
+      flex: 0 0 auto;
+
    }
 }
