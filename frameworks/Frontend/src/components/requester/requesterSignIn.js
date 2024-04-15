@@ -12,7 +12,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 
-const LOGIN_URL = "/main/login";
+const LOGIN_URL = "/login/login";
 
 export default function RequesterSignIn() {
   const setAuth = useAuth();
