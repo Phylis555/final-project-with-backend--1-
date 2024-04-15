@@ -5,13 +5,11 @@ const username = "foodforallplatform@gmail.com"
 const senderEmail = "foodforallplatform@gmail.com"
 const password = "loqwplnxvfonmfyi"
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
+const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    user: "@gmail.com",
-    pass: "loqwplnxvfonmfyi",
+    api_key: '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'
   },
-});
+}));
 var transporter2 = nodemailer.createTransport({
   service: "gmail",
   auth: {
