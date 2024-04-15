@@ -8,7 +8,7 @@ const password = "loqwplnxvfonmfyi"
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "foodforallplatform@gmail.com",
+    user: "@gmail.com",
     pass: "loqwplnxvfonmfyi",
   },
 });
@@ -65,25 +65,27 @@ transporter4.use(
   })
 );
 function sendEmail(email, text) {
-  var mailOptions = {
-    from: "foodforallplatform@gmail.com",
-    to: email,
-    subject: "Food for all ",
-    text: `${text}`,
-    template: "index",
-    context: {
-      name: text,
-    },
-  };
-  
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+    transporter.sendMail({
+      to: email,
+      from: 'instantgivingproject@gmail.com',
+      subject: 'Signup succeeded!',
+      html: '<h1>You successfully signed up!</h1>'
+    })
 }
+function sendResetEmail(email, token) {
+  console.log(email);
+  console.log(token);
+  transporter.sendMail({
+    to: email,
+    from: 'instantgivingproject@gmail.com',
+    subject: 'Password Reset',
+    html: `
+      <p>You Requested a password reset </p>
+      <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password.</p>
+    `
+  })
+}
+
 function sendAcceptedEmail(email, text) {
   var mailOptions = {
     from: "foodforallplatform@gmail.com",
@@ -184,6 +186,7 @@ function sendOrganizationEmail(email, emailSubject, text) {
 
 module.exports = {
   sendEmail,
+  sendResetEmail,
   sendAcceptedEmail,
   sendRejectedEmail,
   sendDonationDeletedEmail,

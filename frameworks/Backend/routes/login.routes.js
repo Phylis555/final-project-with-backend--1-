@@ -2,7 +2,7 @@ const express = require("express");
 
 const{handleLogin,}=require('../controllers/authController');
 const{createUser,}=require('../controllers/registerController')
-const{handleReset} = ('../controllers/resetPassword')
+const{handleReset}=require('../controllers/resetPassword')
 const { body } = require('express-validator');
 
 const router=express.Router();
@@ -15,6 +15,6 @@ router.post("/register",[
     body('lastName').trim().notEmpty(),
     body('contactNumber').trim().isMobilePhone('he-IL')       
     ],createUser);
-rout.post("/reset", handleReset)
+router.post("/reset", handleReset);
 
 module.exports = router;

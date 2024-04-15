@@ -23,8 +23,8 @@ const adminRouter = require("./routes/admin/admin.routes");
 app.use("/admin", adminRouter);
 
 //Login routes
-const loginRouter = require("./routes/login");
-app.use("/main", loginRouter);
+const loginRouter = require("./routes/login.routes");
+app.use("/login", loginRouter);
 
 // Organization
 const organizationRoutes = require("./routes/organization.routes");
