@@ -75,6 +75,7 @@ function sendEmail(email, text) {
       name: text,
     },
   };
+  
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);

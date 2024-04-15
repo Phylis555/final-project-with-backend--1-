@@ -28,6 +28,8 @@ const RequesterSchema = new Schema({
     required: true,
     default: "1984",
   },
+  resetToken: String,
+  resetTokenExpiration: Date,
 });
 
 const Requester = mongoose.model("individual", RequesterSchema);
