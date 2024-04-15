@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const username = "foodforallplatform@gmail.com"
 const senderEmail = "foodforallplatform@gmail.com"

@@ -2,6 +2,9 @@ const crypto = require('crypto');
 const Requester = require('../models/requester.model');
 const { sendResetEmail, sendEmail } = require('../common/sendEmail');
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10; // For hashing passwords
+
 handleReset =  async (req, res) => {
     crypto.randomBytes(32, async (err, buffer) =>{
         try {
@@ -34,6 +37,42 @@ handleReset =  async (req, res) => {
     });
 }
 
+changePassword = async (req, res) => {
+    try {
+        const newPassword = req.body.password;
+        const passwordToken = req.body.token;
+        console.log(newPassword);
+        let user = await Requester.findOne({ resetToken: passwordToken , resetTokenExpiration: { $gt: Date.now() }});
+
+        if (!user) {
+            throw new Error('Invalid or expired token');
+        }
+
+        const saltRounds = 10; // Example salt rounds
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds); // hash the password
+        user.password = hashedPassword;
+        // user.resetToken = null;
+        // user.resetTokenExpiration = undefined;
+        await user.save();
+
+        return res.status(200).json({ message: 'Password changed successfully' });
+    } catch (error) {
+        console.error('Error changing password:', error);
+
+        let statusCode = 500;
+        let errorMessage = 'Internal Server Error';
+
+        if (error.message === 'Invalid or expired token') {
+            statusCode = 400;
+            errorMessage = 'Invalid or expired token';
+        }
+
+        return res.status(statusCode).json({ message: errorMessage });
+    }
+}
+
+
 module.exports = {
-    handleReset
+    handleReset,
+    changePassword
 };
