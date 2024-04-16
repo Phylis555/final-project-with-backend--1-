@@ -114,7 +114,7 @@ export default function RequesterSignIn() {
             </div>
 
               <p className=" mt-1 mb-3 fs-7 ">
-                * שכחת את הסיסמה? <Link to="">לחץ כאן</Link>
+                * שכחת את הסיסמה? <Link to="/user/resetPassword">לחץ כאן</Link>
               </p>
             {errMsg && <div className="alert alert-danger">{errMsg}</div>}
             <div className="row border-bottom">
