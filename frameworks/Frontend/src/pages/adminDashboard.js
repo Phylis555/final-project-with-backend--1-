@@ -6,8 +6,8 @@ import DashCard from "../components/admin/dashCard/DashCard";
 export default function AdminDashboard() {
     return (
         <>
-            <SideNav />
-            <Dashboard/>
+            <SideNav dashboard="true"/>
+            <Dashboard />
             <DashCard/>
 
 

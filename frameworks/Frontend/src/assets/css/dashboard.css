@@ -23651,7 +23651,7 @@ hr.horizontal.full-dark {
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
   display: block;
   overflow: auto;
-  height: calc(100vh - 360px);
+  height: calc(100vh - 260px);
 }
 
 .navbar-vertical.navbar-expand-xs>[class*="container"] {
@@ -24667,7 +24667,7 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
   }
 
   .g-sidenav-hidden.rtl .navbar-vertical .nav-item .nav-link .material-icons-round {
-    margin-right: 2px;
+    margin-left: 2px;
   }
 
   .g-sidenav-hidden.rtl .sidenav:hover+.main-content {
