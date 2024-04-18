@@ -110,8 +110,8 @@ export default function OrganizationRequestList() {
                           <td>{(org.registrationDate).substring(0,10)}</td>
                           <td>
                             <div className={classes.ActionBtnSec}>
-                              <button className="btn btn-outline-info" onClick={()=>{onView(org._id)}}>בדיקה</button>
-                              <button className="btn btn-outline-danger" onClick={()=>{onDelete(org._id)}}>דחה</button>
+                              <button className="btn btn-outline-info me-2" onClick={()=>{onView(org._id)}}>בדיקה</button>
+                              <button className="btn btn-outline-danger me-2" onClick={()=>{onDelete(org._id)}}>דחה</button>
                             </div>
                           </td>
                       </tr>

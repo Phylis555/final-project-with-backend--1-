@@ -2,7 +2,7 @@ import React from "react";
 import "../../assets/css/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SideNav() {
+export default function SideNav(props) {
     const navigate = useNavigate()
 
     const logOut = (e) => {
@@ -23,57 +23,172 @@ export default function SideNav() {
                             <span className="ms-1 font-weight-bold text-white">מנהל מערכת</span>
                         </a>
                     </div>
-                    <hr className="horizontal light mt-0 mb-2" />
+                    <hr className="horizontal light mt-0 mb-1" />
                     <div className="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link text-white active bg-gradient-primary" href="http://localhost:3000/admin/dashboard">
-                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">dashboard</i>
-                                    </div>
-                                    <span className="nav-link-text ms-1">ראשי</span>
-                                </a>
+                                {props.dashboard ? (
+                                    <Link
+                                    className="nav-link text-white active bg-gradient-primary"
+                                    to="/admin/dashboard"
+                                    >
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">dashboard</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">ראשי</span>
+                                    </Link>
+                                ) : (
+                                    <Link className="nav-link text-white" to="/admin/dashboard">
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">dashboard</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">ראשי</span>
+                                    </Link>
+                                )}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white " href="http://localhost:3000/admin/regorglist">
-                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">table_view</i>
-                                    </div>
-                                    <span className="nav-link-text ms-1">ארגונים</span>
-                                </a>
+                                {props.regorglist ? (
+                                    <Link
+                                    className="nav-link text-white active bg-gradient-primary"
+                                    to="/admin/regorglist"
+                                    >
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">receipt_long</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">ארגונים</span>
+                                    </Link>
+                                ) : (
+                                    <Link className="nav-link text-white" to="/admin/regorglist">
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">receipt_long</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">ארגונים</span>
+                                    </Link>
+                                )}         
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white " href="http://localhost:3000/admin/regfund">
-                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">table_view</i>
-                                    </div>
-                                    <span className="nav-link-text ms-1">גיוסי כספים</span>
-                                </a>
+          
+                                {props.regfund ? (
+                                    <Link
+                                    className="nav-link text-white active bg-gradient-primary"
+                                    to="/admin/regfund"
+                                    >
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">volunteer_activism</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">גיוסי כספים</span>
+                                    </Link>
+                                ) : (
+                                    <Link className="nav-link text-white" to="/admin/regfund">
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">volunteer_activism</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">גיוסי כספים</span>
+                                    </Link>
+                                )}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white " href="http://localhost:3000/admin/accepteddon">
+            
+                                {props.accepteddon ? (
+                                    <Link
+                                    className="nav-link text-white active bg-gradient-primary"
+                                    to="/admin/accepteddon"
+                                    >
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">volunteer_activism</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">תרומות ציוד</span>
+                                    </Link>
+                                ) : (
+                                    <Link className="nav-link text-white" to="/admin/accepteddon">
+                                        <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                            <i className="material-icons opacity-10">volunteer_activism</i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">תרומות ציוד</span>
+                                    </Link>
+                        )}
+                        </li>
+                        <li className="nav-item">
+                            {props.getusers ? (
+                                <Link
+                                className="nav-link text-white active bg-gradient-primary"
+                                to="/admin/getusers"
+                                >
                                     <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">receipt_long</i>
-                                    </div>
-                                    <span className="nav-link-text ms-1">תרומות ציוד</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link text-white " href="http://localhost:3000/admin/getusers">
-                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">receipt_long</i>
+                                        <i className="material-icons opacity-10">group</i>
                                     </div>
                                     <span className="nav-link-text ms-1">משתמשים</span>
-                                </a>
-                            </li>
-                         
-                            <li className="nav-item">
-                                <a className="nav-link text-white " href="../pages/profile.html">
+                                </Link>
+                            ) : (
+                                <Link className="nav-link text-white" to="/admin/getusers">
                                     <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                        <i className="material-icons opacity-10">person</i>
+                                        <i className="material-icons opacity-10">group</i>
                                     </div>
-                                    <span className="nav-link-text ms-1">פרופיל</span>
-                                </a>
+                                    <span className="nav-link-text ms-1">משתמשים</span>
+                                </Link>
+                        )}
+                        </li>
+                        <label> ממתינים לאישור</label>
+                        <li className="nav-item">
+
+                            {props.reqorglist ? (
+                                <Link
+                                className="nav-link text-white active bg-gradient-primary"
+                                to="/admin/reqorglist"
+                                >
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">receipt_long</i>
+                                    </div>
+                                    <span className="nav-link-text ms-0">ארגונים בהמתנה</span>
+                                </Link>
+                            ) : (
+                                <Link className="nav-link text-white" to="/admin/reqorglist">
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">receipt_long</i>
+                                    </div>
+                                    <span className="nav-link-text ms-0">ארגונים בהמתנה</span>
+                                </Link>
+                            )}
+                        </li>
+                        <li className="nav-item">
+                            {props.reqfund ? (
+                                <Link
+                                className="nav-link text-white active bg-gradient-primary"
+                                to="/admin/reqfund"
+                                >
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">volunteer_activism</i>
+                                    </div>
+                                    <span className="nav-link-text ms-1">גיוסי כספים בהמתנה</span>
+                                </Link>
+                            ) : (
+                                <Link className="nav-link text-white" to="/admin/reqfund">
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">volunteer_activism</i>
+                                    </div>
+                                    <span className="nav-link-text ms-1">גיוסי כספים בהמתנה</span>
+                                </Link>
+                        )}
+                        </li>
+                        <li className="nav-item">
+                            {props.reqdon ? (
+                                <Link
+                                className="nav-link text-white active bg-gradient-primary"
+                                to="/admin/reqdon"
+                                >
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">volunteer_activism</i>
+                                    </div>
+                                    <span className="nav-link-text ms-1">תרומות ציוד בהמתנה</span>
+                                </Link>
+                            ) : (
+                                <Link className="nav-link text-white" to="/admin/reqdon">
+                                    <div className="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                        <i className="material-icons opacity-10">volunteer_activism</i>
+                                    </div>
+                                    <span className="nav-link-text ms-1">תרומות ציוד בהמתנה</span>
+                                </Link>
+                        )}
                             </li>
                         </ul>
                     </div>
