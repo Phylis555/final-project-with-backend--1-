@@ -112,7 +112,7 @@ export default class Login extends Component{
                             label='Email or Stud. NetID' 
                             iconName='email-outline'
                             onChangeText={Email=>this.setState({Email})}
-                            placeholder='10...  or  ...@unm.edu'
+                            placeholder='10......  or  ...@unm.edu'
                             >
                         </TypeAInput>
                         <TypeAInput 
