@@ -6,6 +6,7 @@ import "./footer.css";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const RESET_PASSWORD_URL = "/login/resetPassword";
 
@@ -30,9 +31,12 @@ export default function ResetPassword() {
       );
       // Assuming the backend returns a success message
       setErrMsg("קישור לאיפוס הסיסמה נשלח לכתובת האימייל שלך.");
-      setTimeout(() => {
-        Navigate("/user/signin");
-      }, 10000);
+      swal("קישור לאיפוס הסיסמה נשלח לכתובת האימייל שלך", "", "success").then((value) => {
+        if (value) {
+          Navigate("/user/signin");
+        }
+      });
+      
     } catch (err) {
       setErrMsg("שגיאה בעת שליחת בקשה לאיפוס הסיסמה.");
     }
