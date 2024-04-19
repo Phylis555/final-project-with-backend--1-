@@ -128,7 +128,7 @@ export default function SideNav(props) {
                                 </Link>
                         )}
                         </li>
-                        <label> ממתינים לאישור</label>
+                        <label> בהמתנה לאישור</label>
                         <li className="nav-item">
 
                             {props.reqorglist ? (
