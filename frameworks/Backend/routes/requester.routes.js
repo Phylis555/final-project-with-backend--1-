@@ -15,7 +15,6 @@ const router = express.Router();
 
 router.post("/requesterSignUp",[
     body('email').isEmail(),
-    body('password').isLength({min:6}, {max:20}),//can add more logic later
     body('firstName').trim().notEmpty(),
     body('lastName').trim().notEmpty(),
     body('contactNumber').trim().isMobilePhone('he-IL')       
