@@ -93,7 +93,7 @@ export default function OrganizationRequestList() {
                     <th>שם</th>
                     <th>כתובת</th>
                     <th>תאריך רישום</th>
-                    <th id={classes.ActionSec}>פעולה</th>
+                    <th id={classes.ActionSec}>פעולות</th>
                   </tr>
                   {datatable.filter((org)=>{
                     if (search==""){

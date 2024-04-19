@@ -66,7 +66,7 @@ export default function OrganizationRequestList() {
                                     <th>שם הארגון</th>
                                     <th>כתובת</th>
                                     <th>תאריך רישום</th>
-                                    <th id={classes.ActionSec}>ערוך</th>
+                                    <th id={classes.ActionSec}>פעולות</th>
                                 </tr>
                                 {datatable.filter((org)=>{
                                     if (search==""){
@@ -83,7 +83,7 @@ export default function OrganizationRequestList() {
                                                 <td>{(org.registrationDate).substring(0,10)}</td>
                                                 <td>
                                                 <div className={classes.ActionBtnSec}>
-                                                <button className="btn btn-outline-primary" onClick={()=>{onView(org._id)}}>ערוך</button>
+                                                <button className="btn btn-outline-info" onClick={()=>{onView(org._id)}}>ערוך</button>
 
                                                 </div>
                                                 </td>
