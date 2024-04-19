@@ -55,12 +55,12 @@ export default function ViewSelectedFund() {
     }).then((willDelete) => {
       if (willDelete) {
         removeFund(fundID).then(res => {
-          swal("Fund has been deleted!", {
+          swal("גיוס כספים נמחק בהצלחה", {
             icon: "success",
           });
           navigate("/organization/funds");
         }).catch(err => {
-          swal("Something went wrong!", {
+          swal("שגיאה בזמן מחיקת התרומה", {
             icon: "error",
           });
         })
@@ -68,38 +68,17 @@ export default function ViewSelectedFund() {
     });
   }
 
-  // const handleDonate = (e) => {
-  //   e.preventDefault();
-  //   if (getCookie("roles") === '1984') {
-  //     document.getElementById("donateModal").style.display = "block";
-  //   } else {
-  //     swal("You need to login first!", {
-  //       icon: "warning",
-  //       buttons: ["Cancel", "Login"],
-  //     }).then((willLogin) => {
-  //       if (willLogin) {
-  //         navigate(`/signin`);
-  //       }
-  //     });
-  //   }
-  // }
-
-  // const closeDonateModal = (e) => {
-  //   e.preventDefault();
-  //   document.getElementById("donateModal").style.display = "none";
-  // }
-
 
 
   return (
     <>
-    <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg" >
+    <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
       {
         getCookie("roles") === '5150' ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)
       }
 
 
-      <div className="container-fluid " onClick={toggleSidenav} dir="rtl">
+      <div className="container-fluid mb-3" onClick={toggleSidenav} dir="rtl">
         <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
           onClick={() => navigate(-1)}> הקודם</i>
         <h3 className='mt-3'>{fund.title}</h3>
@@ -126,12 +105,12 @@ export default function ViewSelectedFund() {
           ) : null
         }
         {isLoaded ? (
-          <div className="row me-4">
+          <div className="row me-4 ">
             <div className="col-sm-5 row">
-              <div className="my-5">
+              <div className="my-3">
                 <img src={fund.fundImage} className="img-fluid rounded card-image" alt={fund.title} />
               </div>
-              <div className='card p-3'>
+              <div className='card p-3 my-4'>
                 <h5>פרטים ליצירת קשר</h5>
                 <div className="row mt-2">
                   <h6 className="text-dark font-weight-bold col-md-3">Email:</h6>

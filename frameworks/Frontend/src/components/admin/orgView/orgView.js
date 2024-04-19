@@ -84,8 +84,8 @@ export default function AdminEditOrg() {
 //     console.log(Organization)
 //   };
 swal({
-    title: "Are you sure?",
-    text: "Do you want to update Organization Details",
+    title: "שים לב",
+    text: "האם ברצונך לעדכן את פרטי הארגון",
     icon: "warning",
     buttons: true,
     dangerMode: true,
@@ -95,12 +95,12 @@ swal({
         .put(`http://localhost:8070/admin/editorg/${id}`, Organization)
         .then(() => {
           if (willDelete) {
-            swal("The Organization Details Successfully Updated !", { icon: "success" })
+            swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
             setTimeout(function () {
               window.location.reload()
             }, 3000)
           } else {
-            swal("File Is Not Updated")
+            swal("שגיאה בעדכון פרטים ")
           }
         })
     }
@@ -118,7 +118,7 @@ swal({
     <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       {/* <span class="mask bg-gradient-dark opacity-6"></span> */}
-      <div class="container my-auto" style={{ paddingTop: 30 }}>
+      <div class="container my-auto" style={{ paddingTop: 30 }} dir="rtl">
         <div class="row">
           <div class="mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">

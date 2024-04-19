@@ -221,30 +221,30 @@ export default function DonationView() {
                 {req && fromAdmin ? (
                   <>
                     <button
-                      class="btn btn-success"
+                      class="btn btn-outline-success me-3 fs-5"
                       onClick={() => {
                         onAccept(donation._id);
                       }}
                     >
-                      Accept
+                      אשר
                     </button>
                     <button
-                      class="btn btn-danger"
+                      class="btn btn-outline-danger me-3 fs-5"
                       onClick={() => {
                         onDelete(donation._id);
                       }}
                     >
-                      Reject
+                      דחה
                     </button>
                   </>
-                ) : accepted && fromAdmin ? (
-                  <>
-                    <h2>_</h2>
-                  </>
-                ) : donation.status === "completed" ||donation.status === "pending" ? (
+                ) : accepted && fromAdmin || (donation.status === "completed" ||donation.status === "pending") ? (
                   <>
                     <h2></h2>
                   </>
+                // ) : donation.status === "completed" ||donation.status === "pending" ? (
+                //   <>
+                //     <h2></h2>
+                //   </>
                 ) : (
                   <Link to={`/donator/sendRequest/${id}`}>
                     <button class="btn btn-info">שלח בקשה</button>
