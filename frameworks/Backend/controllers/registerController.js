@@ -13,6 +13,7 @@ const createUser = async (req, res) => {
     }
     const formData = req.body; // get data from the request body
     console.log(formData);
+    
 
     User.findOne({ username: formData.username })
         .then(user => {
