@@ -1,5 +1,5 @@
 const express = require("express");
-// const verifyJWT = require("../middleware/verifyJWT")
+const isAuth = require("../middleware/verifyJWT")
 
 // const { validate } = require("../middleware/donationValidation");
 
@@ -19,13 +19,13 @@ router.get("/", getAllOrganizations)
 router.get("/:id", getOrganization)
 router.post("/register", createOrganization);
 router.get("/view", getAllOrganizations)
-router.put("/update/:id", updateOrganization)
-router.put("/update/board/:id", updateOrganizationBoard)
-router.put("/update/changePassword/:id", changePassword)
-router.delete("/delete/:id", deleteOrganization)
+router.put("/update/:id", isAuth, updateOrganization)
+router.put("/update/board/:id", isAuth, updateOrganizationBoard)
+router.put("/update/changePassword/:id", isAuth, changePassword)
+router.delete("/delete/:id", isAuth, deleteOrganization)
 router.get("/:organizationID/latest/:limit", getNContributions)
-router.get("/summary/:organizationID", getDashboardSummary)
-router.get("/contributionChart/:organizationID", contributionChart)
-router.get("/:organizationID/report/:month", generateReport)
+router.get("/summary/:organizationID", isAuth, getDashboardSummary)
+router.get("/contributionChart/:organizationID", isAuth, contributionChart)
+router.get("/:organizationID/report/:month", isAuth, generateReport)
 
 module.exports = router;

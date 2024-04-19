@@ -1,6 +1,6 @@
 const express = require("express");
 const verifyJWT = require("../../middleware/verifyJWT")
-
+const isAuth = require('../../middleware/verifyJWT')
 
 const {getRequestedOrganizations}=require("../../controllers/admin/requestedOrganization");
 const {getApprovedOrganizations}=require("../../controllers/admin/approvedOrganization");
@@ -21,22 +21,23 @@ const { deleteUser } = require("../../controllers/admin/deleteUser");
 
 const router = express.Router();
 
-router.get("/reqorglist",getRequestedOrganizations);
-router.get("/approvedorg",getApprovedOrganizations);
-router.get("/vieworg/:id",getOneOrganizationDetails);
-router.get("/reqfunds",getRequestedFunds);
-router.get("/approvedfunds",getApprovedFunds);
-router.delete("/deletereqorg/:id",deleteReqOrganization);
-router.put("/editorg/:id",editOrganization);
-router.put("/uporgstatus/:id",editOrganizationStatus);
-router.put("/upfundstatus/:id",updateFundStatus);
-router.put("/updostauts/:id",updateDonationStatus);
-router.get("/getpdon/", getAllPendingDonations);
-router.get("/getaccepteddon/",getAllAcceptedDonations)
-router.get("/getusers",getAllUsers);
-router.delete("/deletedonreq/:id",deleteDonationRequest);
-router.put("/rejectdonation/:id",rejectDonation);
-router.delete("/deleteuser/:id", deleteUser);
+router.get("/reqorglist", isAuth, getRequestedOrganizations);
+router.get("/approvedorg", isAuth, getApprovedOrganizations);
+router.get("/vieworg/:id", isAuth, getOneOrganizationDetails);
+router.get("/reqfunds", isAuth, getRequestedFunds);
+router.get("/approvedfunds", isAuth, getApprovedFunds);
+router.delete("/deletereqorg/:id", isAuth, deleteReqOrganization);
+router.put("/editorg/:id", isAuth, editOrganization);
+router.put("/uporgstatus/:id", isAuth, editOrganizationStatus);
+router.put("/upfundstatus/:id", isAuth, updateFundStatus);
+router.put("/updostauts/:id", isAuth, updateDonationStatus);
+router.get("/getpdon/", isAuth, getAllPendingDonations);
+router.get("/getaccepteddon/", isAuth, getAllAcceptedDonations);
+router.get("/getusers", isAuth, getAllUsers);
+router.delete("/deletedonreq/:id", isAuth, deleteDonationRequest);
+router.put("/rejectdonation/:id", isAuth, rejectDonation);
+router.delete("/deleteuser/:id", isAuth, deleteUser);
+
 
 
 

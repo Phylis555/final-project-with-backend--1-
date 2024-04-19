@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuth = require('../../middleware/verifyJWT')
 
 const{handleLogin,}=require('../controllers/authController');
 const{createUser,}=require('../controllers/registerController')
@@ -16,6 +17,6 @@ router.post("/register",[
     body('contactNumber').trim().isMobilePhone('he-IL')       
     ],createUser);
 router.post("/resetPassword", handleReset);
-router.post("/changePassword", changePassword);
+router.post("/changePassword", isAuth, changePassword);
 
 module.exports = router;

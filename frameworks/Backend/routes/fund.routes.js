@@ -1,6 +1,8 @@
 const express = require("express");
 const { donateToFund } = require("../controllers/donator/donateFund");
 const { getAllFunds } = require("../controllers/fund/allFunds");
+const isAuth = require('../middleware/verifyJWT');
+
 
 const { createFund } = require("../controllers/fund/createFund");
 const { deleteFund, removeFund } = require("../controllers/fund/deleteFund");
@@ -13,11 +15,11 @@ const router = express.Router();
 router.get("/", getAllFunds);
 router.get("/:organizationId/limit/:limit", getNFunds);
 router.get("/:id", getFund);
-router.post("/donateFund/:id", donateToFund);
-router.post("/create", createFund);
-router.put("/update/:id", updateFund);
-router.delete("/delete/:id", deleteFund);
-router.put("/remove/:id", removeFund);
+router.post("/donateFund/:id", isAuth, donateToFund);
+router.post("/create", isAuth, createFund);
+router.put("/update/:id", isAuth, updateFund);
+router.delete("/delete/:id", isAuth, deleteFund);
+router.put("/remove/:id", isAuth, removeFund);
 router.get("/status/:status", getFundByStatus);
 router.get("/:oranizationID/:fundID", getOrganizationFunds);
 router.get("/:organizationID/status/:status", getFundByOrganizationAndStatus);

@@ -36,7 +36,7 @@ export default function ActiveDonations() {
         }
       })
       .catch((e) => {
-        console.log(e);
+        console.log("lolhaha", e);
         // console.log(donations);
       });
   }, [userId]);

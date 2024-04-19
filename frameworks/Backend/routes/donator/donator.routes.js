@@ -37,6 +37,8 @@ const { validate } = require("../../middleware/donationValidation");
 
 const router = express.Router();
 
+
+
 router.post("/createDonation", [
   body('donationTitle').trim().isLength({min : 5}).withMessage('Title too short'),
   body('email').trim().isEmail().withMessage("Not a legal email"),
@@ -45,29 +47,29 @@ router.post("/createDonation", [
   }),
   body('contactNumber').trim().isMobilePhone('he-IL'),
   body('donationDescription').trim().isLength({min : 5})
-], createDonation);
+], isAuth ,createDonation);
 router.get("/getDonations", getAllDonations);
-router.delete("/deleteDonation/:id", deleteDonation);
-router.get("/getCompletedDonations/:id", getCompletedDonations);
+router.delete("/deleteDonation/:id",isAuth ,deleteDonation);
+router.get("/getCompletedDonations/:id",isAuth, getCompletedDonations);
 router.get("/getOngoingDonations/:id", isAuth ,getOngoingDonations);
-router.get("/getPendingDonations/:id", getPendingDonations);
-router.get("/getRejectedDonations/:id", getRejectedDonations);
+router.get("/getPendingDonations/:id",isAuth ,getPendingDonations);
+router.get("/getRejectedDonations/:id",isAuth, getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
-router.put("/updateDonation/:id", editDonation);
+router.put("/updateDonation/:id", isAuth, editDonation);
 router.post("/sendRequest",[
   body('requesterName').trim().notEmpty(),
   body('requesterEmail').trim().isEmail().withMessage("Not a legal email"),
   body('requesterContact').trim().isMobilePhone('he-IL'),
   body('requestDescription').trim().isLength({min : 5})
-], sendDonationRequest);
-router.post("/donateFund/:id", donateToFund);
+], isAuth, sendDonationRequest);
+router.post("/donateFund/:id", isAuth, donateToFund);
 
-router.get("/getPendingRequests/:id", getPendingRequests);
-router.put("/acceptRequest/:id", acceptDonationRequest);
-router.put("/rejectRequest/:id", rejectDonationRequest);
-router.put("/markAsCompleted/:id", markDonationAsCompleted);
-router.get("/getApprovedRequests/:id", getApprovedRequests);
-router.get("/getUserDonations/:id", getUserDonations);
+router.get("/getPendingRequests/:id", isAuth, getPendingRequests);
+router.put("/acceptRequest/:id", isAuth, acceptDonationRequest);
+router.put("/rejectRequest/:id", isAuth, rejectDonationRequest);
+router.put("/markAsCompleted/:id", isAuth, markDonationAsCompleted);
+router.get("/getApprovedRequests/:id", isAuth, getApprovedRequests);
+router.get("/getUserDonations/:id", isAuth, getUserDonations);
 
 router.post("/test", testBase64);
 

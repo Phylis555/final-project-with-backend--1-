@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuth = require('../middleware/verifyJWT');
 
 const { createRequest } = require("../controllers/requester/CreateRequest");
 const { requesterSignUp } = require("../controllers/requester/RequesterSignup");
@@ -25,14 +26,14 @@ router.post("/createRequest", [
     body('email').trim().isEmail().withMessage("Not a legal email"),
     body('donationEndDate').isDate().custom((value, {req}) => {
         return validator.isAfter(inputDate, currentDate.toISOString());
-    })
-],createRequest);
-router.get("/profile/:id", viewUserProfile);
-router.put("/updateProfile/:id", updateProfile);
-router.put("/updatePassword/:id", updatePassword);
-router.get("/view/request/:id", getRequestersRequest);
-router.get("/my/requests/:id", getMyRequests);
+    },)
+], isAuth, createRequest);
+router.get("/profile/:id", isAuth, viewUserProfile);
+router.put("/updateProfile/:id", isAuth, updateProfile);
+router.put("/updatePassword/:id", isAuth, updatePassword);
+router.get("/view/request/:id", isAuth, getRequestersRequest);
+router.get("/my/requests/:id", isAuth, getMyRequests);
 router.get("/allrequests", getAllRequests);
-router.delete("/delete/:id" ,deleteRequest);
+router.delete("/delete/:id", isAuth, deleteRequest);
 
 module.exports = router;
