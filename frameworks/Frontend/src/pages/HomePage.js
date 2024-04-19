@@ -137,15 +137,15 @@ export default function HomePage() {
 
 
 
-        <div className='container mt-5' dir="rtl">
+        <div className='container mt-5 ' dir="rtl">
             <h3 className='d-flex justify-content-center mb-4'>אודות</h3>
 
-            <div className='row mb-5'>
-                <div className='col-5'>
-                    <img className="img-about" src={Img4} />
+            <div className='row mb-5 justify-content-between d-flex'>
+                <div className='col-5 col-lg-5 col-md-5'>
+                    <img className="img-about " src={Img4} />
                 </div>
 
-                <div className='col-7'>
+                <div className='col-7 col-lg-7 col-md-7'>
                     <h5> <p>בעקבות מלחמת חרבות ברזל התגלה צורך גדול בציוד לחיילים ומפונים, אם זה ציוד טקטי או ציוד בסיסי למגורים. </p>
                        <p> במהלך המלחמה, בקשות רבות הועלו ברשתות חברתיות, אך הפלטפורמות לא היו פתרון מוצלח לבעיה. </p>
                         <p>מטרת הפרויקט היא לפתח מערכת המאגדת את כל הבקשות לציוד, בה היה ניתן להוסיף בקשות לציוד בקלות ומאפשרת למבקשים ולתורמים לאתר בקשות רלוונטיות בקלות.

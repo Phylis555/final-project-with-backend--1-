@@ -59,3 +59,8 @@
 .img-about{
   width: 500px;
 }
+@media (max-width: 1400px){
+  .img-about{
+    width: 100%;
+  }
+}
