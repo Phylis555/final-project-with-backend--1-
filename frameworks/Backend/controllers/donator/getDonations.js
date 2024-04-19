@@ -1,7 +1,9 @@
 const Donation = require("../../models/donation.model");
 
+
 const getCompletedDonations = async (req, res) => {
-  await Donation.find({ status: "completed", userID: req.params.id })
+  try {
+    await Donation.find({ status: "completed", userID: req.params.id })
     .then((donations) => {
       res.json(donations);
     })
@@ -10,6 +12,13 @@ const getCompletedDonations = async (req, res) => {
         errror: err,
       });
     });
+  } catch (error) {
+    console.log(error);
+    if(error.statusCode){
+      res.status(error.statusCode).json({error: error});
+    }
+  }
+
 };
 
 const getOngoingDonations = async (req, res) => {
@@ -49,6 +58,7 @@ const getRejectedDonations = async (req, res) => {
 };
 
 const getUserDonations = async (req, res) => {
+  console.log("hehe", req.params.id);
   await Donation.find({ userID: req.params.id })
     .then((donations) => {
       res.json(donations);

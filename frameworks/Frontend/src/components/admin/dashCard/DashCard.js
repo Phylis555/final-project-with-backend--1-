@@ -3,6 +3,20 @@ import classes from "./DashCard.module.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+// // Function to retrieve the token from the cookie
+// const getTokenFromCookie = () => {
+//   return getCookie('access_token'); // Assuming 'header' is the name of your cookie
+// };
+
+// // Function to create a base request configuration with authorization header
+// const getRequestConfig = () => {
+//   const token = getTokenFromCookie();
+//   const headers = {
+//     'Authorization': `Bearer ${token}` // Assuming the token is prefixed with 'Bearer'
+//   };
+//   return { headers };
+// };
+
 const DashCard = () => {
   const [length, setLength] = useState(0);
   const [length2, setLength2] = useState(0);

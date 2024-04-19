@@ -44,6 +44,15 @@ app.use("/requester", requesterRoutes);
 const homeRoutes = require("./routes/home.routes");
 app.use("/home", homeRoutes);
 
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
+});
+
 const URL = 'mongodb+srv://node_Js_Server:102938Node@cluster0.eiackwm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(URL, {

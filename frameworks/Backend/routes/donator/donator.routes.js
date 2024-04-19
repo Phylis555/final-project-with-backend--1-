@@ -1,5 +1,6 @@
 const express = require("express");
 const { body } = require('express-validator');
+const isAuth = require('../../middleware/verifyJWT')
 
 
 
@@ -48,7 +49,7 @@ router.post("/createDonation", [
 router.get("/getDonations", getAllDonations);
 router.delete("/deleteDonation/:id", deleteDonation);
 router.get("/getCompletedDonations/:id", getCompletedDonations);
-router.get("/getOngoingDonations/:id", getOngoingDonations);
+router.get("/getOngoingDonations/:id", isAuth ,getOngoingDonations);
 router.get("/getPendingDonations/:id", getPendingDonations);
 router.get("/getRejectedDonations/:id", getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
