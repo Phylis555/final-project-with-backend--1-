@@ -1,5 +1,5 @@
 const express = require("express");
-const isAuth = require('../../middleware/verifyJWT')
+const isAuth = require('../middleware/verifyJWT')
 
 const{handleLogin,}=require('../controllers/authController');
 const{createUser,}=require('../controllers/registerController')
