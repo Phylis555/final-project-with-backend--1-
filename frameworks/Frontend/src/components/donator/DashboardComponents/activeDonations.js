@@ -80,25 +80,25 @@ export default function ActiveDonations() {
       <SideNav dashboard="true" />
       <main className="main-content position-relative h-100 border-radius-lg ">
         <NavButton />
-        <div className="container-fluid py-4 " onClick={toggleSidenav}>
+        <div className="d-flex container-fluid py-2 " onClick={toggleSidenav}>
           {/* <div className="row align-items-center"></div> */}
-          <div class="container" style={{ paddingTop: 20 }}>
-            <div class="row d-flex justify-content-center mb-4">
-              <div class="col-4">
+          <div class="container col d-flex justify-content-center" style={{ paddingTop: 20 }}>
+            <div class=" row">
+              <div class="mb-4 col-xxl-4 col-lg-6 col-md-10 col-sm-12">
                 <DashboardCard
                   image="https://i.postimg.cc/5t0vBGNQ/ds-5.png"
                   title="תרומות בהמתנה לאישור"
                   count={pendingDonations.length}
                 />
               </div>
-              <div class="col-4">
+              <div class="mb-4  col-xxl-4 col-lg-6 col-md-10 col-sm-12">
                 <DashboardCard
                   image="https://i.postimg.cc/T12tg0Sk/ds-4.png"
                   title="תרומות פעילות"
                   count={activeDonations.length}
                 />
               </div>
-              <div class="col-4">
+              <div class="mb-4  col-xxl-4 col-lg-6 col-md-10 col-sm-12">
                 {" "}
                 <DashboardCard
                   image="https://i.postimg.cc/tCFmYzKx/ds-8.png"
@@ -112,9 +112,9 @@ export default function ActiveDonations() {
                 {" "}
                 <LatestRequestsDisplay />
               </div> */}
-              <div className="col col-6 row-cols-auto h-100 " >
+              {/* <div className="col col-6 row-cols-auto h-100 " >
                 <DonationChart />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

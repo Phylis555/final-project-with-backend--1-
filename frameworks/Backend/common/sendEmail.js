@@ -63,13 +63,55 @@ transporter4.use(
     viewPath: "./common/views/deleted",
   })
 );
-function sendEmail(email, text) {
-    transporter.sendMail({
+function sendEmail(email) {
+  const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Signup Successful!</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  padding: 20px;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #ffffff;
+                  padding: 30px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              }
+              h1 {
+                  color: #007bff;
+              }
+              p {
+                  font-size: 16px;
+                  line-height: 1.6;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Welcome to Instant Giving!</h1>
+              <p>Dear User,</p>
+              <p><strong>You have successfully signed up for our service!</strong></p>
+              <p>We are excited to have you on board. Thank you for joining Instant Giving.</p>
+              <p>Best regards,<br>Instant Giving Team</p>
+          </div>
+      </body>
+      </html>
+  `;
+
+  transporter.sendMail({
       to: email,
       from: 'instantgivingproject@gmail.com',
       subject: 'Signup succeeded!',
-      html: '<h1>You successfully signed up!</h1>'
-    })
+      html: htmlContent
+  });
 }
 function sendResetEmail(email, token) {
   console.log(email);
@@ -92,43 +134,105 @@ function sendResetEmail(email, token) {
   })
 }
 
-function sendAcceptedEmail(email, text) {
-  var mailOptions = {
-    from: "foodforallplatform@gmail.com",
-    to: email,
-    subject: "Your request has been accepted",
-    text: `${text}`,
-    template: "index",
-    context: {
-      name: text,
-    },
-  };
-  transporter2.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
+// Function to send an email when a user's donation is accepted
+function sendAcceptedEmail(email) {
+  const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Donation Accepted!</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  padding: 20px;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #ffffff;
+                  padding: 30px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              }
+              h1 {
+                  color: #007bff;
+              }
+              p {
+                  font-size: 16px;
+                  line-height: 1.6;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Your Donation Was Accepted!</h1>
+              <p>Dear Donor,</p>
+              <p>We are pleased to inform you that your donation has been accepted. Thank you for your generosity!</p>
+              <p>Best regards,<br>Instant Giving Team</p>
+          </div>
+      </body>
+      </html>
+  `;
+
+  transporter.sendMail({
+      to: email,
+      from: 'instantgivingproject@gmail.com',
+      subject: 'Donation Accepted!',
+      html: htmlContent
   });
 }
 
-function sendRejectedEmail(email, text) {
-  var mailOptions = {
-    from: "foodforallplatform@gmail.com",
-    to: email,
-    subject: "Your request has been rejected",
-    text: `${text}`,
-    template: "index",
-    context: {
-      name: text,
-    },
-  };
-  transporter3.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
+// Function to send an email when a user's donation is rejected
+function sendRejectedEmail(email) {
+  const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Donation Rejected!</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  padding: 20px;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #ffffff;
+                  padding: 30px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              }
+              h1 {
+                  color: #dc3545;
+              }
+              p {
+                  font-size: 16px;
+                  line-height: 1.6;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Your Donation Was Rejected</h1>
+              <p>Dear Donor,</p>
+              <p>We regret to inform you that your donation has been rejected. If you have any questions or concerns, please feel free to contact us.</p>
+              <p>Best regards,<br>Instant Giving Team</p>
+          </div>
+      </body>
+      </html>
+  `;
+
+  transporter.sendMail({
+      to: email,
+      from: 'instantgivingproject@gmail.com',
+      subject: 'Donation Rejected!',
+      html: htmlContent
   });
 }
 

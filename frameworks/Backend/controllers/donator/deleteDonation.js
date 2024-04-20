@@ -1,51 +1,47 @@
 const { sendDonationDeletedEmail } = require("../../common/sendEmail");
 const Donation = require("../../models/donation.model");
-const DonationRequest = require("../../models/donationRequest.model");
+const Request = require("../../models/donationRequest.model");
 
 const deleteDonation = async (req, res) => {
   try {
-    var emailArray = [];
-    var donationTitle = "";
+
+    //var donationTitle = "";
     const donationID = req.params.id;
-    console.log(donationID);
-    await Donation.findById(donationID).then((donation) => {
-      donationTitle = donation.donationTitle;
+    const donation = await Donation.findById(donationID).populate('wantedItems').exec();
+
+    //***** will work after authentication is dealth with *****/
+    // if(req.userID !== donation.userID)
+    //   throw new Error('Donation user different than token user');
+
+    console.log(donation.wantedItems);
+
+    const completed = donation.wantedItems.reduce((acc,val) => {
+      return 0 < val.receivedAmount || acc === 1 ? 1 : 0;
+    }, 0)
+
+    if(completed)
+      throw new Error('Donation already has items donated to it.');
+      
+
+    await Request.deleteMany({donationID : donationID});
+
+    await Donation.deleteOne({_id: donationID});
+
+    res.status(200).send({
+      msg: "donation succesfully deleted",
     });
-    await DonationRequest.find({ donationID: donationID }).then((donation) => {
-      // const emailArray = donation.numberOfRequests;
 
-      for (let index = 0; index < donation.length; index++) {
-        // console.log(index.requesterEmail);
-        // console.log();
-        var element = donation[index].requesterEmail;
-        emailArray.push(element);
-      }
-      if (!emailArray.length == 0) {
-        for (let index = 0; index < emailArray.length; index++) {
-          const email = emailArray[index];
-          sendDonationDeletedEmail(email, donationTitle);
-        }
-      }
-
-      console.log(emailArray);
-      // console.log(donation);
-    });
-
-    await Donation.findByIdAndDelete(donationID)
-      .then(() => {
-        console.log("sds");
-        res.status(200).send({
-          msg: "donation succesfully deleted",
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "error with deletion",
-          error: err,
-        });
-      });
   } catch (error) {
-    console.log(error);
+    console.error('Database error:', error);
+
+    let statusCode = 500;
+    let errorMessage = 'Database error';
+
+    if (error.message === 'Donation user different than token user') {
+        statusCode = 400;
+    }
+
+    return res.status(statusCode).json({ message: error.message, error: error });
   }
 };
 

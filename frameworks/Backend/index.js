@@ -7,7 +7,7 @@ const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const app = express();
 const schedule = require('node-schedule');
-const completeDonations = require('./middleware/completeAllDonations.js');
+const completeDonations = require('./common/completeAllDonations.js');
 
 require("dotenv").config();
 //kjijo

@@ -55,7 +55,7 @@ router.get("/getOneDonation/:id", getOneDonationDetails);
 router.put("/updateDonation/:id", editDonation);
 router.post("/sendRequest",[
   body('requesterName').trim().notEmpty(),
-  body('requesterEmail').trim().isEmail().withMessage("Not a legal email"),
+  body('requesterEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
   body('requesterContact').trim().isMobilePhone('he-IL'),
   body('requestDescription').trim().isLength({min : 5})
 ], sendDonationRequest);

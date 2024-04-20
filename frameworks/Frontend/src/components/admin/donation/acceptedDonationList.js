@@ -43,8 +43,8 @@ export default function GetAcceptedDonations() {
 
   const onDelete = (id)=>{
       swal({
-          title: "Are you sure?",
-          text: "The Donation Request Will be Rejected",
+          title: "שים לב",
+          text: "בקשת התרומה תדחה",
           icon: "warning",
           buttons: true,
           dangerMode: true,
@@ -54,12 +54,12 @@ export default function GetAcceptedDonations() {
               .put(`http://localhost:8070/admin/rejectdonation/${id}`)
               .then(() => {
                 if (willDelete) {
-                  swal("The Donation Request Has Been Rejected!", { icon: "success" })
+                  swal("בקשת התרומה נדחתה", { icon: "success" })
                   setTimeout(function () {
                     window.location.reload()
                   }, 3000)
                 } else {
-                  swal("File Is Not Deleted")
+                  swal("הבקשה לא נדחתה")
                 }
               })
           }

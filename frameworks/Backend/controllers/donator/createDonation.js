@@ -57,6 +57,9 @@ const createDonation = async (req, res) => {
     //     console.log(error);
     //   }
     // });
+    if(wantedItems.length == 0)
+      throw new Error("Can't create donation without items");
+
     await Promise.all(wantedItems.map(async (item) => {
       try {
         let foundItem = await Item.findOne({ 'itemCategory': item.category, 'itemName': item.itemName }, 'name occupation');
@@ -104,6 +107,10 @@ const createDonation = async (req, res) => {
       });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      message: "Error creating donation",
+      error: err,
+    });
   }
 };
 

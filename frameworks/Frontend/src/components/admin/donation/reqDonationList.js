@@ -37,8 +37,8 @@ export default function GetRequestedDonations() {
 
   const onAccept = (id) => {
     swal({
-      title: "Are you sure?",
-      text: "The Donation Request Will be Accepted",
+      title: "שים לב",
+      text: "בקשת התרומה תאושר",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -46,14 +46,14 @@ export default function GetRequestedDonations() {
       if (willDelete) {
         axios.put(`http://localhost:8070/admin/updostauts/${id}`).then(() => {
           if (willDelete) {
-            swal("The Donation Request Has Been Successfully Accepted!", {
+            swal("בקשת התרומה התקבלה בהצלחה", {
               icon: "success",
             });
             setTimeout(function () {
               window.location.reload();
             }, 3000);
           } else {
-            swal("File Is Not Deleted");
+            swal("התרומה לא התקבלה");
           }
         });
       }
@@ -62,8 +62,8 @@ export default function GetRequestedDonations() {
 
   const onDelete = (id) => {
     swal({
-      title: "Are you sure?",
-      text: "The Donation Request Will be Rejected",
+      title: "שים לב",
+      text: "בקשת התרומה תדחה",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -73,14 +73,14 @@ export default function GetRequestedDonations() {
           .put(`http://localhost:8070/admin/rejectdonation/${id}`)
           .then(() => {
             if (willDelete) {
-              swal("The Donation Request Has Been Rejected!", {
+              swal("בקשת התרומה נדחתה", {
                 icon: "success",
               });
               setTimeout(function () {
                 window.location.reload();
               }, 3000);
             } else {
-              swal("File Is Not Deleted");
+              swal("התרומה לא נדחתה");
             }
           });
       }

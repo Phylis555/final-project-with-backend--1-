@@ -43,8 +43,8 @@ export default function ApprovedFundraiser() {
 
     const onDelete = (id)=>{
         swal({
-            title: "Are you sure?",
-            text: "The Fundraiser Request Will be Removed from the System",
+            title: "שים לב",
+            text: "בקשת גיוס הכספים תוסר מהמערכת",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -54,12 +54,12 @@ export default function ApprovedFundraiser() {
                 .delete(`http://localhost:8070/fund/delete/${id}`)
                 .then(() => {
                   if (willDelete) {
-                    swal("The Fundraiser Request Has Been Successfully Deleted!", { icon: "success" })
+                    swal("הבקשה נמחקה בהצלחה", { icon: "success" })
                     setTimeout(function () {
                       window.location.reload()
                     }, 3000)
                   } else {
-                    swal("File Is Not Deleted")
+                    swal("הבקשה לא נמחקה")
                   }
                 })
             }
@@ -77,27 +77,6 @@ export default function ApprovedFundraiser() {
     return (
 
         <>
-        {/* <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-                <SideNav/>
-                <div className="container-fluid py-4" onClick={toggleSidenav}>
-                    <div className="row">
-                        <h1>Admin Dashboard</h1>
-                    </div>
-                    <div className="row">
-            <MDBDataTableV5
-                hover
-                entriesOptions={[5, 10, 20, 25]}
-                entries={10}
-                pagesAmount={4}
-                data={datatable}
-                searchTop
-                searchBottom={false} />
-        </div>
-
-
-                </div>
-            </main> */}
-
 
         <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
             {/* <NavButton /> */}
