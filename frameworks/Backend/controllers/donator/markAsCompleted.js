@@ -1,4 +1,6 @@
 const Donation = require("../../models/donation.model");
+const Request = require("../../models/donationRequest.model");
+
 
 const markDonationAsCompleted = async (req, res) => {
   try {
@@ -7,7 +9,8 @@ const markDonationAsCompleted = async (req, res) => {
     };
 
     await Donation.findByIdAndUpdate(req.params.id, updateDonation)
-      .then(() => {
+      .then(async (donation) => {
+        await Request.deleteMany({donationID: donation._id, requestStatus: 'pending'});
         res.status(200).send({ message: "marked as completed" });
       })
       .catch((err) => {
