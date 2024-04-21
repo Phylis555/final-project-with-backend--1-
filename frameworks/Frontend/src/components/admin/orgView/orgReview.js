@@ -129,7 +129,7 @@ swal({
                   navigate(-1)
                 }, 3000)
               } else {
-                swal("File Is Not Deleted")
+                swal("הבקשה לא אושרה")
               }
             })
         }
@@ -157,7 +157,7 @@ const onDelete = (id)=>{
                   window.location.reload()
                 }, 3000)
               } else {
-                swal("File Is Not Deleted")
+                swal("הבקשה לא נמחקה")
               }
             })
         }

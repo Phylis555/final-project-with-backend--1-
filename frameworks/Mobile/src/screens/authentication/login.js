@@ -25,31 +25,26 @@ export default class Login extends Component{
     }
 
     login = () => {
-        
+        console.log("Here problem");
+
         var email = this.state.Email;
         var password = this.state.Password;
 
         if (email.length == 0 || password.length == 0){
             alert('All fields required');
         }
-        else if (email.length != 9 && email.split('@')[1].toLowerCase() != 'unm.edu'){
-            alert('Incorrect Email or NetID');
 
-        }
-        else if (email.length == 9 && !['100', '101', '102'].includes(email.substring(0, 3))){
-            alert('Incorrect Email or NetID');
-        }
         else{
-            
             this.setState({loginPending: true})
-            var loginApUrl = 'https://onedonation.000webhostapp.com/api/login.php';
+            var loginApUrl = 'http://192.168.1.98:8070/login/login';
             var headers = {
                 'Accept': 'aplication/json',
-                'Content-Type': 'application.json'
+                'Content-Type': 'application/json'
             };
 
             var data={
                 email: email,
+                username:email,
                 password: password
             };
 
@@ -61,24 +56,28 @@ export default class Login extends Component{
                     body: JSON.stringify(data)
                 }
             )
-            .then((response)=>response.json()) // Checks if response is in json format
+            //.then((response)=>response.json()) // Checks if response is in json format
             .then((response)=>{
 
                 // If authenticted
-                this.setState({loginPending: false})
-                if (response[0].Message == 'Success') {
-                    const user_id = response[0].user_id;
-                    this.storeID(user_id);
-                    if (this.state.Password == '123456') {
-                        this.props.navigation.navigate('home', {screen: 'ChangePassword'});
-                    } else {
-                        this.props.navigation.navigate('home');
-                    }
+                 this.setState({loginPending: false})
+                // if (response[0].Message == 'Success') {
+                //     const user_id = response[0].user_id;
+                  //   this.storeID(user_id);
+                   //  if (this.state.Password == '123456') {
+            //             this.props.navigation.navigate('home', {screen: 'ChangePassword'});
+            //         } else {
+                         this.props.navigation.navigate('home');
+            //         }
                     
-                }else{
-                    alert(response[0].Message);
-                }
-            })
+               //  }else{
+                //    alert(response[0].Message);
+              //   }
+             
+            console.log("Blabla");
+            console.log(response);
+        }
+        )
             .catch((error)=>{
                 this.setState({loginPending: false})
                 alert('Error: '+ error);

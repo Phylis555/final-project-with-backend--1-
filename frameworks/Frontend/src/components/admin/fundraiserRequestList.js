@@ -43,8 +43,8 @@ export default function FundraiserRequestList() {
 
     const onDelete = (id)=>{
         swal({
-            title: "Are you sure?",
-            text: "The Fundraiser Request Will be Removed from the System",
+            title: "שים לב",
+            text: "בקשת גיוס הכספים תוסר מהמערכת",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -54,12 +54,12 @@ export default function FundraiserRequestList() {
                 .delete(`http://localhost:8070/fund/delete/${id}`)
                 .then(() => {
                   if (willDelete) {
-                    swal("The Fundraiser Request Has Been Successfully Deleted!", { icon: "success" })
+                    swal("בקשת ההתרמה נמחקה בהצלחה", { icon: "success" })
                     setTimeout(function () {
                       window.location.reload()
                     }, 3000)
                   } else {
-                    swal("File Is Not Deleted")
+                    swal("התרומה לא נמחקה")
                   }
                 })
             }
@@ -71,8 +71,8 @@ export default function FundraiserRequestList() {
 
     const onAccept = (id)=>{
         swal({
-            title: "Are you sure?",
-            text: "The Fundraiser Request Will be Accepted",
+            title: "שים לב",
+            text: "בקשת גיוס הכספים תאושר",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -82,12 +82,12 @@ export default function FundraiserRequestList() {
                 .put(`http://localhost:8070/admin/upfundstatus/${id}`)
                 .then(() => {
                   if (willDelete) {
-                    swal("The Fundraiser Request Has Been Successfully Updated!", { icon: "success" })
+                    swal("בקשת גיוס הכספים עודכנה בהצלחה", { icon: "success" })
                     setTimeout(function () {
                       window.location.reload()
                     }, 3000)
                   } else {
-                    swal("File Is Not Deleted")
+                    swal("הבקשה לא עודכנה")
                   }
                 })
             }
@@ -156,7 +156,7 @@ export default function FundraiserRequestList() {
                     <th>כתובת</th>
                     <th>סכום</th>
                     <th>תאריך</th>
-                    <th id={classes.ActionSec}>פעולה</th>
+                    <th id={classes.ActionSec}>פעולות</th>
                   </tr>
                     {datatable.filter((org)=>{
                       if (search==""){

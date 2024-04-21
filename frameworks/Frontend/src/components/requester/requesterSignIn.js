@@ -38,9 +38,10 @@ export default function RequesterSignIn() {
     setLoading(true);
 
     try {
+      const email = username;
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ username, password }),
+        JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

@@ -84,8 +84,8 @@ export default function AdminEditOrg() {
 //     console.log(Organization)
 //   };
 swal({
-    title: "Are you sure?",
-    text: "Do you want to update Organization Details",
+    title: "שים לב",
+    text: "האם ברצונך לעדכן את פרטי הארגון",
     icon: "warning",
     buttons: true,
     dangerMode: true,
@@ -95,12 +95,12 @@ swal({
         .put(`http://localhost:8070/admin/editorg/${id}`, Organization)
         .then(() => {
           if (willDelete) {
-            swal("The Organization Details Successfully Updated !", { icon: "success" })
+            swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
             setTimeout(function () {
               window.location.reload()
             }, 3000)
           } else {
-            swal("File Is Not Updated")
+            swal("שגיאה בעדכון פרטים ")
           }
         })
     }
@@ -118,21 +118,21 @@ swal({
     <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       {/* <span class="mask bg-gradient-dark opacity-6"></span> */}
-      <div class="container my-auto" style={{ paddingTop: 30 }}>
+      <div class="container my-auto" style={{ paddingTop: 30 }} dir="rtl">
         <div class="row">
           <div class="mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
               <div class="card-body">
                 <form role="form" class="text-start" onSubmit={editOrganization} >
                   <div class="d-flex justify-content-center">
-                    <h4>Edit Organization Details</h4>
+                    <h4>ערוך את פרטי הארגון</h4>
                   </div>
                   <div class="d-flex justify-content-between">
                     <div></div>
                     <div></div>
-                    <h6>* Required Fields</h6>
+                    <h6>* שדות חובה</h6>
                   </div>
-                  <label className={orgView.lable}>Organization ID </label> 
+                  <label className={orgView.lable}>מספר מזהה ארגון </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -146,7 +146,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>Organization Name </label> 
+                  <label className={orgView.lable}>שם הארגון </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -162,7 +162,7 @@ swal({
                     />
                   </div>
                
-                  <label className={orgView.lable}>Organization Address </label> 
+                  <label className={orgView.lable}>כתובת </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -178,7 +178,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>ZipCode </label> 
+                  <label className={orgView.lable}>מיקוד </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -193,7 +193,7 @@ swal({
                       required
                     />
                   </div>
-                  <label className={orgView.lable}>Organization Contact Number </label> 
+                  <label className={orgView.lable}>מספר ליצירת קשר </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -210,7 +210,7 @@ swal({
                     />
                     {/* <input type="text" name="country_code"></input> */}
                   </div>
-                  <label className={orgView.lable}>Organization Email</label> 
+                  <label className={orgView.lable}>הארגון Email</label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
@@ -225,7 +225,7 @@ swal({
                       required
                     />
                   </div>
-                  <label className={orgView.lable}>Secretary's Name </label> 
+                  <label className={orgView.lable}>שם המזכירה </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
@@ -239,7 +239,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>Secretary's Contact Number </label> 
+                  <label className={orgView.lable}>מספר טלפון </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -256,7 +256,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>Secretary's Email</label> 
+                  <label className={orgView.lable}> Email</label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
@@ -273,7 +273,7 @@ swal({
                   </div>
 
 
-                  <label className={orgView.lable}>President's Name </label> 
+                  <label className={orgView.lable}>שם מנהל הארגון </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
@@ -287,7 +287,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>President's Contact Number </label> 
+                  <label className={orgView.lable}>מספר טלפון </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -304,7 +304,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>President's Email</label> 
+                  <label className={orgView.lable}>Email</label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
@@ -320,7 +320,7 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>Organization Status </label> 
+                  <label className={orgView.lable}>סטטוס </label> 
                   <div class="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
@@ -337,7 +337,7 @@ swal({
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">
-                      Update Details
+                      עדכן פרטים
                     </button>
                   </div>
                 </form>

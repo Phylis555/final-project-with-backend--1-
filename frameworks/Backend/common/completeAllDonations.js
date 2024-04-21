@@ -1,5 +1,6 @@
 const Donation = require('../models/donation.model');
 const Fund = require('../models/fund.model');
+const Request = require('../models/donationRequest.model');
 
 const completeRegularDonations = async () => {
     try {
@@ -9,9 +10,10 @@ const completeRegularDonations = async () => {
         const expiredDonations = await Donation.find({
             donationEndDate: { $lt: now }
         });
-        expiredDonations.forEach((donation) => {
+        expiredDonations.forEach(async (donation) => {
             donation.status = 'completed';
-            donation.save();
+            await Request.deleteMany({donationID: donation._id, requestStatus: 'pending'});
+            await donation.save();
         });
     } catch (error) {
         console.error('Error finding expired donations:', error);

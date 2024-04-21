@@ -8,12 +8,13 @@ const handleLogin = async (req, res) => {
     console.log("PASSEDDD")
     // console.log(req.body)
     const { username, password, email } = req.body;
+    console.log(email);
     let foundUser;
     if ((!username||!email)&&!password) return res.status(400).json({ 'message': 'Username and password are required.' });
 
-    foundUser = await Requester.findOne({ email: username }).exec();
+    foundUser = await Requester.findOne({ email: email }).exec();
     if (!foundUser){
-        foundUser = await Organization.findOne({email: username }).exec();
+        foundUser = await Organization.findOne({email: email }).exec();
     } 
     if(!foundUser){
         return res.sendStatus(401); //Unauthorized 
