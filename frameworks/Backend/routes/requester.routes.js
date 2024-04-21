@@ -27,7 +27,12 @@ router.post("/createRequest", [
     })
 ],createRequest);
 router.get("/profile/:id", viewUserProfile);
-router.put("/updateProfile/:id", updateProfile);
+router.put("/updateProfile/:id", [
+    body('email').normalizeEmail().isEmail(),
+    body('firstName').trim().notEmpty(),
+    body('lastName').trim().notEmpty(),
+    body('contactNumber').trim().isMobilePhone('he-IL')       
+    ],updateProfile);
 router.put("/updatePassword/:id", updatePassword);
 router.get("/view/request/:id", getRequestersRequest);
 router.get("/my/requests/:id", getMyRequests);

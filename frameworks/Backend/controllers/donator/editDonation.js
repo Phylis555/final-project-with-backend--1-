@@ -1,8 +1,13 @@
 const { imageUpload } = require("../../common/imageUpload");
 const { body, validationResult } = require("express-validator");
 const Donation = require("../../models/donation.model");
+const { validationResult } = require('express-validator/check');
 
 const editDonation = async (req, res) => {
+  if (!errors.isEmpty()) {
+    return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+  }
+
   try {
     // const errors = validationResult(req);
     // console.log(errors);

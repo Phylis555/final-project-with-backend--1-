@@ -52,14 +52,21 @@ router.get("/getOngoingDonations/:id", getOngoingDonations);
 router.get("/getPendingDonations/:id", getPendingDonations);
 router.get("/getRejectedDonations/:id", getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
-router.put("/updateDonation/:id", editDonation);
+router.put("/updateDonation/:id", [
+  body('donationTitle').trim().isLength({min : 5}).withMessage('Title too short'),
+  body('email').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
+  body('contactNumber').trim().isMobilePhone('he-IL'),
+  body('donationDescription').trim().isLength({min : 5})
+], editDonation);
 router.post("/sendRequest",[
   body('requesterName').trim().notEmpty(),
   body('requesterEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
   body('requesterContact').trim().isMobilePhone('he-IL'),
   body('requestDescription').trim().isLength({min : 5})
 ], sendDonationRequest);
-router.post("/donateFund/:id", donateToFund);
+router.post("/donateFund/:id", [
+  body('amount').isNumeric(),
+],donateToFund);
 
 router.get("/getPendingRequests/:id", getPendingRequests);
 router.put("/acceptRequest/:id", acceptDonationRequest);
