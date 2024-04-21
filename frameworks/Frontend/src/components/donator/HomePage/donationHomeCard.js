@@ -7,7 +7,7 @@ export default function DonationHomeCard({donation}) {
   const totalAmount = donation.wantedItems.reduce((acc, item) => acc + item.wantedQuantity, 0);
 
   return (
-    <div class="col col-lg-12 ">
+    <div class="col col-lg-12 col-md-8 col-sm-8">
       <div className="don-card card mb-3 p-1 ">
         <img
           src={donation.donationImage}

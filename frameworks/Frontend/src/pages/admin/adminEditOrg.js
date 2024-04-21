@@ -8,7 +8,7 @@ export default function RequestedOrganizations (){
     return(
         <>
             <NavButton/>
-            <SideNav/>
+            <SideNav regorglist="true"/>
             <OrgView/>
         </>
     )

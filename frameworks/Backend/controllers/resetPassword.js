@@ -41,8 +41,10 @@ changePassword = async (req, res) => {
     try {
         const newPassword = req.body.password;
         const passwordToken = req.body.token;
-        console.log(newPassword);
-        let user = await Requester.findOne({ resetToken: passwordToken , resetTokenExpiration: { $gt: Date.now() }});
+        let user = await Requester.findOne({ resetToken: passwordToken });
+
+        if(Date.now() > Date(user.resetTokenExpiration))
+            throw new Error('Invalid or expired token');
 
         if (!user) {
             throw new Error('Invalid or expired token');

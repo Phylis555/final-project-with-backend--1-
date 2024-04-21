@@ -6,12 +6,12 @@ import HomePage from "./pages/HomePage";
 function App() {
   return (
     <div>
-      <Online>
+      {/* <Online> */}
         <HomePage />
-      </Online>
+      {/* </Online>
       <Offline>
         <OfflinePage />
-      </Offline>
+      </Offline> */}
     </div>
   );
 }

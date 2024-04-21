@@ -9,6 +9,10 @@ export default function DashboardCard(props) {
         style={{
           backgroundImage: `url(${props.image})`,
           boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", 
+          backgroundSize:"122%",
+          backgroundRepeat:"no-repeat" ,
+          backgroundPosition: "right",
+          
         }}
       >
         <h3  dir="rtl"

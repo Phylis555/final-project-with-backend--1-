@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import {
   getAllDonations,
   markDonationAsCompleted,
+  getOneDonation,
 } from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
 import LoadingSpinner from "../../common/LoadingSpinner";
@@ -16,7 +17,11 @@ import { getRemainingTime } from "../../common/getRemainingTime";
 export default function DonationHome() {
   const [userId, setUserId] = useState("");
   const navigate = useNavigate();
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false); 
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [sortFilterDropdownOpen, setSortFilterDropdownOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [donationDetails, setDonationDetails] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const markAsCompleted = (id) => {
     if (userId == false) {
@@ -35,24 +40,25 @@ export default function DonationHome() {
       navigate("../createDonation");
     }
   };
+
   useEffect(() => {
     setUserId(getCookie("uId"));
   }, []);
-
-  const [loading, setLoading] = useState(false);
-  const [donation, setDonation] = useState([]);
-  const [searchTerm, setsearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     setLoading(true);
     getAllDonations()
       .then((res) => {
         setLoading(false);
-        console.log(res);
         if (res.data.length > 0) {
           setDonation(res.data);
-          console.log(res.data);
+          Promise.all(
+            res.data.map((donation) =>
+              getOneDonation(donation._id).then((res) => res.data.donation)
+            )
+          ).then((donationDetails) => {
+            setDonationDetails(donationDetails);
+          });
         }
       })
       .catch((e) => {
@@ -61,9 +67,24 @@ export default function DonationHome() {
       });
   }, []);
 
-  // const handleSortChange = (event) => {
-  //   setSortBy(event.target.value);
-  // };
+useEffect(() => {
+  const categoriesArray = [];
+
+  donationDetails.forEach((donation) => {
+    donation.wantedItems.forEach((item) => {
+      if (!categoriesArray.includes(item.item.itemCategory)) {
+        categoriesArray.push(item.item.itemCategory);
+      }
+    });
+  });
+
+  setCategories(categoriesArray);
+}, [donationDetails]);
+
+  const [loading, setLoading] = useState(false);
+  const [donation, setDonation] = useState([]);
+  const [searchTerm, setsearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   const filterDonations = (donations) => {
     
@@ -92,7 +113,7 @@ export default function DonationHome() {
           <>
               
               <div class="row d-flex justify-content-sm-around ms-1 my-3" dir="rtl">
-                 <div className="col-lg-2 col-md-6 me-7">
+                 <div className="col-lg-1 col-md-1  me-2 ">
                   <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
                     <button
                       className="btn btn-secondary dropdown-toggle "
@@ -113,7 +134,29 @@ export default function DonationHome() {
                     </ul>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-6 col-sm-8 ">
+                <div className="col-lg-1 col-md-1 col-sm-1">
+                  <div className="dropdown" dir="rtl">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      onClick={() => setSortFilterDropdownOpen(!sortFilterDropdownOpen)}
+                      aria-expanded={sortFilterDropdownOpen}
+                    >
+                      בחר קטגוריה
+                    </button>
+                    <ul className={`dropdown-menu ${sortFilterDropdownOpen ? 'show' : ''}`} >
+                      <li onClick={() => { setSelectedCategory(""); setSortFilterDropdownOpen(!sortFilterDropdownOpen); }}>
+                        <button className="dropdown-item">הכל</button>
+                      </li>
+                      {categories.map((category, index) => (
+                        <li key={index} onClick={() => { setSelectedCategory(category); setSortFilterDropdownOpen(!sortFilterDropdownOpen); }}>
+                          <button className="dropdown-item">{category}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-3 col-sm-3">
                   <div className="input-group input-group-outline bg-white">
                     <input
                       className="form-control"
@@ -127,7 +170,7 @@ export default function DonationHome() {
                   </div>
                 </div>
                
-                <div className="col-lg-4 col-md-6 col-sm-8 me-3">
+                <div className="col-lg-4 col-md-3 col-sm-4 me-2">
                   <button className="btn btn-primary " onClick={markAsCompleted}>
                     בקשה ליצירת תרומה חדשה
                   </button>
@@ -144,7 +187,7 @@ export default function DonationHome() {
               }
             }
             >
-              {filterDonations(donation)
+              {filterDonations(donationDetails)
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
@@ -153,6 +196,15 @@ export default function DonationHome() {
                     val.donationDescription.toLowerCase().includes(searchTerm.toLowerCase())
                   ) {
                     return val;
+                  }
+                }).filter((val) => {
+                  if (selectedCategory === "") {
+                    return val;
+                  } else {
+                    console.log(selectedCategory);
+                    console.log(val.wantedItems.some((item) => item.item.itemCategory));
+
+                    return val.wantedItems.some((item) => item.item.itemCategory === selectedCategory);
                   }
                 })
                 .map(function (f) {

@@ -31,7 +31,7 @@ const donationSchema = new Schema({
   donationImage: {
     type: String,
     required: true,
-    default: "https://i.imgur.com/mSNAMAC.jpeg",
+    default: "https://i.imgur.com/yrIqCrg.jpeg",
   },
   numberOfRequests: {
     type: Number,
