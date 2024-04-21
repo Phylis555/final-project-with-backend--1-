@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import classes from "./DashCard.module.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { getAuthHeader } from "../../common/authHeader";
 
 // // Function to retrieve the token from the cookie
 // const getTokenFromCookie = () => {
@@ -30,7 +31,7 @@ const DashCard = () => {
 
   const getDonList = async () => {
     try {
-      const data = await axios.get(`http://localhost:8070/admin//getpdon/`);
+      const data = await axios.get(`http://localhost:8070/admin//getpdon/`, getAuthHeader());
       setDatatable(data.data);
       setLength(countPendingDonations(data.data));
     } catch (e) {
@@ -40,7 +41,7 @@ const DashCard = () => {
 
   const getReqOrgList=async()=>{
     try{
-        const data=await axios.get(`http://localhost:8070/admin/reqfunds`);
+        const data=await axios.get(`http://localhost:8070/admin/reqfunds`, getAuthHeader());
         setDatatable2(data.data)
         setLength2(countPendingDonations(data.data));
 

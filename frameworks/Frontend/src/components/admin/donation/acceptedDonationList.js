@@ -7,6 +7,7 @@ import NavButton from "../orgrequestlist/NavButton";
 import swal from "sweetalert";
 import axios from "axios";
 import "jspdf-autotable";
+import { getAuthHeader } from "../../common/authHeader";
 
 export default function GetAcceptedDonations() {
   const toggleSidenav = (e) => {
@@ -22,7 +23,7 @@ export default function GetAcceptedDonations() {
 
   const getReqOrgList=async()=>{
       try{
-          const data=await axios.get(`http://localhost:8070/admin/getaccepteddon/`);
+          const data=await axios.get(`http://localhost:8070/admin/getaccepteddon/`, getAuthHeader);
           setDatatable(data.data)
 
       }catch(e){
