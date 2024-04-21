@@ -55,7 +55,7 @@ router.get("/getOngoingDonations/:id", isAuth ,getOngoingDonations);
 router.get("/getPendingDonations/:id",isAuth ,getPendingDonations);
 router.get("/getRejectedDonations/:id",isAuth, getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
-router.put("/updateDonation/:id", isAuth, editDonation);
+router.post("/updateDonation/:id", isAuth, editDonation);
 router.post("/sendRequest",[
   body('requesterName').trim().notEmpty(),
   body('requesterEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
@@ -65,9 +65,9 @@ router.post("/sendRequest",[
 router.post("/donateFund/:id", isAuth, donateToFund);
 
 router.get("/getPendingRequests/:id", isAuth, getPendingRequests);
-router.put("/acceptRequest/:id", isAuth, acceptDonationRequest);
-router.put("/rejectRequest/:id", isAuth, rejectDonationRequest);
-router.put("/markAsCompleted/:id", isAuth, markDonationAsCompleted);
+router.post("/acceptRequest/:id", isAuth, acceptDonationRequest);
+router.post("/rejectRequest/:id", isAuth, rejectDonationRequest);
+router.post("/markAsCompleted/:id", isAuth, markDonationAsCompleted);
 router.get("/getApprovedRequests/:id", isAuth, getApprovedRequests);
 router.get("/getUserDonations/:id", isAuth, getUserDonations);
 

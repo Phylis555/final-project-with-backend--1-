@@ -23,6 +23,7 @@ import { markDonationAsCompleted } from "../../api/donator.api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import { getRemainingTime } from "../common/getRemainingTime";
+import { getAuthHeader } from "../common/authHeader";
 
 
 export default function DonatorDashboard() {
@@ -53,7 +54,7 @@ export default function DonatorDashboard() {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .delete(`http://localhost:8070/donator/deleteDonation/${id}`)
+          .delete(`http://localhost:8070/donator/deleteDonation/${id}`,getAuthHeader())
           .then((res) => {
             if (willDelete) {
               swal("הפריט נמחק בהצלחה", {
@@ -98,7 +99,7 @@ export default function DonatorDashboard() {
             }
           })
           .catch((e) => {
-            swal("File Is Not Deleted");
+            swal("התרומה לא עברה");
           });
       }
     });
@@ -144,7 +145,7 @@ export default function DonatorDashboard() {
     setLoading(true);
     //fetching all inbound item data from the database
     axios
-      .get(`http://localhost:8070/donator/getOngoingDonations/${userID}`)
+      .get(`http://localhost:8070/donator/getOngoingDonations/${userID}`,getAuthHeader())
       .then((res) => {
         setLoading(false);
 
@@ -165,7 +166,7 @@ export default function DonatorDashboard() {
 
     //fetching all inbound item data from the database
     axios
-      .get(`http://localhost:8070/donator/getCompletedDonations/${userID}`)
+      .get(`http://localhost:8070/donator/getCompletedDonations/${userID}`,getAuthHeader())
       .then((res) => {
         setLoading(false);
 

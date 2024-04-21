@@ -27,13 +27,13 @@ const getRequestConfig = () => {
 export const newDonation = (donation) => API.post("/createDonation", donation, getRequestConfig());
 export const newRequest = (request) => API.post("/sendRequest", request, getRequestConfig());
 export const getRequests = (donationID) =>API.get(`/getPendingRequests/${donationID}`, getRequestConfig());
-export const acceptDonationRequest = (requestID, reqdata) =>API.put(`/acceptRequest/${requestID}`, reqdata, getRequestConfig());
-export const rejectDonationRequest = (requestID, reqdata) =>API.put(`/rejectRequest/${requestID}`, reqdata, getRequestConfig());
+export const acceptDonationRequest = (requestID, reqdata) =>API.post(`/acceptRequest/${requestID}`, reqdata, getRequestConfig());
+export const rejectDonationRequest = (requestID, reqdata) =>API.post(`/rejectRequest/${requestID}`, reqdata, getRequestConfig());
 export const getPendingDonations = (userId) =>API.get(`/getPendingDonations/${userId}`, getRequestConfig());
 export const getRejectedDonations = (userId) =>API.get(`/getRejectedDonations/${userId}`, getRequestConfig());
-export const markDonationAsCompleted = (donationID) =>API.put(`/markAsCompleted/${donationID}`, getRequestConfig());
+export const markDonationAsCompleted = (donationID) =>API.post(`/markAsCompleted/${donationID}`);
 export const getOngoingDonations = (donationID) =>API.get(`/getOngoingDonations/${donationID}`, getRequestConfig());
-export const getOneDonation = (donationID) =>API.get(`/getOneDonation/${donationID}`);
+export const getOneDonation = (donationID) =>API.get(`/getOneDonation/${donationID}`, getRequestConfig());
 export const getAllDonations = () => API.get(`/getDonations`);
 export const getApprovedRequests = (donationID) =>API.get(`/getApprovedRequests/${donationID}`, getRequestConfig());
 export const getUserDonations = (userID) =>API.get(`/getUserDonations/${userID}`, getRequestConfig());

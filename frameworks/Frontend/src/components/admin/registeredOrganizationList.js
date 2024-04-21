@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import classes from "./dashTable/dashTable.module.css";
 import axios from "axios";
+import { getAuthHeader } from "../common/authHeader";
 
 export default function OrganizationRequestList() {
 
@@ -16,7 +17,7 @@ export default function OrganizationRequestList() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/approvedorg`);
+            const data=await axios.get(`http://localhost:8070/admin/approvedorg`,getAuthHeader());
             setDatatable(data.data)
 
         }catch(e){

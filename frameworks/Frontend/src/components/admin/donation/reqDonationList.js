@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from "../dashTable/dashTable.module.css";
 import swal from "sweetalert";
 import axios from "axios";
+import { getAuthHeader } from "../../common/authHeader";
 
 export default function GetRequestedDonations() {
   
@@ -18,7 +19,7 @@ export default function GetRequestedDonations() {
 
   const getReqOrgList = async () => {
     try {
-      const data = await axios.get(`http://localhost:8070/admin/getpdon/`);
+      const data = await axios.get(`http://localhost:8070/admin/getpdon/`,getAuthHeader());
       setDatatable(data.data);
     } catch (e) {
       console.log(e);
@@ -44,7 +45,7 @@ export default function GetRequestedDonations() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.put(`http://localhost:8070/admin/updostauts/${id}`).then(() => {
+        axios.put(`http://localhost:8070/admin/updostauts/${id}`,getAuthHeader()).then(() => {
           if (willDelete) {
             swal("בקשת התרומה התקבלה בהצלחה", {
               icon: "success",
@@ -70,7 +71,7 @@ export default function GetRequestedDonations() {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .put(`http://localhost:8070/admin/rejectdonation/${id}`)
+          .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
           .then(() => {
             if (willDelete) {
               swal("בקשת התרומה נדחתה", {

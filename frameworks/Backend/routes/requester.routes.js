@@ -28,8 +28,8 @@ router.post("/createRequest", [
     },)
 ], isAuth, createRequest);
 router.get("/profile/:id", isAuth, viewUserProfile);
-router.put("/updateProfile/:id", isAuth, updateProfile);
-router.put("/updatePassword/:id", isAuth, updatePassword);
+router.post("/updateProfile/:id", isAuth, updateProfile);
+router.post("/updatePassword/:id", isAuth, updatePassword);
 router.get("/view/request/:id", isAuth, getRequestersRequest);
 router.get("/my/requests/:id", isAuth, getMyRequests);
 router.get("/allrequests", getAllRequests);

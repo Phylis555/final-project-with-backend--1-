@@ -13,6 +13,7 @@ import ViewImage from "./DonationViewComponents/ViewImage";
 import swal from "sweetalert";
 import axios from "axios";
 import ProgressBar from "@ramonak/react-progress-bar";
+import { getAuthHeader } from "../../common/authHeader";
 
 export default function DonationView() {
   const location = useLocation();
@@ -51,7 +52,7 @@ export default function DonationView() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.put(`http://localhost:8070/admin/updostauts/${id}`).then(() => {
+        axios.put(`http://localhost:8070/admin/updostauts/${id}`,getAuthHeader()).then(() => {
           if (willDelete) {
             swal("הבקשה אושרה בהצלחה", {
               icon: "success",
@@ -78,7 +79,7 @@ export default function DonationView() {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .put(`http://localhost:8070/admin/rejectdonation/${id}`)
+          .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
           .then(() => {
             if (willDelete) {
               swal("הבקשה נדחתה", {

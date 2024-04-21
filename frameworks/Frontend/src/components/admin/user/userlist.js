@@ -6,6 +6,7 @@ import classes from "../dashTable/dashTable.module.css";
 import NavButton from "../orgrequestlist/NavButton";
 import swal from "sweetalert";
 import axios from "axios";
+import { getAuthHeader } from "../../common/authHeader";
 
 
 export default function GetUserList() {
@@ -23,7 +24,7 @@ export default function GetUserList() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/getusers/`);
+            const data=await axios.get(`http://localhost:8070/admin/getusers/`,getAuthHeader());
             setDatatable(data.data);
         }catch(e){
             console.log(e)

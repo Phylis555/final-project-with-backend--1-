@@ -4,6 +4,7 @@ import classes from "./dashTable/dashTable.module.css";
 import swal from "sweetalert";
 import axios from "axios";
 import "jspdf-autotable";
+import { getAuthHeader } from "../common/authHeader";
 
 export default function OrganizationRequestList() {
 
@@ -18,7 +19,7 @@ export default function OrganizationRequestList() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/reqorglist`);
+            const data=await axios.get(`http://localhost:8070/admin/reqorglist`,getAuthHeader());
             setDatatable(data.data)
 
         }catch(e){
@@ -48,7 +49,7 @@ export default function OrganizationRequestList() {
           }).then((willDelete) => {
             if (willDelete) {
               axios
-                .delete(`http://localhost:8070/admin/deletereqorg/${id}`)
+                .delete(`http://localhost:8070/admin/deletereqorg/${id}`,getAuthHeader())
                 .then(() => {
                   if (willDelete) {
                     swal("בקשת רישום הארגון נמחקה בהצלחה", { icon: "success" })

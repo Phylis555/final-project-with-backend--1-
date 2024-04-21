@@ -5,6 +5,7 @@ import FileBase64 from "react-file-base64";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import orgView from "./orgView.css"
+import { getAuthHeader } from "../../common/authHeader";
 
 export default function AdminEditOrg() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function AdminEditOrg() {
     const fetchOrg=async()=>{
         console.log(id)
         await axios
-        .get(`http://localhost:8070/admin/vieworg/${id}`)
+        .get(`http://localhost:8070/admin/vieworg/${id}`,getAuthHeader())
         .then((res)=>{
             console.log(res)
             setOrgId(res.data.org._id);

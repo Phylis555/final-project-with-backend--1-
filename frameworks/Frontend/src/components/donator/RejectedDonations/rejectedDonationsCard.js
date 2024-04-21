@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import { getAuthHeader } from "../../common/authHeader";
 
 export default function RejectedDonationsCard(props) {
   const deleteDonation = (id) => {
@@ -16,7 +17,7 @@ export default function RejectedDonationsCard(props) {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .delete(`http://localhost:8070/donator/deleteDonation/${id}`)
+          .delete(`http://localhost:8070/donator/deleteDonation/${id}`,getAuthHeader())
           .then((res) => {
             if (willDelete) {
               swal("הפריט נמחק בהצלחה", {

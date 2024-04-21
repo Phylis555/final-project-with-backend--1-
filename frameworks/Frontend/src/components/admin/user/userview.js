@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useLocation ,useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import swal from "sweetalert";
+import { getAuthHeader } from "../../common/authHeader";
 
 const UserView = () => {
     const { id } = useParams();
@@ -20,7 +21,7 @@ const UserView = () => {
         }).then((willDelete) => {
             if (willDelete) {
                 axios
-                    .delete(`http://localhost:8070/admin/deleteuser/${id}`)
+                    .delete(`http://localhost:8070/admin/deleteuser/${id}`,getAuthHeader())
                     .then(() => {
                         if (willDelete) {
                             swal("המשתמש נמחק בהצלחה", { icon: "success" })

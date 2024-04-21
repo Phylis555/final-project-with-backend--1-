@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import swal from "sweetalert";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { getAuthHeader } from "../common/authHeader";
 
 export default function EditDonation() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function EditDonation() {
     setLoading(true);
     const fetchUser = async () => {
       await axios
-        .get(`http://localhost:8070/donator/getOneDonation/${id}`)
+        .get(`http://localhost:8070/donator/getOneDonation/${id}`,getAuthHeader())
         .then((res) => {
           setLoading(false);
           setDonationTitle(res.data.donation.donationTitle);
@@ -51,7 +52,7 @@ export default function EditDonation() {
       donationDescription,
     };
     await axios
-      .put(`http://localhost:8070/donator/updateDonation/${id}`, donation)
+      .put(`http://localhost:8070/donator/updateDonation/${id}`, donation,getAuthHeader())
       .then((res) => {
         setLoading(false);
         swal("התרומה עודכנה בהצלחה", "", "success").then((value) => {

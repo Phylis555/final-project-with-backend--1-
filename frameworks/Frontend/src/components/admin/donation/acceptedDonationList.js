@@ -23,7 +23,7 @@ export default function GetAcceptedDonations() {
 
   const getReqOrgList=async()=>{
       try{
-          const data=await axios.get(`http://localhost:8070/admin/getaccepteddon/`, getAuthHeader);
+          const data=await axios.get(`http://localhost:8070/admin/getaccepteddon/`, getAuthHeader());
           setDatatable(data.data)
 
       }catch(e){
@@ -52,7 +52,7 @@ export default function GetAcceptedDonations() {
         }).then((willDelete) => {
           if (willDelete) {
             axios
-              .put(`http://localhost:8070/admin/rejectdonation/${id}`)
+              .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
               .then(() => {
                 if (willDelete) {
                   swal("בקשת התרומה נדחתה", { icon: "success" })

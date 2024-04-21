@@ -6,6 +6,7 @@ import classes from "./dashTable/dashTable.module.css";
 import NavButton from "./orgrequestlist/NavButton";
 import swal from "sweetalert";
 import axios from "axios";
+import { getAuthHeader } from "../common/authHeader";
 
 export default function FundraiserRequestList() {
 
@@ -22,7 +23,7 @@ export default function FundraiserRequestList() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/reqfunds`);
+            const data=await axios.get(`http://localhost:8070/admin/reqfunds`,getAuthHeader());
             setDatatable(data.data)
 
         }catch(e){
@@ -51,7 +52,7 @@ export default function FundraiserRequestList() {
           }).then((willDelete) => {
             if (willDelete) {
               axios
-                .delete(`http://localhost:8070/fund/delete/${id}`)
+                .delete(`http://localhost:8070/fund/delete/${id}`, getAuthHeader())
                 .then(() => {
                   if (willDelete) {
                     swal("בקשת ההתרמה נמחקה בהצלחה", { icon: "success" })
@@ -79,7 +80,7 @@ export default function FundraiserRequestList() {
           }).then((willDelete) => {
             if (willDelete) {
               axios
-                .put(`http://localhost:8070/admin/upfundstatus/${id}`)
+                .put(`http://localhost:8070/admin/upfundstatus/${id}`,getAuthHeader())
                 .then(() => {
                   if (willDelete) {
                     swal("בקשת גיוס הכספים עודכנה בהצלחה", { icon: "success" })

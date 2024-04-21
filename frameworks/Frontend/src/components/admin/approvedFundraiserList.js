@@ -6,6 +6,7 @@ import classes from "./dashTable/dashTable.module.css";
 import NavButton from "./orgrequestlist/NavButton";
 import swal from "sweetalert";
 import axios from "axios";
+import { getAuthHeader } from "../common/authHeader";
 
 
 export default function ApprovedFundraiser() {
@@ -23,7 +24,7 @@ export default function ApprovedFundraiser() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/approvedfunds`);
+            const data=await axios.get(`http://localhost:8070/admin/approvedfunds`,getAuthHeader());
             setDatatable(data.data)
 
         }catch(e){
@@ -51,7 +52,7 @@ export default function ApprovedFundraiser() {
           }).then((willDelete) => {
             if (willDelete) {
               axios
-                .delete(`http://localhost:8070/fund/delete/${id}`)
+                .delete(`http://localhost:8070/fund/delete/${id}`, getAuthHeader())
                 .then(() => {
                   if (willDelete) {
                     swal("הבקשה נמחקה בהצלחה", { icon: "success" })
