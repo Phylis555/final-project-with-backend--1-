@@ -30,11 +30,13 @@ export default function HomePage() {
 
     const fetchMostUrgentFunds = async () => {
         try {
+            console.log("please be here");
             const res = await getFundByStatus('approved');
             const funds = res.data.funds;
             funds.sort((a, b) => new Date(a.endingDate) - new Date(b.endingDate));
             setMostUrgentFunds(funds.slice(0, 2));
         } catch (error) {
+            console.log("is error stemming from here?");
             console.log(error);
         }
     };

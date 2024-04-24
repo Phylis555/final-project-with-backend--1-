@@ -8,7 +8,6 @@ const getTokenFromCookie = () => {
   
   // Function to create a base request configuration with authorization header
 export const getAuthHeader = () => {
-    console.log("hello?");
     const token = getTokenFromCookie();
     const headers = {
       'Authorization': `Bearer ${token}` // Assuming the token is prefixed with 'Bearer'

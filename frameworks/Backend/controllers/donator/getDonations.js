@@ -58,7 +58,6 @@ const getRejectedDonations = async (req, res) => {
 };
 
 const getUserDonations = async (req, res) => {
-  console.log("hehe", req.params.id);
   await Donation.find({ userID: req.params.id })
     .then((donations) => {
       res.json(donations);

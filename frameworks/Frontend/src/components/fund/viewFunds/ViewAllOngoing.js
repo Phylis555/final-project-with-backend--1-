@@ -13,6 +13,7 @@ export default function ViewAllOngoing() {
 
     useEffect(() => {
         try {
+            console.log("is it actually here?");
             getFundByStatus("approved")
                 .then((res) => {
                     console.log(res.data.funds);

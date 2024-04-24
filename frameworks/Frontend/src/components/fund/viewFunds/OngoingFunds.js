@@ -11,6 +11,7 @@ export default function OngoingFunds(props) {
 
     useEffect(() => {
         try {
+            console.log("this?");
             getFundByOrganizationAndStatus(props.organizationID, "approved")
                 .then((res) => {
                     // console.log(res.data.funds);
