@@ -15,6 +15,6 @@ export const changeOrganizationPassword = (organizationID, newpassword) => API.p
 export const updateOrganization = (organizationID, organization) => API.put(`/update/${organizationID}`, organization,getAuthHeader());
 export const updateOrganizationBoard = (organizationID, organization) => API.put(`/update/board/${organizationID}`, organization,getAuthHeader());
 export const getOrgLatestContribution = (organizationID, limit) => API.get(`/${organizationID}/latest/${limit}`);
-export const getOrgDashSummary = (organizationID) => API.get(`/summary/${organizationID}`);
-export const getContributionChart = (organizationID) => API.get(`/contributionChart/${organizationID}`);
+export const getOrgDashSummary = (organizationID) => API.get(`/summary/${organizationID}`, getAuthHeader());
+export const getContributionChart = (organizationID) => API.get(`/contributionChart/${organizationID}`, getAuthHeader());
 export const getReport = (organizationID, month) => API.get(`/${organizationID}/report/${month}`,getAuthHeader());

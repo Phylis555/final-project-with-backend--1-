@@ -4,7 +4,7 @@ import { getAuthHeader } from '../components/common/authHeader'
 
 
 const API = axios.create({
-    baseURL: API_URL + '/fund',
+    baseURL: API_URL + "/fund",
     // withCredentials: true
 });
   
@@ -14,6 +14,6 @@ export const getFundByOrganizationAndStatus = (organizationID, status) => API.ge
 export const getFundByID = (fundID) => API.get(`/${fundID}`);
 export const getFundByStatus = (status) => API.get(`/status/${status}`);
 export const getNFunds = (organizationId, limit) => API.get(`/${organizationId}/limit/${limit}`);
-export const updateFund = (fundID, fund) => API.put(`/update/${fundID}`, fund,getAuthHeader());
-export const removeFund = (fundID) => API.put(`/remove/${fundID}`,getAuthHeader());
-export const donateFund = (fundID, donation) => API.post(`/donateFund/${fundID}`, donation,getAuthHeader());
+export const updateFund = (fundID, fund) => API.post(`/update/${fundID}`, fund, getAuthHeader());
+export const removeFund = (fundID) => API.post(`/remove/${fundID}`, undefined, getAuthHeader());
+export const donateFund = (fundID, donation) => API.post(`/donateFund/${fundID}`, donation, getAuthHeader());

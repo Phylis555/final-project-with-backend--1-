@@ -31,8 +31,8 @@ const organizationRoutes = require("./routes/organization.routes");
 app.use("/organization", organizationRoutes);
 
 // Fund
-// const fundRoutes = require("./routes/fund.routes");
-// app.use("/fund", fundRoutes);
+const fundRoutes = require("./routes/fund.routes");
+app.use("/fund", fundRoutes);
 
 const donatorRoutes = require("./routes/donator/donator.routes.js");
 app.use("/donator", donatorRoutes);
