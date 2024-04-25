@@ -1,5 +1,7 @@
 const express = require("express");
 const isAuth = require("../middleware/verifyJWT")
+const { body } = require('express-validator');
+
 
 // const { validate } = require("../middleware/donationValidation");
 
@@ -17,7 +19,18 @@ const router = express.Router();
 
 router.get("/", getAllOrganizations)
 router.get("/:id", getOrganization)
-router.post("/register", createOrganization);
+router.post("/register", [
+    body('name').trim().notEmpty(),
+    body('country').trim().notEmpty(),
+    body('contactNumber').trim().isMobilePhone('he-IL'),
+    body('email').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
+    body('presidentName').trim().notEmpty(),
+    body('presidentContactNumber').trim().isMobilePhone('he-IL'),
+    body('presidentEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
+    body('secretaryName').trim().notEmpty(),
+    body('secretaryContactNumber').trim().isMobilePhone('he-IL'),
+    body('secretaryEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
+  ], createOrganization);
 router.get("/view", getAllOrganizations)
 router.put("/update/:id", isAuth, updateOrganization)
 router.put("/update/board/:id", isAuth, updateOrganizationBoard)

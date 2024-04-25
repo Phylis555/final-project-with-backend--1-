@@ -4,12 +4,12 @@ const Donation = require("../../models/donation.model");
 
 const editDonation = async (req, res) => {
   try {
-    // const errors = validationResult(req);
-    // console.log(errors);
-    // if (!errors.isEmpty()) {
-    //   res.status(422).json({ errors: errors.array() });
-    //   return;
-    // }
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
+    
     const donationID = req.params.id;
 
     const { donationTitle, email, contactNumber, donationDescription } =

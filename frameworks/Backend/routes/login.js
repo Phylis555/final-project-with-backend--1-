@@ -18,6 +18,8 @@ router.post("/register",[
     body('contactNumber').trim().isMobilePhone('he-IL')       
     ],createUser);
 router.post("/resetPassword", handleReset);
-router.post("/changePassword", isAuth, changePassword);
+router.post("/changePassword",[
+    body('newPassword').notEmpty(),  
+    ], changePassword); // this is for changing password after user receieves reset password and not in profile
 
 module.exports = router;

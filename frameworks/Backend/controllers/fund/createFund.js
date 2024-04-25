@@ -1,12 +1,18 @@
 const { imageUpload } = require("../../common/imageUpload");
 const { sendEmail } = require("../../common/sendEmail");
+const { validationResult } = require('express-validator/check');
 
 const Fund = require("../../models/fund.model");
 
 const createFund = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            console.log(errors);    
+            return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+        }
         const formData = req.body;
-        // console.log(formData);
+        console.log(formData);
         const imageBase64 = formData.fundImage;
         formData.fundImage = await imageUpload(imageBase64);
         // formData.fundImage = 'fundImage' // for testing

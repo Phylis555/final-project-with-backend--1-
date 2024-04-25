@@ -3,8 +3,18 @@ const FundDonation = require("../../models/fundDonation.model");
 
 const donateToFund = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
+
     const fundID = req.params.id;
     const { userID, amount, organizationID } = req.body;
+    
+    if(amount <= 0)
+      throw new Error("amount has to be above 0");
+
     const newFund = new FundDonation({
       userID,
       fundID,

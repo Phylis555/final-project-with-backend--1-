@@ -22,7 +22,6 @@ const getFund = (req, res) => {
 // Get fund by status
 const getFundByStatus = (req, res) => {
     try {
-        console.log("why?")
         Fund.find({ status: req.params.status })
             .then((funds) => {
                 res.status(200).send({

@@ -3,7 +3,14 @@ const saltRounds = 10; // For hashing passwords
 const UserDetails = require("../../models/requester.model");
 
 const updateProfile = async (req, res) => {
+  
   try {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
+
     const userId = req.params.id;
     console.log(userId)
 

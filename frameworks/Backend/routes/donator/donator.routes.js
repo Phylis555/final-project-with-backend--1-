@@ -41,7 +41,7 @@ const router = express.Router();
 
 router.post("/createDonation", [
   body('donationTitle').trim().isLength({min : 5}).withMessage('Title too short'),
-  body('email').trim().isEmail().withMessage("Not a legal email"),
+  body('email').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
   body('donationEndDate').isDate().custom((value, {req}) => {
       return new Date(req.body.donationEndDate) > Date.now();
   }),
@@ -55,14 +55,21 @@ router.get("/getOngoingDonations/:id", isAuth ,getOngoingDonations);
 router.get("/getPendingDonations/:id",isAuth ,getPendingDonations);
 router.get("/getRejectedDonations/:id",isAuth, getRejectedDonations);
 router.get("/getOneDonation/:id", getOneDonationDetails);
-router.post("/updateDonation/:id", isAuth, editDonation);
+router.post("/updateDonation/:id", [
+  body('donationTitle').trim().isLength({min : 5}).withMessage('Title too short'),
+  body('email').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
+  body('contactNumber').trim().isMobilePhone('he-IL'),
+  body('donationDescription').trim().isLength({min : 5})
+], isAuth, editDonation);
 router.post("/sendRequest",[
   body('requesterName').trim().notEmpty(),
   body('requesterEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
   body('requesterContact').trim().isMobilePhone('he-IL'),
   body('requestDescription').trim().isLength({min : 5})
 ], isAuth, sendDonationRequest);
-router.post("/donateFund/:id", isAuth, donateToFund);
+router.post("/donateFund/:id", [
+  body('amount').isNumeric(),      
+  ],isAuth, donateToFund);
 
 router.get("/getPendingRequests/:id", isAuth, getPendingRequests);
 router.post("/acceptRequest/:id", isAuth, acceptDonationRequest);

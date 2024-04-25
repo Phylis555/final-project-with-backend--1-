@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const Requester = require('../models/requester.model');
 const { sendResetEmail, sendEmail } = require('../common/sendEmail');
+const { validationResult } = require('express-validator/check');
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
@@ -39,16 +40,20 @@ handleReset =  async (req, res) => {
 
 changePassword = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+        }   
         const newPassword = req.body.password;
         const passwordToken = req.body.token;
         let user = await Requester.findOne({ resetToken: passwordToken });
 
-        if(Date.now() > Date(user.resetTokenExpiration))
-            throw new Error('Invalid or expired token');
-
         if (!user) {
             throw new Error('Invalid or expired token');
         }
+
+        if(Date.now() > Date(user.resetTokenExpiration))
+            throw new Error('Invalid or expired token');
 
         const saltRounds = 10; // Example salt rounds
         const hashedPassword = await bcrypt.hash(newPassword, saltRounds); // hash the password

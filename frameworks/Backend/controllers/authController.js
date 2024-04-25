@@ -3,8 +3,15 @@ const Organization=require('../models/organization.model')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Requester = require('../models/requester.model');
+const { validationResult } = require('express-validator/check');
+
 
 const handleLogin = async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors);
+        return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
     console.log("PASSEDDD")
     // console.log(req.body)
     const { username, password, email } = req.body;

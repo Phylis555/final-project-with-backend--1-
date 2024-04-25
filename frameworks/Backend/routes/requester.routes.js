@@ -28,11 +28,18 @@ router.post("/createRequest", [
     },)
 ], isAuth, createRequest);
 router.get("/profile/:id", isAuth, viewUserProfile);
-router.post("/updateProfile/:id", isAuth, updateProfile);
+router.post("/updateProfile/:id", [
+    body('email').normalizeEmail().isEmail(),
+    body('firstName').trim().notEmpty(),
+    body('lastName').trim().notEmpty(),
+    body('contactNumber').trim().isMobilePhone('he-IL')       
+    ],isAuth, updateProfile);
 router.post("/updatePassword/:id", isAuth, updatePassword);
 router.get("/view/request/:id", isAuth, getRequestersRequest);
 router.get("/my/requests/:id", isAuth, getMyRequests);
 router.get("/allrequests", getAllRequests);
 router.delete("/delete/:id", isAuth, deleteRequest);
+
+//.normalizeEmail()
 
 module.exports = router;

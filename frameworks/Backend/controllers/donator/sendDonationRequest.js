@@ -4,6 +4,12 @@ const Item = require("../../models/item.model");
 
 const sendDonationRequest = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
+
     const {
       donationID,
       requesterName,

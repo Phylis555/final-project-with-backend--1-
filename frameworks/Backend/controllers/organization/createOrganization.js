@@ -6,6 +6,11 @@ const Organization = require("../../models/organization.model");
 
 // Register new organization
 const createOrganization = async (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+    }
     const formData = req.body; // get data from the request body
     // console.log(formData);
 
