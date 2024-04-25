@@ -122,7 +122,7 @@ swal({
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .put(`http://localhost:8070/admin/uporgstatus/${id}`,getAuthHeader())
+            .put(`http://localhost:8070/admin/uporgstatus/${id}`, null, getAuthHeader())
             .then(() => {
               if (willDelete) {
                 swal("בקשת רישום הארגון אושרה בהצלחה", { icon: "success" })
@@ -150,7 +150,7 @@ const onDelete = (id)=>{
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .delete(`http://localhost:8070/admin/deletereqorg/${id}`,getAuthHeader())
+            .delete(`http://localhost:8070/admin/deletereqorg/${id}`, getAuthHeader())
             .then(() => {
               if (willDelete) {
                 swal("בקשת רישום הארגון נמחקה בהצלחה", { icon: "success" })

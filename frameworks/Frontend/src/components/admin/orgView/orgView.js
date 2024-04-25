@@ -93,7 +93,7 @@ swal({
   }).then((willDelete) => {
     if (willDelete) {
       axios
-        .put(`http://localhost:8070/admin/editorg/${id}`, Organization)
+        .put(`http://localhost:8070/admin/editorg/${id}`, Organization, getAuthHeader())
         .then(() => {
           if (willDelete) {
             swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })

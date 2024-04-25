@@ -52,7 +52,7 @@ export default function GetAcceptedDonations() {
         }).then((willDelete) => {
           if (willDelete) {
             axios
-              .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
+              .put(`http://localhost:8070/admin/rejectdonation/${id}`, null, getAuthHeader())
               .then(() => {
                 if (willDelete) {
                   swal("בקשת התרומה נדחתה", { icon: "success" })

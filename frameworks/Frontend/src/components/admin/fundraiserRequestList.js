@@ -23,7 +23,7 @@ export default function FundraiserRequestList() {
 
     const getReqOrgList=async()=>{
         try{
-            const data=await axios.get(`http://localhost:8070/admin/reqfunds`,getAuthHeader());
+            const data=await axios.get(`http://localhost:8070/admin/reqfunds`, getAuthHeader());
             setDatatable(data.data)
 
         }catch(e){
@@ -80,7 +80,7 @@ export default function FundraiserRequestList() {
           }).then((willDelete) => {
             if (willDelete) {
               axios
-                .put(`http://localhost:8070/admin/upfundstatus/${id}`,getAuthHeader())
+                .put(`http://localhost:8070/admin/upfundstatus/${id}`, null, getAuthHeader())
                 .then(() => {
                   if (willDelete) {
                     swal("בקשת גיוס הכספים עודכנה בהצלחה", { icon: "success" })

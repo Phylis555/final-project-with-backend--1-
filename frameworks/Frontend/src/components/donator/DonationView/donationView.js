@@ -52,7 +52,7 @@ export default function DonationView() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.put(`http://localhost:8070/admin/updostauts/${id}`,getAuthHeader()).then(() => {
+        axios.put(`http://localhost:8070/admin/updostauts/${id}`, null, getAuthHeader()).then(() => {
           if (willDelete) {
             swal("הבקשה אושרה בהצלחה", {
               icon: "success",
@@ -79,7 +79,7 @@ export default function DonationView() {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
+          .put(`http://localhost:8070/admin/rejectdonation/${id}`, null, getAuthHeader())
           .then(() => {
             if (willDelete) {
               swal("הבקשה נדחתה", {

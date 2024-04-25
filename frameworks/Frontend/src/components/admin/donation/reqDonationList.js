@@ -45,7 +45,7 @@ export default function GetRequestedDonations() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.put(`http://localhost:8070/admin/updostauts/${id}`,getAuthHeader()).then(() => {
+        axios.put(`http://localhost:8070/admin/updostauts/${id}`, null, getAuthHeader()).then(() => {
           if (willDelete) {
             swal("בקשת התרומה התקבלה בהצלחה", {
               icon: "success",
@@ -71,7 +71,7 @@ export default function GetRequestedDonations() {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .put(`http://localhost:8070/admin/rejectdonation/${id}`,getAuthHeader())
+          .put(`http://localhost:8070/admin/rejectdonation/${id}`, null, getAuthHeader())
           .then(() => {
             if (willDelete) {
               swal("בקשת התרומה נדחתה", {

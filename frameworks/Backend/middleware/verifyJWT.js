@@ -4,6 +4,7 @@ module.exports = (req, res, next) => {
     const authHeader = req.get('Authorization');
     // console.log(authHeader);
     if(!authHeader){
+        console.log("dies here");
         const error = new Error('Not Authenticated.');
         error.statusCode = 401;
         throw error;
@@ -25,8 +26,8 @@ module.exports = (req, res, next) => {
         error.statusCode = 401;
         throw error;
     }
-    req.userId = decodedToken.userId;
-    req.role = decodedToken.roles;
+    req.userId = decodedToken.UserInfo.userId;
+    req.role = decodedToken.UserInfo.roles;
 
     console.log("Authentication succeed");
 

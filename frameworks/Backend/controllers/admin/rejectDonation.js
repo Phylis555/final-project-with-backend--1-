@@ -1,6 +1,6 @@
 const { imageUpload } = require("../../common/imageUpload");
 const { body, validationResult } = require("express-validator");
-const Donation=require("../../models/donationRequest.model")
+const Donation=require("../../models/donation.model")
 
 const rejectDonation = async (req, res) => {
   try {
@@ -11,12 +11,11 @@ const rejectDonation = async (req, res) => {
     //   return;
     // }
     const donationID = req.params.id;
-    
 
     const  status  = "rejected"
 
     const updateDonation = {
-      status
+      status: status
     };
     console.log(updateDonation)
 
