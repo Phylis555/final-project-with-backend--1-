@@ -26,6 +26,7 @@ module.exports = (req, res, next) => {
         throw error;
     }
     req.userId = decodedToken.userId;
+    req.role = decodedToken.roles;
 
     console.log("Authentication succeed");
 
