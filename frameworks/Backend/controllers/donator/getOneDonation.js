@@ -3,7 +3,7 @@ const Item = require("../../models/item.model");
 
 const getOneDonationDetails = async (req, res) => {
   try {
-    const donationId = req.params.id;כ
+    const donationId = req.params.id;
     await Donation.findOne({ _id: donationId }).populate('wantedItems.item')
       .then((donation) => {
         res
