@@ -3,11 +3,9 @@ const Item = require("../../models/item.model");
 
 const getOneDonationDetails = async (req, res) => {
   try {
-    const donationId = req.params.id;
-    console.log(donationId);
+    const donationId = req.params.id;כ
     await Donation.findOne({ _id: donationId }).populate('wantedItems.item')
       .then((donation) => {
-        console.log(donation.wantedItems[0].item.itemCategory);
         res
           .status(200)
           .send({ message: "Donation fetched", donation: donation });
