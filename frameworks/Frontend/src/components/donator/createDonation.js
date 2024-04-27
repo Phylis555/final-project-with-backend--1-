@@ -12,10 +12,10 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import L from "leaflet";
-import "leaflet-control-geocoder/dist/Control.Geocoder.css";
-import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import "leaflet/dist/leaflet.css";
+// import L from "leaflet";
+// import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+// import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+// import "leaflet/dist/leaflet.css";
 
 export default function CreateDonation() {
   var dtToday = new Date();
