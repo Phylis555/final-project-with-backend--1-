@@ -4,6 +4,7 @@ import {
   acceptDonationRequest,
   rejectDonationRequest,
 } from "../../../api/donator.api";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function RequestCard(props) {
   var reqdata = {
@@ -81,10 +82,10 @@ export default function RequestCard(props) {
   return (
     <>
       <div
-        class="card z-index-0 fadeIn3 fadeInBottom"
+        class="card z-index-0 fadeIn3 "
         style={{
           width: 500,
-          height: 400,
+          height: "92%",
           maxHeight:500,
           marginBottom: 20,
           marginRight: 20,
@@ -107,7 +108,17 @@ export default function RequestCard(props) {
           >
             <h6>שם - {props.name}</h6>
             <h6>Email - {props.email}</h6>
-            <h6>מספר איש קשר - {props.contact}</h6>
+            <h6>מספר איש קשר - {props.contact} 
+            <a
+              href={`https://wa.me/972${props.contact}?text=${encodeURIComponent("שלום, ראיתי את התרומה שלך דרך אתר Instant Giving ואני מעוניין בתרומה שהצעת! אשמח שתיצור איתי קשר. תודה רבה!")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline-success p-2 me-2 mt-2"
+            >
+            <FaWhatsapp className="ms-2 mb-1" /> שלח הודעה ב whatsapp
+            </a>
+            </h6> 
+                    
             <h6>תיאור - {props.description}</h6>
             {props.items.length > 0 && (
               <h6>פריטים לתרומה:</h6>

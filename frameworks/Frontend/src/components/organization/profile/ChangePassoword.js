@@ -10,9 +10,9 @@ export default function ChangePassoword({ organizationId }) {
     const changePassword = (e) => {
         e.preventDefault()
         if (newPassword.length < 8) {
-            setFormErrors({ newPassword: "Password must be at least 8 characters long" })
+            setFormErrors({ newPassword: "הסיסמה חייבת להיות באורך 8 תווים לפחות" })
         } else if (newPassword !== rePassword) {
-            setFormErrors({ rePassword: "Passwords do not match" })
+            setFormErrors({ rePassword: "סיסמאות לא תואמות" })
         } else {
             setFormErrors({})
             // console.log(organizationId, newPassword);
@@ -20,7 +20,7 @@ export default function ChangePassoword({ organizationId }) {
                 .then(res => {
                     setNewPassword("")
                     setRePassword("")
-                    setAlert({ type: "success", message: "Password changed successfully" })
+                    setAlert({ type: "success", message: "סיסמה שונתה בהצלחה" })
                 }).catch(err => {
                     setAlert({ type: "danger", message: err.response.data.message })
                 })

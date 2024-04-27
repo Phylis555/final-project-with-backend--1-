@@ -285,7 +285,7 @@ export default function DonatorDashboard() {
                           </>
                         )}
                       </div>
-                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3">
+                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3 mb-7">
 
                       {ongoingDonations
                         .filter((val) => {
@@ -414,7 +414,7 @@ export default function DonatorDashboard() {
                               </>
                           )}
                       </div>
-                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3">
+                      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xxl-3 mb-7">
                           {donations
                             .filter((val) => {
                               if (searchTerm === "") {
