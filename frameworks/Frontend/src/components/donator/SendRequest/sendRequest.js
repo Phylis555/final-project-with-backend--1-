@@ -5,6 +5,8 @@ import { newRequest } from "../../../api/donator.api";
 import NavBar from "../../NavBar";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+import { requesterProfile } from '../../../api/requester.api';
+import { getCookie } from "../../common/getCookie";
 
 
 export default function SendRequest() {
@@ -21,6 +23,39 @@ export default function SendRequest() {
   const [donationItemsForItenAmount, setDonationItemsForItenAmount] = useState([]);
 
   const [hasSelectedItem,seyHasSelectedItem]=useState(false);
+  const [userId, setUserId] = useState("");
+    // const [profileData, setProfileData] = useState(false);
+  useEffect(() => {
+    setUserId(getCookie("uId"));
+  }, []);
+  useEffect(() => {
+    
+    requesterProfile(userId)
+      .then((res) => {
+        // setProfileData(res.data.requester);
+         console.log(res.data);
+        // console.log(res);
+        setRequesterEmail(res.data.requester.email);
+        setRequesterContact("0" + res.data.requester.contactNumber);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [userId]);
+
+  // useEffect(() => {
+  //   console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
+  //   requesterProfile(userId)
+  //     .then((res) => {
+  //       console.log("User details:", res.data); // Check if user details are retrieved correctly
+  //       setRequesterEmail(res.data.requester.email);
+  //       setRequesterContact("0" + res.data.requester.contactNumber);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to fetch user details:", error);
+  //     });
+  // }, [userId])
+
   useEffect(() => {
     getOneDonation(id)
       .then((res) => {
@@ -130,8 +165,8 @@ export default function SendRequest() {
                       type="text"
                       placeholder="מספר ליצירת קשר*"
                       className="form-control"
+                      value= {requesterContact}
                       onChange={(e) => setRequesterContact(e.target.value)}
-                      required
                     />
                   </div>
                   <div className="input-group mb-3 input-group input-group-outline mb-3">
@@ -139,6 +174,7 @@ export default function SendRequest() {
                       type="email"
                       className="form-control"
                       placeholder="Email*"
+                      value={requesterEmail}
                       onChange={(e) => setRequesterEmail(e.target.value)}
                       required
                     />
