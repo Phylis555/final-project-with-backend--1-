@@ -5,11 +5,17 @@ import swal from "sweetalert";
 import { newDonation } from "../../api/donator.api";
 import NavBar from "../NavBar";
 import DonatorDashboard from "./donatorDashboard";
+import { requesterProfile } from "../../api/requester.api";
+
 
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import L from "leaflet";
+import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+import "leaflet/dist/leaflet.css";
 
 export default function CreateDonation() {
   var dtToday = new Date();
@@ -37,12 +43,13 @@ export default function CreateDonation() {
 
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
-  // const [category, setCategory] = useState(""); 
+  const [userData, setUserData] = useState(null);
 
   const [wantedItems, setWantedItems] = useState([]); 
   const [itemName, setItemName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [wantedQuantity, setWantedQuantity] = useState('');
+  // const [mapInitialized, setMapInitialized] = useState(false);
 
   // const handleCategoryChange = (e) => {
   //   setCategory(e.target.value); 
@@ -50,13 +57,59 @@ export default function CreateDonation() {
   
   useEffect(() => {
     setUserId(getCookie("uId"));
-  }, []);
+
+}, []);
+useEffect(() => {
+  console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
+  requesterProfile(userId)
+    .then((res) => {
+      console.log("User details:", res.data); // Check if user details are retrieved correctly
+      setEmail(res.data.requester.email);
+      setContactNumber("0" + res.data.requester.contactNumber);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch user details:", error);
+    });
+}, [userId]);
 
   let filesarr = [];
   const fileUpload = (files) => {
     filesarr = files;
     // console.log(filesarr.base64);
   };
+  // useEffect(() => {
+  //   if (!mapInitialized) {
+  //     const map = L.map("map").setView([32.0853, 34.7818], 13);
+  //     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  //       attribution: "&copy; OpenStreetMap contributors",
+  //     }).addTo(map);
+  
+  //     const geocoder = L.Control.Geocoder.nominatim();
+  //     const control = L.Control.geocoder({
+  //       geocoder: geocoder,
+  //     }).addTo(map);
+  
+  //     control.on("markgeocode", function (e) {
+  //       const { name, center } = e.geocode.properties;
+  //       setLocation(name);
+  //       map.setView(center, map.getZoom());
+  //     });
+  
+  //     map.on('click', function(e) {
+  //       const latlng = e.latlng;
+  //       const geocoder = L.Control.Geocoder.nominatim();
+      
+  //       geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function(results) {
+  //         const address = results[0].name;
+  //         setLocation(address);
+  //         L.marker(latlng).addTo(map).bindPopup(address).openPopup();
+  //       });
+  //     });
+  
+  //     setMapInitialized(true);
+  //   }
+    
+  // }, [mapInitialized]);
 
   const handleAddItem = () => {
     // Validate input fields
@@ -80,6 +133,7 @@ export default function CreateDonation() {
     setSelectedCategory('');
     setWantedQuantity('');
   };
+  
 
   const createDonation = async (e) => {
     if (wantedItems.length === 0) {
@@ -214,6 +268,24 @@ export default function CreateDonation() {
                         required
                       />
                     </div>
+                    
+                    {/* <div className="input-group input-group mb-3 input-group-outline mb-3">
+                      <input
+                        type="text"
+                        maxLength={35}
+                        className="form-control"
+                        placeholder="מיקום*"
+                        aria-label="Location"
+                        aria-describedby="basic-addon1"
+                        value={location}
+                        required
+                      />
+
+                    </div>
+
+                    <div id="map" style={{ height: "300px" }}></div>
+                    <p className= "fs-7">לחץ על המפה כדי להוסיף מיקום או השתמש בחיפוש למציאת כתובת.</p> */}
+
                     <label className= "my-3">פרטי איש קשר:</label>
 
                     <div class="input-group  input-group input-group-outline mb-3">
@@ -226,6 +298,7 @@ export default function CreateDonation() {
                         title="מספר טלפון בעל 10 ספרות"
                         pattern="[0]{1}[5]{1}[0-9]{8}"
                         class="form-control"
+                        value={contactNumber}
                         onChange={(e) => {
                           setContactNumber(e.target.value);
                         }}
@@ -238,6 +311,7 @@ export default function CreateDonation() {
                         placeholder="Email*"
                         aria-label="Email"
                         aria-describedby="basic-addon1"
+                        value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
                         }}
@@ -351,9 +425,11 @@ export default function CreateDonation() {
                   <div>הוספת תמונה</div>
                   <FileBase64 onDone={(files) => fileUpload(files)} />
                   <div class="text-center">
-                    <button type="submit" class="btn btn-secondary">
-                      יצירת בקשה לתרומה
-                    </button>
+                   {wantedItems.length > 0 && (
+                      <button type="submit" class="btn btn-secondary">
+                        יצירת בקשה לתרומה
+                      </button>
+                    )}
                   </div>
                   </form>
                 </div>
@@ -372,9 +448,3 @@ export default function CreateDonation() {
     </>
   );
 }
-
-
-              
-                 
-                  
-                  

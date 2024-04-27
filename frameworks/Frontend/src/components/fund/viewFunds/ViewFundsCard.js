@@ -37,9 +37,13 @@ export default function ViewFundsCard({ fund }) {
                                 </p>
             
                                 <div>
+                                {/* {fund.currentAmount > 0 &&( */}
                                     <ProgressBar
-                                        completed={Math.round(fund.currentAmount / fund.budget * 100 * 100) / 100} // rounded to 2 decimal places
-                                        labelSize= {"10px"}/>
+                                        completed={Math.round(fund.currentAmount / fund.budget * 100 ) } // rounded to 2 decimal places
+                                        labelSize= {"10px"}
+                                        labelColor="#FDE1FF"
+                                        />
+                                {/* )} */}
                                 </div>
                                 <div className='row d-flex'>
                                     <div className='col-sm-6 col-md-4'>
