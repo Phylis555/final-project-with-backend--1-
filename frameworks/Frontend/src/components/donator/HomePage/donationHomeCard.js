@@ -29,10 +29,11 @@ export default function DonationHomeCard({donation}) {
           <div>
             {totalReceived > 0 &&  (
               <ProgressBar
-                completed={Math.round(totalReceived / totalAmount * 100 * 100) / 100}
+                completed={Math.round(totalReceived / totalAmount * 100 ) }
                 height="14px"
                 className="px-0 pb-1"
                 labelSize= {"10px"}
+                labelColor="#FDE1FF"
                 labelAlignment="center"
               />
             )}

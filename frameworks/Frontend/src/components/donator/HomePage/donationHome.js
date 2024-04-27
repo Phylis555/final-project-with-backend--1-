@@ -171,12 +171,23 @@ useEffect(() => {
                 </div>
                
                 <div className="col-lg-4 col-md-3 col-sm-4 me-2">
-                  <button className="btn btn-primary " onClick={markAsCompleted}>
-                    בקשה ליצירת תרומה חדשה
-                  </button>
+                  {userId ? (
+                    <button className="btn btn-primary" onClick={markAsCompleted}>
+                      בקשה ליצירת תרומה חדשה
+                    </button>
+                  ) : (
+                    // <button className="btn btn-primary" disabled>
+                    //   התחבר כדי ליצור תרומה
+                    // </button>
+                    <Link to={"../../user/signin"}>
+                      <button className="btn btn-outline-info">
+                        התחבר כדי ליצור תרומה
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
-
+              
             <div
               dir="rtl"
               className="row don-home-card row-cols-4 "

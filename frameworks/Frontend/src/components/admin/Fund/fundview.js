@@ -74,7 +74,7 @@ export default function ViewSelectedFund() {
     <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
       {
-        getCookie("roles") === '5150' ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)
+        (getCookie("roles") === '5150' || getCookie("roles") === '2001') ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)
       }
 
 

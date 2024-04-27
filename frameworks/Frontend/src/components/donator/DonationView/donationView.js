@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { getOneDonation } from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
 import { getRemainingTime } from "../../common/getRemainingTime";
@@ -14,6 +14,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getAuthHeader } from "../../common/authHeader";
+import NavButton from "../../admin/donation/NavButton";
 
 export default function DonationView() {
   const location = useLocation();
@@ -25,6 +26,12 @@ export default function DonationView() {
   const { id } = useParams();
   const [totalReceived, setTotalReceived] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    setUserId(getCookie("uId")); // Get userId from cookie or authentication system
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -58,8 +65,8 @@ export default function DonationView() {
               icon: "success",
             });
             setTimeout(function () {
-              window.location.reload();
-            }, 3000);
+              navigate(-1);
+            }, 2000);
           } else {
             swal("File Is Not Deleted");
           }
@@ -86,8 +93,8 @@ export default function DonationView() {
                 icon: "success",
               });
               setTimeout(function () {
-                window.location.reload();
-              }, 3000);
+                navigate(-1);
+              }, 2000);
             } else {
               swal("File Is Not Deleted");
             }
@@ -109,9 +116,13 @@ export default function DonationView() {
 
   return (
     <>
-      <NavBar />
+           { getCookie("roles") === '2001' ? "" : (<div className='mb-3'><NavBar /></div>)
+}
+      {/* <NavBar /> */}
 
       <div className="container" dir="rtl">
+      <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
+          onClick={() => navigate(-1)}> הקודם</i>
         {loading ? (
           <div
             style={{
@@ -242,14 +253,21 @@ export default function DonationView() {
                   <>
                     <h2></h2>
                   </>
-                // ) : donation.status === "completed" ||donation.status === "pending" ? (
-                //   <>
-                //     <h2></h2>
-                //   </>
+              
+                // ) : (
+                //   <Link to={`/donator/sendRequest/${id}`}>
+                //     <button class="btn btn-info">שלח בקשה</button>
+                //   </Link>
+                // )}
+
+                ) : userId ? (
+                    <Link to={`/donator/sendRequest/${id}`}>
+                      <button className="btn btn-info">שלח בקשה</button>
+                    </Link>
                 ) : (
-                  <Link to={`/donator/sendRequest/${id}`}>
-                    <button class="btn btn-info">שלח בקשה</button>
-                  </Link>
+                  <button className="btn btn-outline-info" onClick={() => navigate("/user/signin")}>
+                    התחבר כדי לתרום
+                  </button>
                 )}
               </div>
             </div>
