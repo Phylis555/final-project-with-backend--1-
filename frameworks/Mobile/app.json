@@ -41,11 +41,12 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {
-        "projectId": "bb924d53-afbb-43dd-a3ac-2b1723e6fc39"
+        "projectId": "40e84e84-76bb-427e-8281-03674690daed"
       }
     },
     "runtimeVersion": {

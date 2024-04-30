@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         flex: 1,
+        textAlign: 'right',
         paddingHorizontal: 15
     },
     label: {
@@ -71,6 +72,9 @@ const styles = StyleSheet.create({
         fontWeight: '500', 
         color: Colors.light, 
         marginVertical: 10
+    },
+    icon: {
+        alignSelf: 'flex-end', 
     },
     inputContainer2: {
         borderColor: Colors.primary, 
