@@ -1,5 +1,7 @@
 const express = require("express");
 const isAuth = require('../middleware/verifyJWT');
+const isCorrectUser = require('../middleware/verifyCorrectUser');
+
 
 const { createRequest } = require("../controllers/requester/CreateRequest");
 const { requesterSignUp } = require("../controllers/requester/RequesterSignup");
@@ -33,10 +35,10 @@ router.post("/updateProfile/:id", [
     body('firstName').trim().notEmpty(),
     body('lastName').trim().notEmpty(),
     body('contactNumber').trim().isMobilePhone('he-IL')       
-    ],isAuth, updateProfile);
-router.post("/updatePassword/:id", isAuth, updatePassword);
+    ],isAuth, isCorrectUser, updateProfile);
+router.post("/updatePassword/:id", isAuth, isCorrectUser, updatePassword);
 router.get("/view/request/:id", isAuth, getRequestersRequest);
-router.get("/my/requests/:id", isAuth, getMyRequests);
+router.get("/my/requests/:id", isAuth,  getMyRequests);
 router.get("/allrequests", getAllRequests);
 router.delete("/delete/:id", isAuth, deleteRequest);
 

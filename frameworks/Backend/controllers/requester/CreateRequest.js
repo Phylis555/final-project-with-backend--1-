@@ -3,6 +3,7 @@ const { imageUpload } = require("../../common/imageUpload");
 const { validationResult } = require('express-validator/check');
 
 const createRequest = async (req, res) => {
+    
     console.log('before enter');
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -17,9 +18,9 @@ const createRequest = async (req, res) => {
     currDonation = await Donation.findById(formData.donationID);
     console.log(currDonation);
 
-    currDonation.wantedItems.forEach((item) =>{
-        //if(formData.donatedItems.find(item._id))
-    })
+    // currDonation.wantedItems.forEach((item) =>{
+    //     //if(formData.donatedItems.find(item._id))
+    // })
 
     const newRequest = new Request(formData); 
             newRequest.save() 

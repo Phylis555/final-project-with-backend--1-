@@ -1,6 +1,8 @@
 const express = require("express");
 const isAuth = require("../middleware/verifyJWT")
 const { body } = require('express-validator');
+const isCorrectUser = require('../middleware/verifyCorrectUser');
+
 
 
 // const { validate } = require("../middleware/donationValidation");
@@ -32,13 +34,13 @@ router.post("/register", [
     body('secretaryEmail').trim().normalizeEmail().isEmail().withMessage("Not a legal email"),
   ], createOrganization);
 router.get("/view", getAllOrganizations)
-router.put("/update/:id", isAuth, updateOrganization)
-router.put("/update/board/:id", isAuth, updateOrganizationBoard)
-router.put("/update/changePassword/:id", isAuth, changePassword)
-router.delete("/delete/:id", isAuth, deleteOrganization)
+router.put("/update/:id", isAuth, isCorrectUser, updateOrganization)
+router.put("/update/board/:id", isAuth, isCorrectUser, updateOrganizationBoard)
+router.put("/update/changePassword/:id", isAuth, isCorrectUser,  changePassword)
+router.delete("/delete/:id", isAuth, isCorrectUser, deleteOrganization)
 router.get("/:organizationID/latest/:limit", getNContributions)
-router.get("/summary/:organizationID", isAuth, getDashboardSummary)
-router.get("/contributionChart/:organizationID", isAuth, contributionChart)
-router.get("/:organizationID/report/:month", isAuth, generateReport)
+router.get("/summary/:organizationID", isAuth, isCorrectUser, getDashboardSummary)
+router.get("/contributionChart/:organizationID", isAuth, isCorrectUser, contributionChart)
+router.get("/:organizationID/report/:month", isAuth, isCorrectUser, generateReport)
 
 module.exports = router;

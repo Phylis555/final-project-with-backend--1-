@@ -3,7 +3,10 @@ const Requester = require("../../models/requester.model");
 const viewUserProfile = async (req, res) => {
     try {
       const userId = req.params.id;
-      console.log(userId);
+      // if(userId != req.userId)
+      //   throw new Error("Not correct user token.");
+
+
       await Requester.findOne({ _id: userId })
         .then((requester) => {
           res

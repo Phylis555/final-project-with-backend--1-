@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // For hashing passwords
 const UserDetails = require("../../models/requester.model");
+const { validationResult } = require('express-validator/check');
 
 const updateProfile = async (req, res) => {
   

@@ -14,7 +14,7 @@ export const newRequest= (newRequest) => API.post("/CreateRequest", newRequest);
 export const getAllRequests = () => API.get("/allRequests",getAuthHeader());
 export const getOneRequest = (requestId) => API.get(`/view/request/${requestId}`);
 export const requesterProfile = (requestId) => API.get(`/profile/${requestId}`,getAuthHeader());
-export const updateProfile = (userId, user) => API.post(`/updateProfile/${userId}`, user);
+export const updateProfile = (userId, user) => API.post(`/updateProfile/${userId}`, user, getAuthHeader());
 export const updatePassword = (userId, user) => API.post(`/updatePassword/${userId}`, user,getAuthHeader());
 export const myRequests = (userId) => API.get(`/my/requests/${userId}`);
 export const removeRequest = (requestId) => API.delete(`/delete/${requestId}`,getAuthHeader());
