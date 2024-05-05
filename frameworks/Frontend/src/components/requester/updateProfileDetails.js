@@ -81,35 +81,35 @@ export default function UpdateProfileDetails() {
           <div className="card z-index-0 fadeIn3 fadeInBottom ">
             <div className="card-body">
 
-              <form class="form-control form-profile m-3">
+              <form className="form-control form-profile m-3">
 
-                <div class="row pt-4">
-                  <div class="d-flex justify-content-center ps-2 ms-2">
+                <div className="row pt-4">
+                  <div className="d-flex justify-content-center ps-2 ms-2">
                     {/* <h1 class=" btn btn-secondary btn-lg rounded-circle"><i class="bi bi-person-plus-fill"></i></h1> */}
                     <img className='profile-image' src={Profile} />
                   </div>
                 </div>
 
-                <div class="row m-auto pt-5">
-                  <div class="col ms-2 pe-5 ">
-                    <div class="row">
-                      <div class="col">
+                <div className="row m-auto pt-5">
+                  <div className="col ms-2 pe-5 ">
+                    <div className="row">
+                      <div className="col">
 
-                        <div class="row input-group input-group-outline mb-4">
+                        <div className="row input-group input-group-outline mb-4">
                           <label for="formFile">שם פרטי</label>
                           <input type="text"
-                            class="form-control"
+                            className="form-control"
                             defaultValue={userData.firstName}
                             onChange={(e) => { setUserData({ ...userData, "firstName": e.target.value }) }}
                           />
                         </div>
                       </div>
-                      <div class="col">
+                      <div className="col">
 
-                        <div class="row input-group input-group-outline mb-4">
+                        <div className="row input-group input-group-outline mb-4">
                           <label for="formFile">שם משפחה</label>
                           <input type="text"
-                            class="form-control"
+                            className="form-control"
                             defaultValue={userData.lastName}
                             onChange={(e) => { setUserData({ ...userData, "lastName": e.target.value }) }}
                           />
@@ -117,24 +117,24 @@ export default function UpdateProfileDetails() {
                       </div>
                     </div>
 
-                    <div class="row input-group input-group-outline mb-4">
+                    <div className="row input-group input-group-outline mb-4">
                       <label for="formFile">מספר טלפון</label>
                       <input type="text"
-                        class="form-control"
-                        defaultValue={userData.contactNumber}
+                        className="form-control"
+                        value={"0" + userData.contactNumber}
                         onChange={(e) => { setUserData({ ...userData, "contactNumber": e.target.value }) }}
                       />
                     </div>
 
-                    <div class="row input-group input-group-outline mb-4">
+                    <div className="row input-group input-group-outline mb-4">
                       <label for="formFile" >מייל</label>
                       <input type="email"
-                        class="form-control"
+                        className="form-control"
                         defaultValue={userData.email}
                         onChange={(e) => { setUserData({ ...userData, "email": e.target.value }) }}
                       />
                     </div>
-                    <div class="mb-4 d-flex justify-content-center">
+                    <div className="mb-4 d-flex justify-content-center">
                       <button className="btn btn-success" onClick={handleUpdate}>
                         שמור שינויים
                       </button>
@@ -142,44 +142,44 @@ export default function UpdateProfileDetails() {
                         {changePassword ? "סגור שינוי סיסמה" : "שינוי סיסמה"}
                       </button>
                     </div>
-                  
+
                   </div>
 
 
-                    {changePassword && (
-                      <div class="row input-group input-group-outline col align-self-start me-5 border-end">
-                        <div class="mb-4 ms-5">
-                          <label for="formFile">סיסמה חדשה</label>
-                          <input
-                            type="password"
-                            placeholder="סיסמה חדשה"
-                            class="form-control"
-                            onChange={(e) =>
-                              setPassData({ ...passData, npassword: e.target.value })
-                            }
-                          />
-                        </div>
-                        <div class="mb-4 ms-5">
-                          <label for="formFile">אימות סיסמה</label>
-                          <input
-                            type="password"
-                            placeholder="אימות סיסמה"
-                            class="form-control"
-                            onChange={(e) =>
-                              setPassData({ ...passData, rpassword: e.target.value })
-                            }
-                          />
-                        </div>
-                        <div class="mb-4 d-flex justify-content-center">
-                          <button className="btn btn-success ms-4" onClick={handlePassword}>
-                            שנה סיסמה
-                          </button>
-                        </div>
+                  {changePassword && (
+                    <div className="row input-group input-group-outline col align-self-start me-5 border-end">
+                      <div className="mb-4 ms-5">
+                        <label for="formFile">סיסמה חדשה</label>
+                        <input
+                          type="password"
+                          placeholder="סיסמה חדשה"
+                          className="form-control"
+                          onChange={(e) =>
+                            setPassData({ ...passData, npassword: e.target.value })
+                          }
+                        />
                       </div>
-                    )}
+                      <div className="mb-4 ms-5">
+                        <label for="formFile">אימות סיסמה</label>
+                        <input
+                          type="password"
+                          placeholder="אימות סיסמה"
+                          className="form-control"
+                          onChange={(e) =>
+                            setPassData({ ...passData, rpassword: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div className="mb-4 d-flex justify-content-center">
+                        <button className="btn btn-success ms-4" onClick={handlePassword}>
+                          שנה סיסמה
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                 </div>
-              
+
               </form>
             </div>
           </div>

@@ -145,7 +145,7 @@ function Footer() {
           <div className="container text-center text-md-start mt-3" >
             <div className="row mt-1" >
              
-              <div className="col-md-2 col-lg-2 col-xl-3 mx-auto mb-3">
+              <div className="col-md-2 col-lg-2 col-xl-3 mx-auto mb-3" dir="rtl">
                 <h6 className="text-reset text-uppercase fw-bold mb-3">
                   מידע נוסף
                 </h6>
@@ -159,7 +159,13 @@ function Footer() {
                   </a>
                   {isAccordionOpen === "info" && (
                     <div className="accordion-content">
-                      <p className="smallP">כאן המידע על כיצד זה עובד יופיע רק כאשר מקשים על הקישור</p>
+                      <p className="smallP">באתר Instant Giving תוכלו לקבל ולתרום ציוד בצורה פשוטה ונוחה.
+                       כדי לבצע פעולות אלו, יש להתחבר לחשבון האישי שלכם. לאחר התחברות, תוכלו לקשת תרומות של ציוד,
+                        ולעקוב אחרי בקשות תרומות שלכם באיזור האישי שנקרא 'הבקשות ציוד שלי'.</p>
+                      <p className="smallP">בנוסף עמותות יכולות להתחבר כארגון ולבקש תרומות כספיות.
+                       שלהם כל אחד יכול לתרום באמצעות כרטיס אשראי, מה שמאפשר תרומה מהירה ונוחה.
+                       נשמח לעזור ולתת שירות מיטבי לכל משתמש באתר!</p>
+
                     </div>
                   )}
                 </p>

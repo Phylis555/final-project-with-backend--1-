@@ -80,16 +80,16 @@ export default function RequesterProfile() {
                     <label for="formFile">מספר טלפון</label>
                     <input type="text" 
                             className="form-control"
-                            defaultValue={profileData.contactNumber}
+                            Value={"0"+profileData.contactNumber}
                             /> 
                 </div>
 
                 <div className="row input-group input-group-outline mb-4"> 
                     <label for="formFile" >מייל</label>
                     <input type="email" 
-                            className="form-control"
-                            defaultValue={profileData.email}
-                            /> 
+                      className="form-control"
+                      defaultValue={profileData.email}
+                      /> 
                 </div>
 
             </div>
@@ -113,7 +113,7 @@ export default function RequesterProfile() {
 
               <div className="mb-4 d-flex justify-content-center"> 
                 <Link to={`/user/profile/update/${userId}`} key={userId}>
-                  <button class="btn btn-primary d-block px-5"> ערוך פרופיל / שינוי סיסמה </button>
+                  <button className="btn btn-primary d-block px-5"> ערוך פרופיל / שינוי סיסמה </button>
                 </Link>
               </div> 
            </div>

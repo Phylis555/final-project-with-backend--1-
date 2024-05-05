@@ -131,7 +131,7 @@ export default function SeeRequests() {
               {approvedRequests.length === 0 ? (
                 <NoItems />
               ) : (
-                <div className="row row-cols-2" style={{ marginLeft: 150, overflow: "hidden" }}>
+                <div className="row row-cols-2 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
                   {approvedRequests.map((request) => (
                     <div key={request._id} className="col">
                       <RequestCard
@@ -180,7 +180,7 @@ export default function SeeRequests() {
               {approvedRequests.length === 0 ? (
                 <NoItems />
               ) : (
-                <div className="row row-cols-2" style={{ marginLeft: 150, overflow: "hidden" }}>
+                <div className="row row-cols-2 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
 
                   {approvedRequests.map((request) => (
                     <div key={request._id} className="col">
@@ -203,7 +203,7 @@ export default function SeeRequests() {
               {pendingRequests.length === 0 ? (
                 <NoItems />
               ) : (
-                <div className="row row-cols-2" style={{ marginLeft: 150, overflow: "hidden" }}>
+                <div className="row row-cols-2 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
                   {pendingRequests.map((request) => (
                     <div key={request._id} className="col">
                       <RequestCard

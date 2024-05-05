@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import react, { Component } from 'react';
-import {View, Text, ScrollView, SafeAreaView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, SafeAreaView, StyleSheet, Image} from 'react-native';
 import Colors from '../../utils/colors';
 import TypeAInput from '../../components/customInput';
 import CustomBtn1 from '../../components/customButton';
@@ -25,18 +25,19 @@ export default class Login extends Component{
     }
 
     login = () => {
-        console.log("Here problem");
+    
 
         var email = this.state.Email;
         var password = this.state.Password;
 
         if (email.length == 0 || password.length == 0){
             alert('All fields required');
+            return;
         }
 
         else{
             this.setState({loginPending: true})
-            var loginApUrl = 'http://192.168.1.98:8070/login/login';
+            var loginApUrl = 'http://192.168.1.245:8070/login/login';
             var headers = {
                 'Accept': 'aplication/json',
                 'Content-Type': 'application/json'
@@ -44,7 +45,7 @@ export default class Login extends Component{
 
             var data={
                 email: email,
-                username:email,
+              //  username:email,
                 password: password
             };
 
@@ -56,23 +57,37 @@ export default class Login extends Component{
                     body: JSON.stringify(data)
                 }
             )
-            //.then((response)=>response.json()) // Checks if response is in json format
+            .then((response)=>response.json()) // Checks if response is in json format
             .then((response)=>{
 
                 // If authenticted
                  this.setState({loginPending: false})
-                // if (response[0].Message == 'Success') {
-                //     const user_id = response[0].user_id;
-                  //   this.storeID(user_id);
-                   //  if (this.state.Password == '123456') {
-            //             this.props.navigation.navigate('home', {screen: 'ChangePassword'});
-            //         } else {
-                         this.props.navigation.navigate('home');
-            //         }
+              //  if (response[0].Message == 'Success') {
+                    const user_id = response._id;
                     
-               //  }else{
-                //    alert(response[0].Message);
-              //   }
+                    console.log(user_id);
+                   
+                    this.storeID(user_id);
+
+                    AsyncStorage.setItem('token', response.accessToken);
+                    AsyncStorage.setItem('user_id', response._id);
+                    AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
+                    AsyncStorage.setItem('role',response.roles)
+         
+                 ///////////////////////////////// to take care of the admin or funds screen 
+                    // if(res.data.userType=="Admin"){
+                    //     navigation.navigate('AdminScreen');
+                    //  }else{
+                    //    navigation.navigate('Home');
+                    //  }
+                   
+
+                         this.props.navigation.navigate('home');
+                 //    }
+                    
+              //   }else{
+                 //   alert(response.Message);
+               //  }
              
             console.log("Blabla");
             console.log(response);
@@ -93,47 +108,55 @@ export default class Login extends Component{
             <SafeAreaView  style={styles.authcontainer}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <StatusBar style="auto" />
-                    <Text style={styles.smheader}> Welcome to </Text>
-                    <View style={{ marginBottom: 90, flexDirection: 'row', alignSelf: 'center'}}>
-                        <Text style={styles.bgheader}>One</Text>
+                    <View style={{ marginBottom: 50, flexDirection: 'row', alignSelf: 'center'}}>
+                        <Text style={styles.bgheader}>הבאים</Text>
                         <View style={{backgroundColor: Colors.primary,
                                         paddingHorizontal: 15,
-                                        paddingVertical: 3,
+                                    
                                         marginHorizontal: 6,
-                                        borderRadius: 10,
+                                        borderRadius: 5,
                                         alignItems: 'center'}}>
-                                        <Text style={[styles.bgheader, {color: '#f2f2f2'}]}>Donation</Text>
+                                        <Text style={[styles.bgheader, {color: '#f2f2f2'}]}>ברוכים</Text>
                         </View>
+                    </View>
+                    <View style={{ marginBottom: 90, flexDirection: 'row', alignSelf: 'center'}}>
+                       
+                    <Image source={require('../../../assets/images/logo1.jpeg')} style={styles.image}  />
+
                     </View>
                     
                     <View>
                         <TypeAInput 
-                            label='Email or Stud. NetID' 
                             iconName='email-outline'
                             onChangeText={Email=>this.setState({Email})}
-                            placeholder='10......  or  ...@unm.edu'
+                            placeholder='מייל'
                             >
                         </TypeAInput>
                         <TypeAInput 
-                            label='Password' 
                             iconName='lock-outline' 
                             password
                             onChangeText={Password=>this.setState({Password})}
+                            placeholder='סיסמה'
                             >  
                         </TypeAInput>
-                        <Text style={styles.fPass} onPress={() => this.props.navigation.navigate('forgotPass')}>Forgot Password?</Text>
+                        <Text style={styles.fPass}>
+                        שכחת את הסיסמה?
+                        <Text style={{color: Colors.primary, fontWeight: '700'}} 
+                        
+                        onPress={() => this.props.navigation.navigate('forgotPass')}> לחץ כאן </Text>
+                      
+                    </Text>
                     </View>
     
-                    <CustomBtn1 title={'Login'} style={{flex: 1}} onPress={this.login}></CustomBtn1>
-                    <Text style={{fontSize: 15.5, textAlign: 'center',marginVertical: 10}}>First time only password: 123456 </Text>
+                    <CustomBtn1 title={'התחבר'} style={{flex: 1}} onPress={this.login}></CustomBtn1>
+               
                     <View style={styles.hline}></View>
                     <Text style={{fontSize: 15.5, textAlign: 'center'}}>
+                        אין לך חשבון?
                         <Text style={{color: Colors.primary, fontWeight: '700'}} 
-                        onPress={() => this.props.navigation.navigate('mregister')}> Sign-Up </Text> or
-                        <Text  style={{color: Colors.primary, fontWeight: '700'}}
-                        onPress={() => this.props.navigation.navigate('CourierLogin')}
-                        > Login </Text>
-                        as a Driver
+                        
+                        onPress={() => this.props.navigation.navigate('mregister')}> לחץ כאן </Text>
+                      
                     </Text>
                 </ScrollView>
             </SafeAreaView>
@@ -164,10 +187,11 @@ const styles = StyleSheet.create({
         maxHeight: 50
     },
     fPass: {
-        color: Colors.primary, 
+        fontSize: 15.5,
+        textAlign: 'right' ,
         alignSelf: 'flex-end', 
-        fontSize: 16,
-        marginBottom: 50
+        marginBottom: 50,
+        marginEnd: 5
     },
     hline: {
         width: '15%',
@@ -175,6 +199,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,.4)',
         alignSelf: 'center',
         marginVertical: 10
+    },
+
+    image: {
+        flex: 1,
+        height: 100,
+        borderRadius: 95,
     }
 })
-

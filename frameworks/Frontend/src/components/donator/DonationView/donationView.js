@@ -15,6 +15,7 @@ import axios from "axios";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getAuthHeader } from "../../common/authHeader";
 import NavButton from "../../admin/donation/NavButton";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function DonationView() {
   const location = useLocation();
@@ -215,6 +216,16 @@ export default function DonationView() {
                       email={donation.email}
                       mobile={"0"+donation.contactNumber}
                     />
+                    {userId && (
+                      <a
+                        href={`https://wa.me/972${donation.contactNumber}?text=${encodeURIComponent("שלום, ראיתי את התרומה שלך דרך אתר Instant Giving ואני מעוניין לתרום לך! האם תוכל לשלוח לי עוד פרטים על התרומה?")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-success mt-3"
+                      >
+                      <FaWhatsapp className="ms-2" /> שלח הודעה ב whatsapp
+                    </a>
+                    )}
                   </div>
                 </div>
               </div>
