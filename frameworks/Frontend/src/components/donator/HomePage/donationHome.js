@@ -112,29 +112,29 @@ useEffect(() => {
         ) : (
           <>
               
-              <div class="row d-flex justify-content-sm-around ms-1 my-3" dir="rtl">
-                 <div className="col-lg-1 col-md-1  me-2 ">
-                  <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
-                    <button
-                      className="btn btn-secondary dropdown-toggle "
-                      type="button"
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >  מיון{" "}
-                    </button>
-                    <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
-                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                        <button className="dropdown-item" onClick={() => setSortBy("closestEndDate")} >תאריך סיום קרוב ביותר</button></li>
-                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                        <button className="dropdown-item" onClick={() => setSortBy("furthestEndDate")}>תאריך סיום רחוק ביותר</button></li>
-                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                        <button className="dropdown-item" onClick={() => setSortBy("oldestCreatedDate")}>תאריך יצירה רחוק ביותר</button></li>
-                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                        <button className="dropdown-item" onClick={() => setSortBy("newestCreatedDate")}>תאריך יצירה קרוב ביותר</button></li>
-                    </ul>
-                  </div>
+              <div class="row d-flex justify-content-sm-around mx-5 my-3" dir="rtl">
+                 <div className="col-lg-1 col-md-1 me-4 ">
+                    <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
+                      <button
+                        className="btn btn-secondary dropdown-toggle "
+                        type="button"
+                        onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                        aria-expanded={sortDropdownOpen}
+                      >  מיון{" "}
+                      </button>
+                      <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
+                        <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                          <button className="dropdown-item" onClick={() => setSortBy("closestEndDate")} >תאריך סיום קרוב ביותר</button></li>
+                        <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                          <button className="dropdown-item" onClick={() => setSortBy("furthestEndDate")}>תאריך סיום רחוק ביותר</button></li>
+                        <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                          <button className="dropdown-item" onClick={() => setSortBy("oldestCreatedDate")}>תאריך יצירה רחוק ביותר</button></li>
+                        <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                          <button className="dropdown-item" onClick={() => setSortBy("newestCreatedDate")}>תאריך יצירה קרוב ביותר</button></li>
+                      </ul>
+                    </div>
                 </div>
-                <div className="col-lg-1 col-md-1 col-sm-1">
+                <div className="col-lg-2 col-md-1 col-sm-1">
                   <div className="dropdown" dir="rtl">
                     <button
                       className="btn btn-secondary dropdown-toggle"
@@ -156,7 +156,7 @@ useEffect(() => {
                     </ul>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-3 col-sm-3">
+                <div className="col-lg-3 col-md-3 col-sm-3">
                   <div className="input-group input-group-outline bg-white">
                     <input
                       className="form-control"
@@ -170,7 +170,7 @@ useEffect(() => {
                   </div>
                 </div>
                
-                <div className="col-lg-4 col-md-3 col-sm-4 me-2">
+                <div className="col-lg-3 col-md-3 col-sm-4 ms-2">
                   {userId ? (
                     <button className="btn btn-primary" onClick={markAsCompleted}>
                       בקשה ליצירת תרומה חדשה
@@ -190,7 +190,7 @@ useEffect(() => {
               
             <div
               dir="rtl"
-              className="row don-home-card row-cols-4 "
+              className="row row-cols-4 "
               style={{
                 marginLeft: 20,
                 marginRight: 20,

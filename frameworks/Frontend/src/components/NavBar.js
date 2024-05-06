@@ -79,7 +79,7 @@ export default function NavBar() {
                 </a>
               </li> */}
               {userId ? (
-                <li className="nav-item dropdown ms-4" dir="rtl">
+                <li className="nav-item dropdown mx-4" dir="rtl">
                   <a
                     className="nav-link dropdown-toggle"
                     href="#"
