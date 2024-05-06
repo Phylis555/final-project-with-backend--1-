@@ -20,7 +20,10 @@ export default function EditDonation() {
     setLoading(true);
     const fetchUser = async () => {
       await axios
-        .get(`http://localhost:8070/donator/getOneDonation/${id}`,getAuthHeader())
+        .get(
+          `http://localhost:8070/donator/getOneDonation/${id}`,
+          getAuthHeader()
+        )
         .then((res) => {
           setLoading(false);
           setDonationTitle(res.data.donation.donationTitle);
@@ -52,7 +55,11 @@ export default function EditDonation() {
       donationDescription,
     };
     await axios
-      .put(`http://localhost:8070/donator/updateDonation/${id}`, donation,getAuthHeader())
+      .post(
+        `http://localhost:8070/donator/updateDonation/${id}`,
+        donation,
+        getAuthHeader()
+      )
       .then((res) => {
         setLoading(false);
         swal("התרומה עודכנה בהצלחה", "", "success").then((value) => {
@@ -67,11 +74,15 @@ export default function EditDonation() {
   };
 
   return (
-    
     <>
       <div dir="rtl">
-      <i  className="bi bi-arrow-left-circle fs-4 cursor-pointer me-3"
-              onClick={() => navigate(-1)}> הקודם</i>
+        <i
+          className="bi bi-arrow-left-circle fs-4 cursor-pointer me-3"
+          onClick={() => navigate(-1)}
+        >
+          {" "}
+          הקודם
+        </i>
         {loading ? (
           <div
             style={{
@@ -86,7 +97,11 @@ export default function EditDonation() {
               <div class="mx-auto">
                 <div class="card z-index-0 fadeIn3 fadeInBottom">
                   <div class="card-body">
-                    <form role="form" class="text-start" onSubmit={editDonation}>
+                    <form
+                      role="form"
+                      class="text-start"
+                      onSubmit={editDonation}
+                    >
                       <div class="d-flex justify-content-center">
                         <h4>ערוך בקשה</h4>
                       </div>
@@ -186,7 +201,7 @@ export default function EditDonation() {
             </div>
           </div>
         )}
-        </div>
+      </div>
     </>
   );
 }
