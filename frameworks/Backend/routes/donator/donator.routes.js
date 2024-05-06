@@ -1,7 +1,7 @@
 const express = require("express");
 const { body } = require("express-validator");
 const isAuth = require("../../middleware/verifyJWT");
-const isCorrectUser = require("../middleware/verifyCorrectUser");
+const isCorrectUser = require("../../middleware/verifyCorrectUser");
 
 const { getAllDonations } = require("../../controllers/donator/allDonations");
 const { createDonation } = require("../../controllers/donator/createDonation");
