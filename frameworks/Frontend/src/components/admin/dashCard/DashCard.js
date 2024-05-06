@@ -62,19 +62,19 @@ const DashCard = () => {
           <div className={classes.CardHeading2}>
             <Link to={"/admin/reqorglist"}> בקשות ארגונים לרישום</Link>
           </div>
-          <div className={classes.CardData}></div>
+          {/* <div className={classes.CardData}></div> */}
         </div>
         <div className={classes.Card2}>
           <div className={classes.CardHeading2}>
             <Link to={"/admin/reqfund"}>בקשות ליצירת גיוס כספים</Link>
           </div>
-          <div className={classes.CardData}></div>
+          {/* <div className={classes.CardData}></div> */}
         </div>
         <div className={classes.Card2}>
           <div className={classes.CardHeading2}>
             <Link to={"/admin/reqdon"}> בקשות לתרומת ציוד</Link>
           </div>
-          <div className={classes.CardData}></div>
+          {/* <div className={classes.CardData}></div> */}
         </div>
 
         <div className={classes.Card2}>
