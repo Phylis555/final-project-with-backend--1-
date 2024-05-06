@@ -197,7 +197,7 @@ export default function SendRequest() {
                           <tr>
                             <th scope="col">שם הפריט</th>
                             <th scope="col">כמות מבוקשת</th>
-                            <th scope="col">כמות שותרה להשלמת התורמה</th>
+                            <th scope="col">כמות שנותרה להשלמת התרומה</th>
                             <th scope="col">בחירת כמות לתרומה</th>
                           </tr>
                         </thead>
