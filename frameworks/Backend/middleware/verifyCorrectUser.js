@@ -4,7 +4,8 @@ module.exports = (req, res, next) => {
     req.userID ||
     req.params.id ||
     req.params.organizationID ||
-    req.body.userID;
+    req.body.userID ||
+    req.body.organizationID;
 
   if (!userId) {
     const error = new Error("No ID sent.");
