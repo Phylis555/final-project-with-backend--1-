@@ -104,7 +104,7 @@ body {
   display: inline-block;
 }
 
-.dropdown-menu {
+.dropdown-menu{
   position: absolute;
   top: calc(100% + 5px); 
   left: 0;
@@ -112,7 +112,7 @@ body {
   display: none;
   float: left;
   min-width: 10rem;
-  padding: 0.5rem 0;
+  padding: 0.2rem 0;
   margin: 0.125rem 0 0;
   font-size: 1rem;
   color: #212529;
@@ -4246,9 +4246,9 @@ fieldset:disabled .btn {
 }
 
 .dropdown-menu {
-  --bs-dropdown-min-width: 11rem;
-  --bs-dropdown-padding-x: 0;
-  --bs-dropdown-padding-y: 0.5rem;
+  --bs-dropdown-min-width: 6rem;
+  --bs-dropdown-padding-x: 0.5rem;
+  --bs-dropdown-padding-y: 0.2rem;
   --bs-dropdown-spacer: 1.625rem;
   --bs-dropdown-font-size: 0.875rem;
   --bs-dropdown-color: #7b809a;
@@ -4516,7 +4516,7 @@ fieldset:disabled .btn {
   clear: both;
   font-weight: 400;
   color: var(--bs-dropdown-link-color);
-  text-align: inherit;
+  text-align: right;
   white-space: nowrap;
   background-color: transparent;
   border: 0;
