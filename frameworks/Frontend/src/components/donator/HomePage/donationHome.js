@@ -96,6 +96,8 @@ useEffect(() => {
       return donations.sort((a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate));
     } else if (sortBy === "newestCreatedDate") {
       return donations.sort((a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate));
+    } else if (sortBy === "popularity") {
+      return donations.sort((a, b) => b.numberOfRequests - a.numberOfRequests);
     } else {
       return donations;
     }
@@ -123,6 +125,8 @@ useEffect(() => {
                       >  מיון{" "}
                       </button>
                       <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
+                      <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                          <button className="dropdown-item" onClick={() => setSortBy("popularity")} >מספר תרומות</button></li>
                         <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
                           <button className="dropdown-item" onClick={() => setSortBy("closestEndDate")} >תאריך סיום קרוב ביותר</button></li>
                         <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
