@@ -57,6 +57,7 @@ router.post(
     body("donationDescription").trim().isLength({ min: 5 }),
   ],
   isAuth,
+  isCorrectUser,
   createDonation
 );
 router.get("/getDonations", getAllDonations);
