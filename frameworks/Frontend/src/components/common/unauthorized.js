@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function unauthorized() {
+export default function Unauthorized() {
     return (
         <div className='unhtml mt-5 pt-5'>
             <div className='unbody'>
