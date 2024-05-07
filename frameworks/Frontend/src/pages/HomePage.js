@@ -102,8 +102,10 @@ export default function HomePage() {
         </div>
 
         <div className="container mt-5" dir="rtl">
-            <h3 className="d-flex justify-content-center mb-4"> תרומות ציוד דחופות ביותר</h3>
-            <div className="row d-flex justify-content-center">
+            {mostUrgentDonations.length > 0 && (
+                <h3 className="d-flex justify-content-center mb-4"> תרומות ציוד דחופות ביותר</h3>
+             )}
+                <div className="row d-flex justify-content-center">
                 {loading ? (
                     <>{""}</>
                 ) : (
@@ -121,12 +123,13 @@ export default function HomePage() {
         </div>
         {/* Display most urgent funds */}
         <div className="container mt-5" dir="rtl">
-            <h3 className="d-flex justify-content-center mb-4"> גיוסי כספים דחופים ביותר</h3>
             {
                 mostUrgentFunds.length === 0 ? (
                     <>{""}</>
                 ) : (
                     <div className="row d-flex">
+                        <h3 className="d-flex justify-content-center mb-4"> גיוסי כספים דחופים ביותר</h3>
+
                         {
                             mostUrgentFunds.map(fund => (
                                 <ViewFundsCard key={fund._id} fund={fund} />

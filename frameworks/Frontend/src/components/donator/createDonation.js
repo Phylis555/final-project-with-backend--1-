@@ -11,11 +11,6 @@ import { requesterProfile } from "../../api/requester.api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-// import L from "leaflet";
-// import "leaflet-control-geocoder/dist/Control.Geocoder.css";
-// import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-// import "leaflet/dist/leaflet.css";
 
 export default function CreateDonation() {
   var dtToday = new Date();
@@ -49,11 +44,7 @@ export default function CreateDonation() {
   const [itemName, setItemName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [wantedQuantity, setWantedQuantity] = useState('');
-  // const [mapInitialized, setMapInitialized] = useState(false);
 
-  // const handleCategoryChange = (e) => {
-  //   setCategory(e.target.value); 
-  // };
   
   useEffect(() => {
     setUserId(getCookie("uId"));
@@ -77,40 +68,7 @@ useEffect(() => {
     filesarr = files;
     // console.log(filesarr.base64);
   };
-  // useEffect(() => {
-  //   if (!mapInitialized) {
-  //     const map = L.map("map").setView([32.0853, 34.7818], 13);
-  //     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  //       attribution: "&copy; OpenStreetMap contributors",
-  //     }).addTo(map);
   
-  //     const geocoder = L.Control.Geocoder.nominatim();
-  //     const control = L.Control.geocoder({
-  //       geocoder: geocoder,
-  //     }).addTo(map);
-  
-  //     control.on("markgeocode", function (e) {
-  //       const { name, center } = e.geocode.properties;
-  //       setLocation(name);
-  //       map.setView(center, map.getZoom());
-  //     });
-  
-  //     map.on('click', function(e) {
-  //       const latlng = e.latlng;
-  //       const geocoder = L.Control.Geocoder.nominatim();
-      
-  //       geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function(results) {
-  //         const address = results[0].name;
-  //         setLocation(address);
-  //         L.marker(latlng).addTo(map).bindPopup(address).openPopup();
-  //       });
-  //     });
-  
-  //     setMapInitialized(true);
-  //   }
-    
-  // }, [mapInitialized]);
-
   const handleAddItem = () => {
     // Validate input fields
     if (!itemName || !selectedCategory || !wantedQuantity) {
@@ -269,23 +227,7 @@ useEffect(() => {
                       />
                     </div>
                     
-                    {/* <div className="input-group input-group mb-3 input-group-outline mb-3">
-                      <input
-                        type="text"
-                        maxLength={35}
-                        className="form-control"
-                        placeholder="מיקום*"
-                        aria-label="Location"
-                        aria-describedby="basic-addon1"
-                        value={location}
-                        required
-                      />
-
-                    </div>
-
-                    <div id="map" style={{ height: "300px" }}></div>
-                    <p className= "fs-7">לחץ על המפה כדי להוסיף מיקום או השתמש בחיפוש למציאת כתובת.</p> */}
-
+                    
                     <label className= "my-3">פרטי איש קשר:</label>
 
                     <div class="input-group  input-group input-group-outline mb-3">
