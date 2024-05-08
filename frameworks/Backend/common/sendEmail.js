@@ -179,10 +179,10 @@ function sendRejectedEmail(email) {
       </head>
       <body>
           <div class="container">
-              <h1>Your Donation Was Rejected</h1>
-              <p>Dear Donor,</p>
-              <p>We regret to inform you that your donation has been rejected. If you have any questions or concerns, please feel free to contact us.</p>
-              <p>Best regards,<br>Instant Giving Team</p>
+              <h1>התרומה שלך נדחתה</h1>
+              <p> לקוח יקר, </p>
+              <p> אנו מתנצלים לבשר כי התרומה שלך נדחתה. אם יש לך שאלות או דאגות, אנא פנה אלינו. </p>
+              <p> בברכה,<br>Instant Giving</p>
           </div>
       </body>
       </html>
@@ -191,7 +191,7 @@ function sendRejectedEmail(email) {
   transporter.sendMail({
     to: email,
     from: "instantgivingproject@gmail.com",
-    subject: "Donation Rejected!",
+    subject: "התרומה נדחתה",
     html: htmlContent,
   });
 }
