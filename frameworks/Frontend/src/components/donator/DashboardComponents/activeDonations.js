@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import NavButton from "../../NavButton";
 import DashboardCard from "./dashboardCard";
 import SideNav from "../sideNav";
@@ -85,26 +87,32 @@ export default function ActiveDonations() {
           <div class="container col d-flex justify-content-center" style={{ paddingTop: 20 }}>
             <div class=" row">
               <div class="mb-4 col-xxl-4 col-lg-6 col-md-10 col-sm-12">
-                <DashboardCard
-                  image="https://i.postimg.cc/5t0vBGNQ/ds-5.png"
-                  title="תרומות בהמתנה לאישור"
-                  count={pendingDonations.length}
-                />
+                <Link  to="/donator/pendingDonations">
+                  <DashboardCard
+                    image="https://i.postimg.cc/5t0vBGNQ/ds-5.png"
+                    title="תרומות בהמתנה לאישור"
+                    count={pendingDonations.length}
+                  />
+                </Link>
+                
               </div>
               <div class="mb-4  col-xxl-4 col-lg-6 col-md-10 col-sm-12">
+              <Link  to="/donator/myDonations">
                 <DashboardCard
                   image="https://i.postimg.cc/T12tg0Sk/ds-4.png"
                   title="תרומות פעילות"
                   count={activeDonations.length}
                 />
+                </Link>
               </div>
               <div class="mb-4  col-xxl-4 col-lg-6 col-md-10 col-sm-12">
-                {" "}
-                <DashboardCard
-                  image="https://i.postimg.cc/tCFmYzKx/ds-8.png"
-                  title="תרומות שנדחו"
-                  count={rejectedDonations.length}
-                />
+                <Link  to="/donator/rejectedDonations">
+                  <DashboardCard
+                    image="https://i.postimg.cc/tCFmYzKx/ds-8.png"
+                    title="תרומות שנדחו"
+                    count={rejectedDonations.length}
+                  />
+                </Link>
               </div>
             </div>
             <div className="row d-flex">

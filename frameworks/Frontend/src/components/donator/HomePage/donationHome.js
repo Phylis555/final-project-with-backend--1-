@@ -83,20 +83,16 @@ export default function DonationHome() {
   const filterDonations = (donations) => {
     if (sortBy === "closestEndDate") {
       return donations.sort(
-        (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate)
-      );
+        (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate));
     } else if (sortBy === "furthestEndDate") {
       return donations.sort(
-        (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate)
-      );
+        (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate));
     } else if (sortBy === "oldestCreatedDate") {
       return donations.sort(
-        (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate)
-      );
+        (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate));
     } else if (sortBy === "newestCreatedDate") {
       return donations.sort(
-        (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate)
-      );
+        (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate));
     } else if (sortBy === "popularity") {
       return donations.sort((a, b) => b.numberOfRequests - a.numberOfRequests);
     } else {

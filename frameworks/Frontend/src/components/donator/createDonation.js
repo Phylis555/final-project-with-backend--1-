@@ -11,11 +11,7 @@ import { requesterProfile } from "../../api/requester.api";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import L from "leaflet";
-import "leaflet-control-geocoder/dist/Control.Geocoder.css";
-import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import "leaflet/dist/leaflet.css";
+import { initializeMap } from "./mapHandler"; 
 
 export default function CreateDonation() {
   var dtToday = new Date();
@@ -77,72 +73,14 @@ useEffect(() => {
     filesarr = files;
     // console.log(filesarr.base64);
   };
+
   useEffect(() => {
     if (!mapInitialized) {
-      const map = L.map("map",{
-        maxZoom: 15 // Set the maximum zoom level
-      }).setView([32.0853, 34.7818], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(map);
-  
-      const geocoder = L.Control.Geocoder.nominatim();
-      const control = L.Control.geocoder({
-        geocoder: geocoder,
-      }).addTo(map);
-  
-      control.on("markgeocode", function (e) {
-        console.log(e.geocode.properties.address);
-        const addressComponents = e.geocode.properties.address;
-        const area= addressComponents.residential ||addressComponents.town|| addressComponents.state_district ||addressComponents.city ;
-        const city = addressComponents.suburb || addressComponents.city || addressComponents.town;
-        const street = addressComponents.road || addressComponents.village|| addressComponents.town||addressComponents.city;
-        const address = `${street}, ${city}, ${area}`;
-        setLocation(address);
-        map.setView(e.geocode.center, map.getZoom());
-      });
-    // control.on("markgeocode", function (e) {
-    //   console.log(e.geocode.properties.address);
-    //   const addressComponents = e.geocode.properties.address;
-    //   const splitAddress = addressComponents.split(','); // Split the address by comma
-    //   const city = splitAddress[0].trim(); // Get the first part (city) and trim any leading/trailing spaces
-    //   const street = splitAddress[1].trim(); // Get the second part (street) and trim any leading/trailing spaces
-    //   const area = splitAddress[2].trim();
-    //   const address = `${street}, ${city}, ${area}`;
-    //   setLocation(address);
-    //   map.setView(e.geocode.center, map.getZoom());
-    // });
-    
-      map.on('click', function(e) {
-        const latlng = e.latlng;
-        const geocoder = L.Control.Geocoder.nominatim();
-      
-        geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function(results) {
-            const address = results[0].name;
-            const splitAddress = address.split(','); // Split the address by comma
-            const city = splitAddress[0].trim(); // Get the first part (city) and trim any leading/trailing spaces
-            const street = splitAddress[1].trim(); // Get the second part (street) and trim any leading/trailing spaces
-            const area = splitAddress[2].trim();
-            setLocation(`${city}, ${street}, ${area}`); // Set the location as city and street
-            L.marker(latlng).addTo(map).bindPopup(address).openPopup();
-        });
-      //   geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function(results) {
-      //     console.log(results[0].properties.address);
-
-      //     const address = results[0].properties.address;
-      //     // const splitAddress = address.split(','); // Split the address by comma
-      //     const city = address.city;
-      //     const street = address.neighbourhood||address.village||address.village;
-      //     setLocation(`${city}, ${street}`); // Set the location as city and street
-      //     L.marker(latlng).addTo(map).bindPopup(address).openPopup();
-      // });
-    });
-    
+      const map = initializeMap(setLocation, setMapInitialized);
       setMapInitialized(true);
     }
-    
   }, [mapInitialized]);
-
+ 
   const handleAddItem = () => {
     // Validate input fields
     if (!itemName || !selectedCategory || !wantedQuantity) {
@@ -304,12 +242,13 @@ useEffect(() => {
                     <div className="input-group input-group mb-3 input-group-outline mb-2">
                       <input
                         type="text"
-                        maxLength={35}
+                        maxLength={100}
                         className="form-control"
                         placeholder="מיקום*"
                         aria-label="Location"
                         aria-describedby="basic-addon1"
                         value={location}
+                        readOnly 
                         required
                       />
 
@@ -335,6 +274,7 @@ useEffect(() => {
                         onChange={(e) => {
                           setContactNumber(e.target.value);
                         }}
+                        required
                       />
                     </div>
                     <div class="input-group input-group input-group-outline ">
@@ -364,6 +304,7 @@ useEffect(() => {
                         onChange={(e) => {
                           setDonationEndDate(e.target.value);
                         }}
+                        required
                       />
                     </div>
                     

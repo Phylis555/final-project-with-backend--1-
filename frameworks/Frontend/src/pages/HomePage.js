@@ -83,7 +83,7 @@ export default function HomePage() {
                 <h4 className='text-muted'>תרום ותן להם להרגיש קצת יותר בבית</h4>
             </div>
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
             <img src={Img3} class="d-block w-100 hd-image" alt="..." />
             <div class="carousel-caption d-none d-md-block">
                 <h1 className='welcome-image-heading'>הצטרף אלינו למסע של נתינה </h1> 
@@ -111,9 +111,9 @@ export default function HomePage() {
                 ) : (
                     <>
                         {mostUrgentDonations.map(donation => (
-                            <div className="col-3h">
+                            <div className="col-3h" key={donation._id}>
                                 <Link to={`/donator/view/${donation._id}`}>
-                                    <DonationHomeCard key={donation._id} donation={donation} />
+                                    <DonationHomeCard donation={donation} />
                                 </Link>
                             </div>
                         ))}

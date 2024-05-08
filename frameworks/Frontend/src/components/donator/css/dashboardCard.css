@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .cardH3{
-   margin-right: 10px;
-   text-align: center;
+   margin-left: 10px;
+   text-align: left;
    margin-top: 20px;
    padding-right: 80px;
    padding-top:  10px;
@@ -49,5 +49,8 @@
       width: 100%;
       flex: 0 0 auto;
 
+   }
+   .cardH3{
+      font-size: 100%;
    }
 }
