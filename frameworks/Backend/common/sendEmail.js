@@ -127,12 +127,14 @@ function sendAcceptedEmail(email) {
           </style>
       </head>
       <body>
-          <div class="container">
-              <h1>Your Donation Was Accepted!</h1>
-              <p>Dear Donor,</p>
-              <p>We are pleased to inform you that your donation has been accepted. Thank you for your generosity!</p>
-              <p>Best regards,<br>Instant Giving Team</p>
-          </div>
+           <div class="container" style="font-family: 'Arial', sans-serif;  text-align: center; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" dir="rtl">
+            <h1>הבקשה שלך לתרומה אושרה!</h1>
+            <p>לקוח יקר,</p>
+            <p>אנו שמחים להודיע לך כי בקשתך לתרומה אושרה על ידי הצוות שלנו.
+              מעתה הבקשה שלך פעילה וניתן לתרום לך.</p>
+            <p> אם יש לך שאלות נוספות אתה מוזמן ליצור איתנו קשר או להסתכל בחלק של מידע נוסף באתר</p>
+            <p>בברכה,<br>Instant Giving</p>
+           </div>
       </body>
       </html>
   `;

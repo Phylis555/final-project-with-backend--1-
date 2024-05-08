@@ -22,6 +22,10 @@ export default function DonationHome() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [donationDetails, setDonationDetails] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [sortLocationDropdownOpen, setSortLocationDropdownOpen] = useState(false);
+
 
   const markAsCompleted = (id) => {
     if (userId == false) {
@@ -74,7 +78,22 @@ export default function DonationHome() {
 
     setCategories(categoriesArray);
   }, [donationDetails]);
+  // *************************
+  useEffect(() => {
+    const locationsArray = [];
+  
+    donationDetails.forEach((donation) => {
+      const location = donation.location.split(',')[2].trim();
+      if (!locationsArray.includes(location)) {
+        locationsArray.push(location);
+      }
+    });
+  
+    setLocations(locationsArray);
+  }, [donationDetails]);
+  
 
+  // ***************************
   const [loading, setLoading] = useState(false);
   const [donation, setDonation] = useState([]);
   const [searchTerm, setsearchTerm] = useState("");
@@ -188,7 +207,7 @@ export default function DonationHome() {
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-1 col-sm-1">
+              {/* <div className="col-lg-2 col-md-1 col-sm-1">
                 <div className="dropdown" dir="rtl">
                   <button
                     className="btn btn-secondary dropdown-toggle"
@@ -227,6 +246,132 @@ export default function DonationHome() {
                   </ul>
                 </div>
               </div>
+              <div className="col-lg-2 col-md-2 col-sm-2">
+                <div className="dropdown" dir="rtl">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    onClick={() => setSortLocationDropdownOpen(!sortLocationDropdownOpen)}
+                    aria-expanded={sortLocationDropdownOpen}
+                  >
+                    בחר מיקום
+                  </button>
+                  <ul
+                    className={`dropdown-menu ${
+                      sortLocationDropdownOpen ? "show" : ""
+                    }`}
+                  >
+                    <li
+                      onClick={() => {
+                        setSelectedLocation("");
+                        setSortLocationDropdownOpen(!sortLocationDropdownOpen);
+                      }}
+                    >
+                      <button className="dropdown-item">הכל</button>
+                    </li>
+                    {locations.map((location, index) => (
+                      <li
+                        key={index}
+                        onClick={() => {
+                          setSelectedLocation(location);
+                          setSortLocationDropdownOpen(!sortLocationDropdownOpen);
+                        }}
+                      >
+                        <button className="dropdown-item">{location}</button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>  */}
+
+<div className="col-lg-2 col-md-2 col-sm-2">
+  <div className="dropdown" dir="rtl">
+    <button
+      className="btn btn-secondary dropdown-toggle"
+      type="button"
+      onClick={() => setSortFilterDropdownOpen(!sortFilterDropdownOpen)}
+      aria-expanded={sortFilterDropdownOpen}
+    >
+      סינון
+    </button>
+    <ul
+      className={`dropdown-menu ${
+        sortFilterDropdownOpen ? "show" : ""
+      }`}
+    >
+      <li
+        onClick={() => {
+          setSelectedCategory("");
+          setSelectedLocation("");
+          setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+        }}
+      >
+        <button className="dropdown-item">הכל</button>
+      </li>
+      <li className="dropdown-item">
+        <button
+          className="dropdown-item dropdown-toggle"
+          data-bs-toggle="dropdown"
+        >
+          סינון לפי קטגוריה
+          {" "}</button>
+        <ul className="dropdown-menu">
+        <li
+            onClick={() => {
+              setSelectedCategory("");
+              setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+            }}
+          >
+            <button className="dropdown-item">הכל</button>
+          </li>
+          {categories.map((category, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                setSelectedCategory(category);
+                setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+              }}
+            >
+              <button className="dropdown-item">{category}</button>
+            </li>
+          ))}
+        </ul>
+      </li>
+      <li className="dropdown-item">
+        <button
+          className="dropdown-item dropdown-toggle"
+          data-bs-toggle="dropdown"
+        >
+        סינון לפי מיקום
+        {" "}</button>
+        <ul className="dropdown-menu">
+        <li
+            onClick={() => {
+              setSelectedLocation("");
+              setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+            }}
+          >
+            <button className="dropdown-item">הכל</button>
+          </li>
+          {locations.map((location, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                setSelectedLocation(location);
+                setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+              }}
+            >
+              <button className="dropdown-item">{location}</button>
+            </li>
+          ))}
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+              {/* *******************8 */}
               <div className="col-lg-3 col-md-3 col-sm-3">
                 <div className="input-group input-group-outline bg-white">
                   <input
@@ -297,6 +442,15 @@ export default function DonationHome() {
                     );
                   }
                 })
+                .filter((val) => {
+                  if (selectedLocation === "") {
+                    return val;
+                  } else {
+                    return val.location.split(',')[2].trim()=== selectedLocation
+                   
+                  }
+                })
+                
                 .map(function (f) {
                   console.log(f);
                   return (
