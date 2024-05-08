@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const Organization = require("../../models/organization.model");
+const { sendAcceptedOrginizationEmail } = require("../../common/sendEmail");
 
 const editOrganizationStatus = async (req, res) => {
   try {
@@ -10,18 +11,16 @@ const editOrganizationStatus = async (req, res) => {
     //   return;
     // }
     const orgID = req.params.id;
-    const status="approved";
-
+    const status = "approved";
 
     const updateOrganization = {
-
-       status
-
+      status,
     };
 
     await Organization.findByIdAndUpdate(orgID, updateOrganization)
       .then((organization) => {
         console.log(organization);
+        sendAcceptedOrginizationEmail(organization.email);
         res.status(200).send({ status: "Organization Status updated" });
       })
       .catch(() => {

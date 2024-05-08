@@ -1,39 +1,19 @@
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 
-const username = "foodforallplatform@gmail.com"
-const senderEmail = "foodforallplatform@gmail.com"
-const password = "loqwplnxvfonmfyi"
+const username = "foodforallplatform@gmail.com";
+const senderEmail = "foodforallplatform@gmail.com";
+const password = "loqwplnxvfonmfyi";
 
-const transporter = nodemailer.createTransport(sendgridTransport({
-  auth: {
-    api_key: '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'
-  },
-}));
-var transporter2 = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
-  },
-});
-
-var transporter3 = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
-  },
-});
-
-var transporter4 = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "foodforallplatform@gmail.com",
-    pass: "loqwplnxvfonmfyi",
-  },
-});
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        "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",
+    },
+  })
+);
 
 transporter.use(
   "compile",
@@ -42,27 +22,7 @@ transporter.use(
     viewPath: "./common/views/",
   })
 );
-transporter2.use(
-  "compile",
-  hbs({
-    viewEngine: "express-handlebars",
-    viewPath: "./common/views/accepted",
-  })
-);
-transporter3.use(
-  "compile",
-  hbs({
-    viewEngine: "express-handlebars",
-    viewPath: "./common/views/rejected",
-  })
-);
-transporter4.use(
-  "compile",
-  hbs({
-    viewEngine: "express-handlebars",
-    viewPath: "./common/views/deleted",
-  })
-);
+
 function sendEmail(email) {
   const htmlContent = `
       <!DOCTYPE html>
@@ -107,10 +67,10 @@ function sendEmail(email) {
   `;
 
   transporter.sendMail({
-      to: email,
-      from: 'instantgivingproject@gmail.com',
-      subject: 'Signup succeeded!',
-      html: htmlContent
+    to: email,
+    from: "instantgivingproject@gmail.com",
+    subject: "Signup succeeded!",
+    html: htmlContent,
   });
 }
 function sendResetEmail(email, token) {
@@ -118,8 +78,8 @@ function sendResetEmail(email, token) {
   console.log(token);
   transporter.sendMail({
     to: email,
-    from: 'instantgivingproject@gmail.com',
-    subject: 'איפוס סיסמה',
+    from: "instantgivingproject@gmail.com",
+    subject: "איפוס סיסמה",
     html: `
     <div dir="rtl" style="font-family: 'Arial', sans-serif;  text-align: center; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
     <h2 style="color: #007bff; text-align: center;">בקשת איפוס סיסמה</h2>
@@ -130,8 +90,8 @@ function sendResetEmail(email, token) {
     <p style="font-size: 16px; margin-top: 20px; color: #555;">אם אינך מזהה את בקשה זו, ניתן להתעלם מהודעה זו</p>
   </div>
   
-  `
-  })
+  `,
+  });
 }
 
 // Function to send an email when a user's donation is accepted
@@ -178,10 +138,10 @@ function sendAcceptedEmail(email) {
   `;
 
   transporter.sendMail({
-      to: email,
-      from: 'instantgivingproject@gmail.com',
-      subject: 'Donation Accepted!',
-      html: htmlContent
+    to: email,
+    from: "instantgivingproject@gmail.com",
+    subject: "Donation Accepted!",
+    html: htmlContent,
   });
 }
 
@@ -223,16 +183,76 @@ function sendRejectedEmail(email) {
               <p> לקוח יקר, </p>
               <p> אנו מתנצלים לבשר כי התרומה שלך נדחתה. אם יש לך שאלות או דאגות, אנא פנה אלינו. </p>
               <p> בברכה,<br>Instant Giving</p>
+<<<<<<< HEAD
+=======
           </div>
       </body>
       </html>
   `;
 
   transporter.sendMail({
+    to: email,
+    from: "instantgivingproject@gmail.com",
+    subject: "התרומה נדחתה",
+    html: htmlContent,
+  });
+}
+
+function sendAcceptedOrginizationEmail(email) {
+  const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Orginization Accepted!</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  padding: 20px;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #ffffff;
+                  padding: 30px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              }
+              h1 {
+                  color: #dc3545;
+              }
+              p {
+                  font-size: 16px;
+                  line-height: 1.6;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Your Donation Was Rejected</h1>
+              <p>Dear Donor,</p>
+              <p>We are pleased to inform you that your orginization has been accepted. Thank you for joining our website!</p>
+              <p>Best regards,<br>Instant Giving Team</p>
+>>>>>>> Test-Liran
+          </div>
+      </body>
+      </html>
+  `;
+
+  transporter.sendMail({
+<<<<<<< HEAD
       to: email,
       from: 'instantgivingproject@gmail.com',
       subject: 'התרומה נדחתה',
       html: htmlContent
+=======
+    to: email,
+    from: "instantgivingproject@gmail.com",
+    subject: "Orginazation accepted",
+    html: htmlContent,
+>>>>>>> Test-Liran
   });
 }
 
@@ -256,7 +276,6 @@ function sendDonationDeletedEmail(email, text) {
   });
 }
 
-
 // For organization emails
 var transporterOrganizationEmails = nodemailer.createTransport({
   service: "gmail",
@@ -272,7 +291,7 @@ transporterOrganizationEmails.use(
     viewEngine: "express-handlebars",
     viewPath: "./common/views/organizationEmails",
   })
-)
+);
 
 function sendOrganizationEmail(email, emailSubject, text) {
   var mailOptions = {
@@ -301,4 +320,5 @@ module.exports = {
   sendRejectedEmail,
   sendDonationDeletedEmail,
   sendOrganizationEmail,
+  sendAcceptedOrginizationEmail,
 };
