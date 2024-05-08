@@ -183,8 +183,6 @@ function sendRejectedEmail(email) {
               <p> לקוח יקר, </p>
               <p> אנו מתנצלים לבשר כי התרומה שלך נדחתה. אם יש לך שאלות או דאגות, אנא פנה אלינו. </p>
               <p> בברכה,<br>Instant Giving</p>
-<<<<<<< HEAD
-=======
           </div>
       </body>
       </html>
@@ -235,24 +233,16 @@ function sendAcceptedOrginizationEmail(email) {
               <p>Dear Donor,</p>
               <p>We are pleased to inform you that your orginization has been accepted. Thank you for joining our website!</p>
               <p>Best regards,<br>Instant Giving Team</p>
->>>>>>> Test-Liran
           </div>
       </body>
       </html>
   `;
 
   transporter.sendMail({
-<<<<<<< HEAD
-      to: email,
-      from: 'instantgivingproject@gmail.com',
-      subject: 'התרומה נדחתה',
-      html: htmlContent
-=======
     to: email,
     from: "instantgivingproject@gmail.com",
-    subject: "Orginazation accepted",
+    subject: "התרומה נדחתה",
     html: htmlContent,
->>>>>>> Test-Liran
   });
 }
 
