@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { SafeAreaView, 
     Text, 
     ScrollView, 
+  
+    View,
     StyleSheet,
+    FlatList,
     Image,
     Pressable 
 } from 'react-native'
@@ -14,6 +17,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { CategoryA } from '../components/categorySelector'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ContentLoader from '../components/LoadContent'
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Colors from '../utils/colors'
+import { newDonation } from '../api/donator.api'
+import { requesterProfile } from '../api/requester.api'
+
+
 
 
 export default class AddItem extends Component {
@@ -21,15 +30,39 @@ export default class AddItem extends Component {
     {
         super(props);
         this.state = {
-            image: null,
-            title: '',
-            category: 'general',
+
+            donationImage: null,
+            donationTitle: '',
             location: '',
-            quantity: 1,
-            user_id: "",
-            isUploading: false
+            donationDescription:"",
+            donationEndDate:"",
+            email:'',
+            contactNumber:'',
+
+
+            donationEndDate: new Date(),
+
+
+            wantedItems: [],
+            itemName: '',
+            selectedCategory :'',
+            wantedQuantity :'',
+
+            userID: "",
+            token: "",
+            profileData: null,
+
+
+            isUploading: false,
+            
+
+            isVisible: false
+
         }
+
+
     }
+
 
     pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -41,69 +74,218 @@ export default class AddItem extends Component {
         });
 
         if (!result.canceled) {
-            this.setState({ image: result});
+            this.setState({ donationImage: result});
         }
     };
 
+    handleAddItem = () => {
+
+        let { itemName , selectedCategory, wantedQuantity, wantedItems, isVisible} = this.state
+        // Validate input fields
+        if (!itemName || !selectedCategory || !wantedQuantity) {
+            console.log("///////////empty");
+
+          alert('Please fill all fields');
+          return;
+        }
+      
+        // Create a new item object
+        const newItem = {
+          itemName: itemName,
+          category: selectedCategory,
+          quantity: wantedQuantity
+        };
+    
+        // Add the new item to the array of wanted items
+        wantedItems.push(newItem);
+        console.log("///////////wanted items");
+
+        console.log(wantedItems);
+        // Clear input fields
+        this.setState({
+            itemName: '',
+            selectedCategory: '',
+            wantedQuantity: '',
+            isVisible : true
+          });
+
+
+         
+      };
+
+      handleDeleteItem = (index) => {
+        let { wantedItems} = this.state
+
+
+        wantedItems.splice(index, 1);
+        console.log(wantedItems);
+         alert("הוסר פריט בהצלחה");
+        if(wantedItems.length == 0){
+            this.setState({isVisible : false});
+        }
+           
+       
+  
+
+     
+      };
+
+
+
+
+
+
+    onDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        this.setState({donationEndDate: currentDate})
+
+      };
+
+      renderItem = ({ item, index }) => (
+        <View style={styles.row}>
+
+            <Text style={styles.cell}>{item.category}</Text>
+            <Text style={styles.cell}>{item.itemName}</Text>
+            <Text style={styles.cell}>{item.quantity}</Text>
+            <Pressable onPress={() => this.handleDeleteItem(index)}>
+                <Feather name='delete' size={25} />
+                
+            </Pressable>
+        </View>
+    )
+
+    // Fetch user ID and token from AsyncStorage
+    fetchData = async () => {
+        const storedUserId = await AsyncStorage.getItem('user_id');
+        const storedToken = await AsyncStorage.getItem('token');
+        this.setState({ userID: storedUserId, token: storedToken });
+
+        console.log("Fetched user ID:", storedUserId);
+        console.log("Fetched Token access:", storedToken);
+    };
+
+    // Effect to fetch data when component mounts
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.userID !== this.state.userID) {
+            const { userID, token , profileData} = this.state;
+           
+            if (userID) {
+            requesterProfile(userID,token)
+            .then((res) => {
+                const requester = res.data.requester;
+
+                this.setState({
+                    profileData: requester,
+                    email: requester.email,
+                    contactNumber: "0" + requester.contactNumber
+                });
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+             }
+
+    }
+    }
+
+
     // INSERT FUNCTION
-    InsertFunc = ({navigation}) => {
-        this.setState({isUploading: true})
-        AsyncStorage.getItem('user_id').then((value) => {
-            this.setState({user_id: value})
+    InsertFunc = async ({navigation}) => {
 
-            var title = this.state.title
-            var category = this.state.category
-            var location = this.state.location
-            var quantity = this.state.quantity
-            var imgUrl = this.state.image.assets[0].uri
-            var user_id = this.state.user_id
+        try {
+        console.log("///////////insertttt");
 
-            var InsertUrl = "https://onedonation.000webhostapp.com/api/addItem.php";
-            
-            let data = new FormData();
-            data.append('submit','ok');
-            data.append('title', title);
-            data.append('category', category);
-            data.append('location', location);
-            data.append('quantity', quantity);
-            data.append('user_id', user_id);
-            data.append('file',{type: 'image/jpg', uri:imgUrl, name:'uploadimagetmp.jpg'});
-            
-            fetch (
-                InsertUrl,
-                {
-                    method: "POST",
-                    body: data
-                }
-            )
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({isUploading: false})
-                if (response[0].message != 'success') {
-                    alert(response[0].message);
-                }else {
-                    alert('Saved!');
-                    this.setState({title: '', location: '', quantity: '', image: null})
-                    this.props.navigation.goBack();
-                }
-            })
-            .catch((error) => {
-                this.setState({isUploading: false})
-                alert('Error: ' + error);
-            })
-        })
+        let { wantedItems, userID, token, email, contactNumber, donationTitle,
+             location, donationEndDate,donationImage, donationDescription} = this.state
+
+
+        console.log(token);
+
+        if (wantedItems.length === 0) {
+            alert('אנא הוסף פריט לפני הגשת הבקשה');
+            return;
+          }
+      //  this.setState({isUploading: true})
+
         
+        //  var imgUrl = this.state.image.assets[0].uri  
 
+        //     data.append('file',{type: 'image/jpg', uri:imgUrl, name:'uploadimagetmp.jpg'});
+
+        const donation = {
+            userID,
+            donationTitle,
+            email,
+            location,
+            donationEndDate,
+            contactNumber,
+            donationImage,
+            donationDescription,
+            wantedItems
+          };  
+
+          console.log(donation);
+              
+        //   await newDonation(donation, token)
+        //    .then((res) => {
+        //    // setLoading(false);
+        //    alert('תרומה נוצרה בהצלחה!').then((value) => {
+        //       if (value) {
+        //         //this.setState({donationTitle: '', location: '', quantity: '', image: null})
+        //         this.props.navigation.goBack();
+        //       }
+        //     });
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //     alert("יצירת התרומה נכשלה").then(
+        //       (value) => {
+        //         if (value) {
+        //         this.props.navigation.goBack();
+        //         }
+        //       }
+        //     );
+        //   });
+
+        const res = await newDonation(donation);
+
+        alert('תרומה נוצרה בהצלחה!');
+
+        if (navigation) {
+            navigation.goBack();
+        }
+    } catch (err) {
+        console.log(err);
+        alert('יצירת התרומה נכשלה');
+        if (err.response) {
+            // Server responded with a status code other than 2xx
+            console.log(`Server responded with status code ${err.response.status}:`, err.response.data);
+            throw err; // Rethrow error for further handling
+        } else if (err.request) {
+            // Request was made but no response received
+            console.log('No response received from server:', err.request);
+            throw err; // Rethrow error for further handling
+        } else {
+            // Something else went wrong while setting up the request
+            console.log('Error setting up request:', err.message);
+            throw err; // Rethrow error for further handling
+        }
+    }
+          
     }
 
     render()
     {
-        let { image } = this.state
+        let { donationImage , isVisible, wantedItems, itemName, wantedQuantity, selectedCategory, donationTitle} = this.state
         return(
             <>
             <SafeAreaView style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Topic title={'Add Item'} />
+                {/* <ScrollView showsVerticalScrollIndicator={false}>
+                    <Topic title={'צור את הבקשה לתרומה שלך'} />
 
                     <Pressable style={styles.imgContainer} onPress={this.pickImage}>
                         <Feather name='plus' size={16} />
@@ -112,32 +294,101 @@ export default class AddItem extends Component {
                     {image && <Image source={{ uri: image.assets[0].uri }} style={styles.selected} />}
 
                     <TypeBInput 
-                        label='Item Description' 
+                        label='כותרת*' 
                         height={50}
                         onChangeText={(title)=>this.setState({title})}
                     />
-                    
-                    {/* Category Selector starts */}
-                    <CategoryA 
 
-                    />
-                    
-
-                    {/* Category Selector ends */}
                     <TypeBInput 
-                        label='Location'
+                        label='מיקום*'
                         height={50}
                         onChangeText={(location)=>this.setState({location})}
                     />
-                    <TypeBInput 
-                        label='Quantity' 
-                        height={50} 
-                        keyboardType={'numeric'}
-                        onChangeText={(quantity)=>this.setState({quantity})}
-                    />
+                    
 
-                    <CustomBtn1 title='Donate' onPress={this.InsertFunc} />
-                </ScrollView>
+                    <Text style={styles.label}>תאריך סיום התרומה:</Text>
+                    <DateTimePicker 
+                        minimumDate={new Date()}
+                        value={this.state.donationEndDate}
+                        mode={"date"}
+                        onChange={this.onDateChange}
+                        />
+                    <View style={ {  height: 1, width: '100%', backgroundColor: '#ccc', marginHorizontal: 5,marginVertical: 15 }}/>
+                    
+                    <Text style={styles.label}>הוספת פריטים:</Text>
+                    <TypeBInput 
+                        label='שם הפריט'
+                        height={50}
+                        onChangeText={(itemName)=>this.setState({itemName})}
+                    />
+                <View style={{flexDirection: 'row',   alignItems: 'center'}}>
+                        <TypeBInput 
+                            label='כמות מבוקשת' 
+                            height={50} 
+                            keyboardType={'numeric'}
+                            onChangeText={(wantedQuantity)=>this.setState({wantedQuantity})}
+                            
+                        />               
+                        <CategoryA onChange={item => {this.state.selectedCategory =item.value}}/>
+                </View>
+                {wantedItems.length > 0 && (
+
+                    <View>
+                    <Text style={styles.label}>הפריטים המבוקשים:</Text>
+                    <FlatList
+                        data={wantedItems}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={this.renderItem}
+                    />
+                    </View>
+                 
+                 )}
+                    <CustomBtn1 title='הוסף פריט' onPress={this.handleAddItem} /> 
+                    
+                   { this.state.isVisible ? <CustomBtn1 title='יצירת בקשה לתרומה' onPress={this.InsertFunc} /> : null}
+                </ScrollView> */}
+                    <FlatList
+        data={wantedItems}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={this.renderItem}
+        extraData={this.state}
+        ListHeaderComponent={
+            <View>
+                <Topic title="צור את הבקשה לתרומה שלך" />
+                <Pressable style={styles.imgContainer} onPress={this.pickImage}>
+                    <Feather name='plus' size={16} />
+                    <Text>Choose Image</Text>
+                </Pressable>
+                {donationImage && <Image source={{ uri: donationImage.assets[0].uri }} style={styles.selected} />}
+                <TypeBInput label="כותרת*" height={50} onChangeText={(donationTitle) => this.setState({ donationTitle })} />
+                <TypeBInput label="מיקום*" height={50} onChangeText={(location) => this.setState({ location })} />
+                <Text style={styles.label}>תאריך סיום התרומה:</Text>
+                <DateTimePicker
+                    minimumDate={new Date()}
+                    value={this.state.donationEndDate}
+                    mode={"date"}
+                    onChange={this.onDateChange}
+                />
+
+                <TypeBInput label="תיאור אודות התרומה*"height={80} multiline={true}numberOfLines={4} onChangeText={(donationDescription) => this.setState({ donationDescription })} />
+
+                <View style={{ height: 1, width: '100%', backgroundColor: '#ccc', marginHorizontal: 5, marginVertical: 15 }} />
+                <Text style={styles.label}>הוספת פריטים:</Text>
+                <TypeBInput label="שם הפריט" height={50} value = {itemName} onChangeText={(itemName) => this.setState({ itemName })} />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TypeBInput label="כמות מבוקשת" value = {wantedQuantity} height={50} keyboardType="numeric" onChangeText={(wantedQuantity) => this.setState({ wantedQuantity })} />
+                    <CategoryA value={selectedCategory}    onChange={(item) => this.setState({ selectedCategory: item.value })} />
+                </View>
+                <CustomBtn1 title="הוסף פריט" onPress={this.handleAddItem} />
+            </View>
+        }
+        ListFooterComponent={
+            <View>
+                {wantedItems.length > 0 &&  <CustomBtn1 title="יצירת בקשה לתרומה" onPress={this.InsertFunc} />}
+            </View>
+        }
+    />
+    {this.state.isUploading ? <ContentLoader /> : null}
             </SafeAreaView>
             { this.state.isUploading ? <ContentLoader /> : null }
             </>
@@ -150,6 +401,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 20,
+        margin: 10,
+
         paddingHorizontal: 30
     },
     imgContainer: {
@@ -167,5 +420,24 @@ const styles = StyleSheet.create({
         borderColor: "#ffffff",
         borderStyle: 'solid',
         borderWidth: 8
-    }
+    },
+    label: {
+        fontSize: 16, 
+        fontWeight: '500', 
+        color: Colors.light, 
+        textAlign: 'right',
+        marginVertical: 10
+      },
+      row: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+    },
+    cell: {
+        flex: 1,
+        textAlign: 'center',
+    },
 })

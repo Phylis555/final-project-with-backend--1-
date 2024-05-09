@@ -9,7 +9,7 @@ import { View,
 import Topic from "../components/topic"
 import DriverCard from "../components/DriverProfile"
 
-
+////////// dont need this screen, maybe for admin
 
 export default class CourierList extends Component {
     constructor(props)
@@ -35,7 +35,7 @@ export default class CourierList extends Component {
         return(
             
             <View style={styles.container}>
-                <Topic title={'Pick a Driver'}/>
+                <Topic title={'שלח בקשה'}/>
                 <SafeAreaView style={styles.content}>
                     <View>
                         <FlatList data={this.dataSource}

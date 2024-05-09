@@ -31,20 +31,20 @@ function DrawerNav() {
       }} 
       drawerContent={props => <DrawerContent {...props}/>}
       >
-      <Drawer.Screen name="Home" component={BottomTabNavigator} 
+      <Drawer.Screen name="דף הבית" component={BottomTabNavigator} 
         options={{
           drawerIcon: () => (
             <Feather name='home' size={15}/>
           )
         }}
       />
-      <Drawer.Screen name="ChangePassword" component={ChangePass} 
+      {/* <Drawer.Screen name="ChangePassword" component={ChangePass} 
         options={{
           drawerIcon: () => (
             <Feather name='shield' size={15}/>
           )
         }}
-      />
+      /> */}
       <Drawer.Screen name="Product Donation" component={BottomTabNavigator} 
         options={{
           drawerIcon: () => (
@@ -66,7 +66,7 @@ function DrawerNav() {
           )
         }}
       />
-      <Drawer.Screen name="help" component={Help} 
+      <Drawer.Screen name="אודות" component={Help} 
         options={{
           drawerIcon: () => (
             <Feather name='help-circle' size={15}/>
