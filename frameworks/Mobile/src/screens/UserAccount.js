@@ -116,12 +116,15 @@
 
 // export default Account;
 import React, { Component } from "react";
-import { View, Text, SafeAreaView, ImageBackground, Image, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, ImageBackground, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../utils/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
+
 import axios from 'axios';
 import { getAuthHeader } from "../components/authHeader";
 import { requesterProfile } from "../api/requester.api";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 class Account extends Component {
     constructor(props) {
@@ -130,7 +133,9 @@ class Account extends Component {
             userId: null,
             profileData: null,
             token: null,
+        
         };
+        
     }
 
     // Fetch user ID and token from AsyncStorage
@@ -171,6 +176,9 @@ class Account extends Component {
         const Uri = require('../../assets/images/headerBg.jpg');
         const userImage = require('../../assets/images/profile.jpeg');
 
+       
+
+
         function capitalizeFirstLetter(string) {
             if (string && string.length > 0) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
@@ -188,9 +196,71 @@ class Account extends Component {
                         </View>
                         {/* Only display profile data if it exists */}
                         {profileData && (
+                            <View style={styles.content}>
                             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'baseline' }}>
                                 <Text style={styles.lvlTxt}>{capitalizeFirstLetter(profileData.firstName) + " " + capitalizeFirstLetter(profileData.lastName)}</Text>
                                 <View style={styles.lvlStat}></View>
+                            </View>
+
+                            <View  style={{ flexDirection: "row", marginVertical: 6,  alignItems: 'baseline' }} >
+                                    <SimpleLineIcons name="phone" size={24} color={Colors.primary} />
+    
+                                    <Text
+                                        style={{
+                                        marginLeft: 4,
+                                        }}
+                                    >
+                                        {profileData.contactNumber}
+                                    </Text>
+                                    </View>
+
+                                    <View  style={{ flexDirection: "row", marginVertical: 6,  alignItems: 'baseline' }} >
+                                    <SimpleLineIcons name="envelope" size={24} color={Colors.primary} />
+    
+                                    <Text
+                                        style={{
+                                        marginLeft: 4,
+                                        }}
+                                    >
+                                        {profileData.email}
+                                    </Text>
+                                    </View>
+
+
+
+
+
+
+                                <View style={{ flexDirection: "row" }}>
+                                <TouchableOpacity onPress={() =>  this.props.navigation.navigate('editAccount')
+}
+                                style={styles.btnStyle}
+                                >
+                                <Text
+                                    style={{
+                                //    ...FONTS.body4,
+                                        color: "#fff",
+                            }}
+                                >
+                                    ערוך פרופיל
+                                </Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                style={styles.btnStyle}
+
+                                >
+                                <Text
+                                    style={{
+                                    //...FONTS.body4,
+                                    color: "#fff",
+                                    }}
+                                >
+                                    כל התרומות שלי
+                                </Text>
+                                </TouchableOpacity>
+                                </View>
+
                             </View>
                         )}
                     </View>
@@ -241,6 +311,16 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginLeft: 5,
     },
+    btnStyle: {
+        width: 124,
+        height: 36,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.primary,
+        borderRadius: 10,
+        marginHorizontal: 10,
+
+    }
 });
 
 export default Account;

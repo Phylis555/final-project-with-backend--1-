@@ -196,7 +196,7 @@ export default class AddItem extends Component {
     // INSERT FUNCTION
     InsertFunc = async ({navigation}) => {
 
-        try {
+        // try {
         console.log("///////////insertttt");
 
         let { wantedItems, userID, token, email, contactNumber, donationTitle,
@@ -230,51 +230,51 @@ export default class AddItem extends Component {
 
           console.log(donation);
               
-        //   await newDonation(donation, token)
-        //    .then((res) => {
-        //    // setLoading(false);
-        //    alert('תרומה נוצרה בהצלחה!').then((value) => {
-        //       if (value) {
-        //         //this.setState({donationTitle: '', location: '', quantity: '', image: null})
-        //         this.props.navigation.goBack();
-        //       }
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     alert("יצירת התרומה נכשלה").then(
-        //       (value) => {
-        //         if (value) {
-        //         this.props.navigation.goBack();
-        //         }
-        //       }
-        //     );
-        //   });
+          await newDonation(donation)
+           .then((res) => {
+           // setLoading(false);
+           alert('תרומה נוצרה בהצלחה!').then((value) => {
+              if (value) {
+                //this.setState({donationTitle: '', location: '', quantity: '', image: null})
+                this.props.navigation.goBack();
+              }
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("יצירת התרומה נכשלה").then(
+              (value) => {
+                if (value) {
+                this.props.navigation.goBack();
+                }
+              }
+            );
+          });
 
-        const res = await newDonation(donation);
+        // const res = await newDonation(donation);
 
-        alert('תרומה נוצרה בהצלחה!');
+        // alert('תרומה נוצרה בהצלחה!');
 
-        if (navigation) {
-            navigation.goBack();
-        }
-    } catch (err) {
-        console.log(err);
-        alert('יצירת התרומה נכשלה');
-        if (err.response) {
-            // Server responded with a status code other than 2xx
-            console.log(`Server responded with status code ${err.response.status}:`, err.response.data);
-            throw err; // Rethrow error for further handling
-        } else if (err.request) {
-            // Request was made but no response received
-            console.log('No response received from server:', err.request);
-            throw err; // Rethrow error for further handling
-        } else {
-            // Something else went wrong while setting up the request
-            console.log('Error setting up request:', err.message);
-            throw err; // Rethrow error for further handling
-        }
-    }
+        // if (navigation) {
+        //     navigation.goBack();
+        // }
+    // } catch (err) {
+    //     console.log(err);
+    //     alert('יצירת התרומה נכשלה');
+    //     if (err.response) {
+    //         // Server responded with a status code other than 2xx
+    //         console.log(`Server responded with status code ${err.response.status}:`, err.response.data);
+    //         throw err; // Rethrow error for further handling
+    //     } else if (err.request) {
+    //         // Request was made but no response received
+    //         console.log('No response received from server:', err.request);
+    //         throw err; // Rethrow error for further handling
+    //     } else {
+    //         // Something else went wrong while setting up the request
+    //         console.log('Error setting up request:', err.message);
+    //         throw err; // Rethrow error for further handling
+    //     }
+    // }
           
     }
 

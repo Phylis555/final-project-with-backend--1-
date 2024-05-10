@@ -17,6 +17,7 @@ import Messenger from '../screens/CourierScreen'
 import CourierLogin from '../screens/authentication/CourierLogin'
 import CourierList from '../screens/CourierList'
 import AddItem from '../screens/AddItem'
+import EditAccount from '../screens/EditAccount'
 
 const StackNavigator = createNativeStackNavigator()
 
@@ -49,6 +50,8 @@ const Stack = () => {
         <StackNavigator.Screen name="CourierLogin" component={CourierLogin} />
         <StackNavigator.Screen name="courierList" component={CourierList} />
         <StackNavigator.Screen name="addItem" component={AddItem} />
+        <StackNavigator.Screen name="editAccount" component={EditAccount} />
+
 
     
     </StackNavigator.Navigator>

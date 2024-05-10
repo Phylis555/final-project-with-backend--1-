@@ -8,7 +8,8 @@ const API = axios.create({
 });
 
 
-export const newDonation = (donation, token) => API.post("/createDonation", donation, getAuthHeader(token));
+
+export const newDonation = (donation) => API.post("/createDonation", donation, getAuthHeader());
 export const newRequest = (request) => API.post("/sendRequest", request, getAuthHeader());
 export const getRequests = (donationID) =>API.get(`/getPendingRequests/${donationID}`, getAuthHeader());
 export const acceptDonationRequest = (requestID, reqdata) =>API.post(`/acceptRequest/${requestID}`, reqdata, getAuthHeader());
@@ -21,3 +22,4 @@ export const getOneDonation = (donationID) =>API.get(`/getOneDonation/${donation
 export const getAllDonations = () => API.get(`/getDonations`);
 export const getApprovedRequests = (donationID) =>API.get(`/getApprovedRequests/${donationID}`, getAuthHeader());
 export const getUserDonations = (userID) =>API.get(`/getUserDonations/${userID}`, getAuthHeader());
+
