@@ -28,7 +28,7 @@ export default function EditDonation() {
           setLoading(false);
           setDonationTitle(res.data.donation.donationTitle);
           setEmail(res.data.donation.email);
-          setContactNumber(res.data.donation.contactNumber);
+          setContactNumber("0"+res.data.donation.contactNumber);
           setDonationDescription(res.data.donation.donationDescription);
 
           //   setDonationTitle();
