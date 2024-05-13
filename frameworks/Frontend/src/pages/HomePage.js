@@ -83,7 +83,7 @@ export default function HomePage() {
                 <h4 className='text-muted'>תרום ותן להם להרגיש קצת יותר בבית</h4>
             </div>
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
             <img src={Img3} class="d-block w-100 hd-image" alt="..." />
             <div class="carousel-caption d-none d-md-block">
                 <h1 className='welcome-image-heading'>הצטרף אלינו למסע של נתינה </h1> 
@@ -102,16 +102,18 @@ export default function HomePage() {
         </div>
 
         <div className="container mt-5" dir="rtl">
-            <h3 className="d-flex justify-content-center mb-4"> תרומות ציוד דחופות ביותר</h3>
-            <div className="row d-flex justify-content-center">
+            {mostUrgentDonations.length > 0 && (
+                <h3 className="d-flex justify-content-center mb-4"> תרומות ציוד דחופות ביותר</h3>
+             )}
+                <div className="row d-flex justify-content-center">
                 {loading ? (
                     <>{""}</>
                 ) : (
                     <>
                         {mostUrgentDonations.map(donation => (
-                            <div className="col-3h">
+                            <div className="col-3h" key={donation._id}>
                                 <Link to={`/donator/view/${donation._id}`}>
-                                    <DonationHomeCard key={donation._id} donation={donation} />
+                                    <DonationHomeCard donation={donation} />
                                 </Link>
                             </div>
                         ))}
@@ -121,12 +123,13 @@ export default function HomePage() {
         </div>
         {/* Display most urgent funds */}
         <div className="container mt-5" dir="rtl">
-            <h3 className="d-flex justify-content-center mb-4"> גיוסי כספים דחופים ביותר</h3>
             {
                 mostUrgentFunds.length === 0 ? (
                     <>{""}</>
                 ) : (
                     <div className="row d-flex">
+                        <h3 className="d-flex justify-content-center mb-4"> גיוסי כספים דחופים ביותר</h3>
+
                         {
                             mostUrgentFunds.map(fund => (
                                 <ViewFundsCard key={fund._id} fund={fund} />

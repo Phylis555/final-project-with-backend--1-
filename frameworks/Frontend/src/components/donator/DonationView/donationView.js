@@ -117,8 +117,7 @@ export default function DonationView() {
 
   return (
     <>
-           { getCookie("roles") === '2001' ? "" : (<div className='mb-3'><NavBar /></div>)
-}
+           { getCookie("roles") === '2001' ? "" : (<div className='mb-3'><NavBar /></div>)}
       {/* <NavBar /> */}
 
       <div className="container" dir="rtl">
@@ -169,8 +168,9 @@ export default function DonationView() {
             <div>
               {donation && totalReceived > 0 && (
                 <ProgressBar
-                  completed={Math.round(totalReceived / totalAmount * 100 * 100) / 100} // rounded to 2 decimal places
-                  className="px-4"
+                  completed={Math.round(totalReceived / totalAmount * 100 ) }
+                  className="px-4 card-body"
+                  labelColor="#FDE1FF"
                 />
               )}
             </div>
@@ -209,7 +209,7 @@ export default function DonationView() {
             )}
 
             <div className="row">
-              <div class="col-6">
+              <div class="col-xl-6 col-sm-5">
                 <div class="card bg-light bg-white">
                   <div class="card-body">
                     <ContactDetails
@@ -230,7 +230,7 @@ export default function DonationView() {
                 </div>
               </div>
 
-              <div class="col-6">
+              <div class="col-6 ">
                 <div class="card bg-light bg-white">
                   <div class="card-body">
                     <DonationDescription

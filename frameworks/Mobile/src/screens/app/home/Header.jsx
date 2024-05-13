@@ -5,12 +5,13 @@ import Colors from '../../../utils/colors'
 import fontStyle from '../../../utils/fontStyles'
 import { useNavigation } from '@react-navigation/native'
 
+
 const Header = () => {
 
   const navigation = useNavigation();
 
   return (
-    <ImageBackground imageStyle={styles.image} resizeMode='cover' source={require('../../../../assets/images/headerBg.jpg')} style={styles.container}>
+    <ImageBackground imageStyle={styles.image} blurRadius={4} resizeMode='cover' source={require('../../../../assets/images/headerBg.jpg')} style={styles.container}>
     <View style={styles.wrapper}>
       <TouchableOpacity style={styles.menu} onPress={() => navigation.openDrawer()}>
         <Feather name="menu" size={22} color={'white'}/>
@@ -18,15 +19,15 @@ const Header = () => {
 
     <View style={styles.bottom}>
       <View style={styles.row}>
-        <Text style={styles.text}>What</Text>
+        <Text style={styles.text}>הצטרף/י</Text>
         <View style={styles.highlight}>
-            <Text style={[styles.text,fontStyle.bold]}>Goes</Text>
+            <Text style={[styles.text,fontStyle.bold]}>אלינו</Text>
         </View>
-        <Text style={styles.text}>Around,</Text>
+        <Text style={styles.text}>למסע</Text>
         <View style={styles.highlight}>
-            <Text style={[styles.text,fontStyle.bold]}>Comes</Text>
+            <Text style={[styles.text,fontStyle.bold]}>של</Text>
         </View>
-        <Text style={styles.text}>Around</Text>
+        <Text style={styles.text}>נתינה</Text>
 
       </View>
       </View>
@@ -39,12 +40,12 @@ export default Header
 
 const styles = StyleSheet.create({
     row:{
-        flexDirection:'row',
+        flexDirection:'row-reverse',
         alignItems:'center',
         flexWrap:'wrap'
     },
     highlight:{
-        backgroundColor:Colors.primary,
+        backgroundColor:'rgba(222, 103, 105, 0.5)',
         paddingHorizontal:2,
         borderRadius:8,
         paddingVertical:2,
@@ -57,13 +58,17 @@ const styles = StyleSheet.create({
     },
     bottom:{
         position:'absolute',
-        bottom:25,
-        paddingHorizontal:20
+        bottom: 25,
+        paddingHorizontal:20,
+        left: 0,
+        right: 0,
+        justifyContent: 'center', // Center content horizontally
+        alignItems: 'center', // Center content vertically
     },
     menu:{
         width:30,
         height:30,
-        backgroundColor:'rgba(151,122,248,.6)',
+        backgroundColor:'rgba(222, 103, 105, 0.5)',
         alignItems:'center',
         justifyContent:'center',
         borderRadius:6

@@ -57,7 +57,7 @@ export default function PendingDonationView() {
                   textAlign: "center",
                 }}
               >
-                תרומות בהמתנוה לאישור
+                תרומות בהמתנה לאישור
               </h3>
             </>
             {loading ? (
