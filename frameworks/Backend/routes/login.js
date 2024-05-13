@@ -26,5 +26,8 @@ router.post(
   changePassword
 ); // this is for changing password after user receieves reset password and not in profile
 
+router.post("/authorize", isAuth, (req, res) => {
+  res.status(200).json();
+});
+
 module.exports = router;
-כאי;

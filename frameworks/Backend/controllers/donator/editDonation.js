@@ -33,7 +33,7 @@ const editDonation = async (req, res) => {
     Object.assign(donation, updateDonation);
     console.log(donation);
 
-    await donation.save;
+    await donation.save();
     res.status(200).send({ status: "donation updated" });
   } catch (error) {
     console.log(error);

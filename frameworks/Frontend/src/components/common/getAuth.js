@@ -9,10 +9,9 @@ const API = axios.create({
 export const authenticate = async () => {
   try {
     const response = await API.get("/login/authorize", getAuthHeader());
-    if (authenticate.status == 200) return true;
+    return req.status();
   } catch (error) {
-    if (error.status == 401) return 2;
     console.error("Authentication failed:", error);
-    return false;
+    return error.status;
   }
 };
