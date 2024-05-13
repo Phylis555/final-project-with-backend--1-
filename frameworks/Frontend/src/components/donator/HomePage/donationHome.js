@@ -423,6 +423,9 @@ export default function DonationHome() {
                       .includes(searchTerm.toLowerCase()) ||
                     val.donationDescription
                       .toLowerCase()
+                      .includes(searchTerm.toLowerCase())||
+                    val.location
+                      .toLowerCase()
                       .includes(searchTerm.toLowerCase())
                   ) {
                     return val;
