@@ -2,6 +2,7 @@ const { sendOrganizationEmail } = require("../../common/sendEmail");
 const Fund = require("../../models/fund.model");
 const FundDonation = require("../../models/fundDonation.model");
 const Requester = require("../../models/requester.model");
+const { admin } = require("../../config/roles_list");
 
 // Delete the fund details from database
 const deleteFund = async (req, res) => {
@@ -10,7 +11,7 @@ const deleteFund = async (req, res) => {
 
     const currFund = await Fund.findById(fundID);
 
-    if (currFund.organizationID != req.userId)
+    if (currFund.organizationID != req.userId && req.role != admin)
       throw new Error("Not correct user for this action");
 
     currFund.status = "removed";
