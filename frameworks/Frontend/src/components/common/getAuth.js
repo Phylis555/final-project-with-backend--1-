@@ -9,9 +9,10 @@ const API = axios.create({
 export const authenticate = async () => {
   try {
     const response = await API.get("/login/authorize", getAuthHeader());
-    return req.status();
+    console.log(response.status);
+    return Promise.resolve(response.status);
   } catch (error) {
-    console.error("Authentication failed:", error);
-    return error.status;
+    console.log("Authentication failed:", error.response.status);
+    return Promise.resolve(error.response.status);
   }
 };

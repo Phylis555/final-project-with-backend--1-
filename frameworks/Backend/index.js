@@ -6,8 +6,8 @@ const dotenv = require("dotenv");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const app = express();
-const schedule = require('node-schedule');
-const completeDonations = require('./common/completeAllDonations.js');
+const schedule = require("node-schedule");
+const completeDonations = require("./common/completeAllDonations.js");
 
 require("dotenv").config();
 //kjijo
@@ -44,7 +44,6 @@ app.use("/requester", requesterRoutes);
 const homeRoutes = require("./routes/home.routes");
 app.use("/home", homeRoutes);
 
-
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -53,7 +52,8 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-const URL = 'mongodb+srv://node_Js_Server:102938Node@cluster0.eiackwm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const URL =
+  "mongodb+srv://node_Js_Server:102938Node@cluster0.eiackwm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(URL, {
   useNewUrlParser: true,
@@ -72,4 +72,4 @@ app.listen(PORT, () => {
 
 completeDonations();
 
-const job = schedule.scheduleJob('0 0 * * *', completeDonations);
+const job = schedule.scheduleJob("0 0 * * *", completeDonations);

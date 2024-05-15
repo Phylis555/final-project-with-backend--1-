@@ -15,9 +15,17 @@ import AcceptedRequestView from "../components/donator/AcceptedRequests/accepted
 import DonationHome from "../components/donator/HomePage/donationHome";
 import Unauthorized from "../components/common/unauthorized";
 import { getCookie } from "../components/common/getCookie";
+import { authenticate } from "../components/common/getAuth";
 
 export default function Donator() {
-  const isAuthenticated = getCookie("uId") && getCookie("access_token") && getCookie("roles");
+  let status;
+  authenticate().then((result) => {
+    console.log(result);
+    status = result;
+  }).then;
+  console.log(status);
+  const isAuthenticated =
+    getCookie("uId") && getCookie("access_token") && getCookie("roles");
   const hasValidRole = ["1984", "2001"].includes(getCookie("roles"));
 
   return (
@@ -40,13 +48,15 @@ export default function Donator() {
             <Route path="/dashboard" element={<ActiveDonations />} />
             <Route path="/viewRequest/:id" element={<SeeRequests />} />
             <Route path="/pendingDonations" element={<PendingDonationView />} />
-            <Route path="/rejectedDonations" element={<RejectedDonationView />} />
+            <Route
+              path="/rejectedDonations"
+              element={<RejectedDonationView />}
+            />
             <Route path="/acceptedRequests" element={<AcceptedRequestView />} />
           </>
-        ) : 
-        <Route path="*" element={<Unauthorized />} />
-
-      }
+        ) : (
+          <Route path="*" element={<Unauthorized />} />
+        )}
       </Routes>
     </>
   );
