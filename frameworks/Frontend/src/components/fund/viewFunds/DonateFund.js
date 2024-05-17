@@ -97,10 +97,13 @@ export default function DonateFund({ organizationID, fundID, fund }) {
             type="text"
             className="form-control"
             placeholder="מספר כרטיס בעל 16 ספרות"
-            value={cardDetails["cardNumber"]}
+            value={cardDetails["cardNumber"] }
             onChange={(e) => {
-              setCardDetails({ ...cardDetails, cardNumber: e.target.value });
-            }}
+              setCardDetails({
+                ...cardDetails,
+                cardNumber: e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim() // Add space every 4 digits
+              });}
+            }
           />
         </div>
         <div className="text-danger form-label mb-3">
@@ -117,11 +120,21 @@ export default function DonateFund({ organizationID, fundID, fund }) {
                 placeholder="MM / YY"
                 value={cardDetails["cardExpiry"]}
                 onChange={(e) => {
+                  let value = e.target.value;
+                  // If length is 2 and there's no "/" yet, append it automatically
+                  if (value.length === 2 && value.indexOf('/') === -1) {
+                    value += '/';
+                  }
+                  // If length is more than 5, trim it
+                  if (value.length > 5) {
+                    value = value.substr(0, 5);
+                  }
                   setCardDetails({
                     ...cardDetails,
-                    cardExpiry: e.target.value,
+                    cardExpiry: value,
                   });
                 }}
+             
               />
             </div>
             <div className="text-danger form-label mb-3">
