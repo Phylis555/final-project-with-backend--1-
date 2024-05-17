@@ -4,28 +4,31 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { newDonation } from "../../api/donator.api";
 import NavBar from "../NavBar";
-import DonatorDashboard from "./donatorDashboard";
 import { requesterProfile } from "../../api/requester.api";
-
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
 import { initializeMap } from "./mapHandler";
 
 export default function CreateDonation() {
+  // Get today's date
   var dtToday = new Date();
 
+  // Calculate tomorrow's date
   var month = dtToday.getMonth() + 1;
   var day = dtToday.getDate() + 1;
   var year = dtToday.getFullYear();
   var Nextyear = dtToday.getFullYear() + 1;
 
+  // Ensure leading zeros for month and day
   if (month < 10) month = "0" + month.toString();
   if (day < 10) day = "0" + day.toString();
+
+  // Calculate min and max dates for donation end date
   var minDate = year + "-" + month + "-" + day;
   var maxDate = Nextyear + "-" + month + "-" + day;
 
-  console.log(minDate);
+  // Array of categories for donation items
   const categories = [
     "כלי עבודה",
     "ציוד רפואי",
@@ -36,6 +39,7 @@ export default function CreateDonation() {
     "אחר",
   ];
 
+  // React state hooks
   const navigate = useNavigate();
   const [donationTitle, setDonationTitle] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +50,6 @@ export default function CreateDonation() {
 
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
-  const [userData, setUserData] = useState(null);
 
   const [wantedItems, setWantedItems] = useState([]);
   const [itemName, setItemName] = useState("");
@@ -55,13 +58,11 @@ export default function CreateDonation() {
   const [mapInitialized, setMapInitialized] = useState(false);
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
-
+  // Fetch user details when user ID changes
   useEffect(() => {
     setUserId(getCookie("uId"));
   }, []);
+
   useEffect(() => {
     console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
     requesterProfile(userId)
@@ -76,9 +77,9 @@ export default function CreateDonation() {
   }, [userId]);
 
   let filesarr = [];
+  // Handle file upload
   const fileUpload = (files) => {
     filesarr = files;
-    // console.log(filesarr.base64);
   };
 
   useEffect(() => {
@@ -111,6 +112,7 @@ export default function CreateDonation() {
     setWantedQuantity("");
   };
 
+  // Handle donation creation
   const createDonation = async (e) => {
     e.preventDefault();
     if (!submitButtonClicked) {
@@ -157,11 +159,15 @@ export default function CreateDonation() {
         });
       });
   };
+
+  // Delete an item from the list of wanted items
   const handleDeleteItem = (index) => {
     const updatedItems = [...wantedItems];
     updatedItems.splice(index, 1);
     setWantedItems(updatedItems);
   };
+
+  // Edit an item from the list of wanted items
   const handleEditItem = (index) => {
     const editedItem = wantedItems[index];
 
@@ -177,20 +183,9 @@ export default function CreateDonation() {
 
   return (
     <>
-      {/* <span class="mask bg-gradient-dark opacity-6"></span> */}
       <NavBar />
       {loading ? (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            bottom: 0,
-            left: 0,
-            right: 0,
-
-            margin: "auto",
-          }}
-        >
+        <div style={{ position: "absolute", top: "50%", bottom: 0, left: 0, right: 0, margin: "auto",}}>
           <LoadingSpinner />
         </div>
       ) : (
@@ -232,19 +227,7 @@ export default function CreateDonation() {
                         required
                       />
                     </div>
-                    {/* <div class="input-group input-group input-group-outline ">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="מיקום*"
-                        aria-label="Location"
-                        aria-describedby="basic-addon1"
-                        onChange={(e) => {
-                          setLocation(e.target.value);
-                        }}
-                        required
-                      />
-                    </div> */}
+               
 
                     <div className="input-group input-group mb-3 input-group-outline mb-2">
                       <input
@@ -414,12 +397,12 @@ export default function CreateDonation() {
                       ></textarea>
                     </div>
                     <div>הוספת תמונה</div>
-                    <FileBase64 onDone={(files) => fileUpload(files)} />
+                      <FileBase64 onDone={(files) => fileUpload(files)} />
                     <div class="text-center">
-                    {wantedItems.length > 0 && (
-                     <button type="submit" class="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
-                     יצירת בקשה לתרומה
-                   </button>
+                      {wantedItems.length > 0 && (
+                        <button type="submit" class="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
+                         יצירת בקשה לתרומה
+                        </button>
                       )}
                     </div>
                   </form>

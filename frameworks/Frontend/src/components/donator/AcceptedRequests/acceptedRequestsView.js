@@ -13,23 +13,23 @@ export default function AcceptedRequestView() {
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    setUserId(getCookie("uId"));
-    // setLoading(true);
+    setUserId(getCookie("uId"));// Set user ID from cookie
     //fetching all inbound item data from the database
   }, [userId]);
   console.log(userId);
+
+
   useEffect(() => {
     setLoading(true);
-    //fetching all inbound item data from the database
-    getOngoingDonations(userId)
+  // Fetching all ongoing donation data from the database using user ID
+  getOngoingDonations(userId)
       .then((res) => {
         setLoading(false);
         console.log(res);
         if (res.data.length > 0) {
           setLoading(false);
-          setDonation(res.data);
+          setDonation(res.data); // Set ongoing donations to state variable
           console.log(res.data);
-          //   console.log(donations);
         }
       })
       .catch((e) => {
@@ -37,6 +37,8 @@ export default function AcceptedRequestView() {
         console.log(e);
       });
   }, [userId]);
+
+  // Function to toggle side navigation
   const toggleSidenav = (e) => {
     e.preventDefault();
     document.body.classList.remove("g-sidenav-pinned");
@@ -49,6 +51,7 @@ export default function AcceptedRequestView() {
         <div className="container-fluid py-4" onClick={toggleSidenav}>
           <div className="row align-items-center"></div>
           <div class="container" style={{ paddingTop: 20 }}>
+             {/* Render loading spinner if loading */}
             {loading ? (
               <div
                 style={{
@@ -62,6 +65,7 @@ export default function AcceptedRequestView() {
                 <NoItems />
               </>
             ) : (
+             // Map through ongoing donations and render AcceptedRequestsCard component for each
               donations.map(function (f) {
                 return (
                   <AcceptedRequestsCard
