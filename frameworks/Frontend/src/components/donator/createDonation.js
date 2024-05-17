@@ -46,10 +46,11 @@ export default function CreateDonation() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [wantedQuantity, setWantedQuantity] = useState('');
   const [mapInitialized, setMapInitialized] = useState(false);
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value); 
-  };
+  // const handleCategoryChange = (e) => {
+  //   setCategory(e.target.value); 
+  // };
   
   useEffect(() => {
     setUserId(getCookie("uId"));
@@ -106,13 +107,17 @@ useEffect(() => {
   
 
   const createDonation = async (e) => {
+    e.preventDefault();
+    if (!submitButtonClicked) {
+      return;
+    }
     if (wantedItems.length === 0) {
       alert('אנא הוסף פריט לפני הגשת הבקשה');
       return;
     }
 
     setLoading(true);
-    e.preventDefault();
+    // e.preventDefault();
     const donationImage = filesarr.base64;
     console.log(donationImage);
     const userID = userId;
@@ -400,9 +405,10 @@ useEffect(() => {
                   <FileBase64 onDone={(files) => fileUpload(files)} />
                   <div class="text-center">
                    {wantedItems.length > 0 && (
-                      <button type="submit" class="btn btn-secondary">
-                        יצירת בקשה לתרומה
-                      </button>
+                     <button type="submit" class="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
+                     יצירת בקשה לתרומה
+                   </button>
+                   
                     )}
                   </div>
                   </form>
