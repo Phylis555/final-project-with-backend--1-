@@ -1,5 +1,3 @@
-
-          
 import axios from "../../api/axios";
 import React, { useState } from "react";
 import Footer from "../Footer";
@@ -50,10 +48,12 @@ export default function RequesterSignIn() {
       const { accessToken, roles, _id } = response.data;
 
       let expires = new Date();
-      expires.setTime(expires.getTime() + response.data.expires_in * 1000);
+      // expires.setTime(expires.getTime() + 60 * 60 * 1000);
+      expires.setTime(expires.getTime() + 60 * 1000);
       setCookie("access_token", accessToken, { path: "/", expires });
       setCookie("roles", roles, { path: "/", expires });
       setCookie("uId", _id, { path: "/", expires });
+      setCookie("isAuth", "active", { path: "/", expires });
 
       if (roles === "5150") {
         Navigate("/organization/dashboard");
@@ -83,10 +83,15 @@ export default function RequesterSignIn() {
       <nav>
         <NavBar />
       </nav>
-      <div className="container d-flex justify-content-center pt-5 pb-5" dir="rtl">
+      <div
+        className="container d-flex justify-content-center pt-5 pb-5"
+        dir="rtl"
+      >
         <div className="card card-signin z-index-0 fadeIn3 fadeInBottom ">
           <form className="form-control p-5" onSubmit={handleSubmit}>
-            <p className="h3 fw-bold text-center mb-2 pb-4 border-bottom">התחבר</p>
+            <p className="h3 fw-bold text-center mb-2 pb-4 border-bottom">
+              התחבר
+            </p>
             <div className="input-group input-group-outline mb-4 pt-4 ps-4">
               <input
                 type="email"
@@ -109,18 +114,22 @@ export default function RequesterSignIn() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-               <span className="mt-1 me-2" onClick={togglePasswordVisibility}>
-                  {showPassword ? <VscEye /> : <VscEyeClosed />}
-                </span>
+              <span className="mt-1 me-2" onClick={togglePasswordVisibility}>
+                {showPassword ? <VscEye /> : <VscEyeClosed />}
+              </span>
             </div>
 
-              <p className=" mt-1 mb-3 fs-7 ">
-                * שכחת את הסיסמה? <Link to="/user/resetPassword">לחץ כאן</Link>
-              </p>
+            <p className=" mt-1 mb-3 fs-7 ">
+              * שכחת את הסיסמה? <Link to="/user/resetPassword">לחץ כאן</Link>
+            </p>
             {errMsg && <div className="alert alert-danger">{errMsg}</div>}
             <div className="row border-bottom">
               <div className="mb-4 d-flex justify-content-center">
-                <button type="submit" className="btn btn-primary d-block" disabled={loading}>
+                <button
+                  type="submit"
+                  className="btn btn-primary d-block"
+                  disabled={loading}
+                >
                   התחבר
                 </button>
               </div>
@@ -137,4 +146,3 @@ export default function RequesterSignIn() {
     </div>
   );
 }
- 
