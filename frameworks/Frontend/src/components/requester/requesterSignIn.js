@@ -48,8 +48,7 @@ export default function RequesterSignIn() {
       const { accessToken, roles, _id } = response.data;
 
       let expires = new Date();
-      // expires.setTime(expires.getTime() + 60 * 60 * 1000);
-      expires.setTime(expires.getTime() + 60 * 1000);
+      expires.setTime(expires.getTime() + 60 * 60 * 1000);
       setCookie("access_token", accessToken, { path: "/", expires });
       setCookie("roles", roles, { path: "/", expires });
       setCookie("uId", _id, { path: "/", expires });
