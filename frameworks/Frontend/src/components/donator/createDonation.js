@@ -7,11 +7,10 @@ import NavBar from "../NavBar";
 import DonatorDashboard from "./donatorDashboard";
 import { requesterProfile } from "../../api/requester.api";
 
-
 import LoadingSpinner from "../common/LoadingSpinner";
 import { getCookie } from "../common/getCookie";
 import Footer from "../Footer";
-import { initializeMap } from "./mapHandler"; 
+import { initializeMap } from "./mapHandler";
 
 export default function CreateDonation() {
   var dtToday = new Date();
@@ -19,7 +18,7 @@ export default function CreateDonation() {
   var month = dtToday.getMonth() + 1;
   var day = dtToday.getDate() + 1;
   var year = dtToday.getFullYear();
-  var Nextyear = dtToday.getFullYear()+1;
+  var Nextyear = dtToday.getFullYear() + 1;
 
   if (month < 10) month = "0" + month.toString();
   if (day < 10) day = "0" + day.toString();
@@ -27,7 +26,15 @@ export default function CreateDonation() {
   var maxDate = Nextyear + "-" + month + "-" + day;
 
   console.log(minDate);
-  const categories = ["כלי עבודה","ציוד רפואי","אלקטרוניקה","ציוד ספורט", "בגדים", "ציוד משרדי", "אחר"]; 
+  const categories = [
+    "כלי עבודה",
+    "ציוד רפואי",
+    "אלקטרוניקה",
+    "ציוד ספורט",
+    "בגדים",
+    "ציוד משרדי",
+    "אחר",
+  ];
 
   const navigate = useNavigate();
   const [donationTitle, setDonationTitle] = useState("");
@@ -41,32 +48,31 @@ export default function CreateDonation() {
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState(null);
 
-  const [wantedItems, setWantedItems] = useState([]); 
-  const [itemName, setItemName] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [wantedQuantity, setWantedQuantity] = useState('');
+  const [wantedItems, setWantedItems] = useState([]);
+  const [itemName, setItemName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [wantedQuantity, setWantedQuantity] = useState("");
   const [mapInitialized, setMapInitialized] = useState(false);
 
   const handleCategoryChange = (e) => {
-    setCategory(e.target.value); 
+    setSelectedCategory(e.target.value);
   };
-  
+
   useEffect(() => {
     setUserId(getCookie("uId"));
-
-}, []);
-useEffect(() => {
-  console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
-  requesterProfile(userId)
-    .then((res) => {
-      console.log("User details:", res.data); // Check if user details are retrieved correctly
-      setEmail(res.data.requester.email);
-      setContactNumber("0" + res.data.requester.contactNumber);
-    })
-    .catch((error) => {
-      console.error("Failed to fetch user details:", error);
-    });
-}, [userId]);
+  }, []);
+  useEffect(() => {
+    console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
+    requesterProfile(userId)
+      .then((res) => {
+        console.log("User details:", res.data); // Check if user details are retrieved correctly
+        setEmail(res.data.requester.email);
+        setContactNumber("0" + res.data.requester.contactNumber);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user details:", error);
+      });
+  }, [userId]);
 
   let filesarr = [];
   const fileUpload = (files) => {
@@ -80,34 +86,33 @@ useEffect(() => {
       setMapInitialized(true);
     }
   }, [mapInitialized]);
- 
+
   const handleAddItem = () => {
     // Validate input fields
     if (!itemName || !selectedCategory || !wantedQuantity) {
-      alert('Please fill all fields');
+      alert("Please fill all fields");
       return;
     }
-  
+
     // Create a new item object
     const newItem = {
       itemName: itemName,
       category: selectedCategory,
-      quantity: wantedQuantity
+      quantity: wantedQuantity,
     };
 
     // Add the new item to the array of wanted items
-    setWantedItems(prevItems => [...prevItems, newItem]);
+    setWantedItems((prevItems) => [...prevItems, newItem]);
 
     // Clear input fields
-    setItemName('');
-    setSelectedCategory('');
-    setWantedQuantity('');
+    setItemName("");
+    setSelectedCategory("");
+    setWantedQuantity("");
   };
-  
 
   const createDonation = async (e) => {
     if (wantedItems.length === 0) {
-      alert('אנא הוסף פריט לפני הגשת הבקשה');
+      alert("אנא הוסף פריט לפני הגשת הבקשה");
       return;
     }
 
@@ -116,7 +121,6 @@ useEffect(() => {
     const donationImage = filesarr.base64;
     console.log(donationImage);
     const userID = userId;
-
 
     const donation = {
       userID,
@@ -127,7 +131,7 @@ useEffect(() => {
       contactNumber,
       donationImage,
       donationDescription,
-      wantedItems
+      wantedItems,
     };
     console.log(donation);
     await newDonation(donation)
@@ -141,13 +145,11 @@ useEffect(() => {
       })
       .catch((err) => {
         console.log(err);
-        swal("יצירת התרומה נכשלה", "בבקשה נסה שוב", "error").then(
-          (value) => {
-            if (value) {
-              navigate("../dashboard");
-            }
+        swal("יצירת התרומה נכשלה", "בבקשה נסה שוב", "error").then((value) => {
+          if (value) {
+            navigate("../dashboard");
           }
-        );
+        });
       });
   };
   const handleDeleteItem = (index) => {
@@ -157,12 +159,12 @@ useEffect(() => {
   };
   const handleEditItem = (index) => {
     const editedItem = wantedItems[index];
-  
+
     // Set the values of the input fields to the values of the edited item
     setItemName(editedItem.itemName);
     setSelectedCategory(editedItem.category);
     setWantedQuantity(editedItem.quantity);
-  
+
     // Remove the edited item from the list of wanted items
     const updatedItems = wantedItems.filter((item, i) => i !== index);
     setWantedItems(updatedItems);
@@ -238,7 +240,7 @@ useEffect(() => {
                         required
                       />
                     </div> */}
-                    
+
                     <div className="input-group input-group mb-3 input-group-outline mb-2">
                       <input
                         type="text"
@@ -248,20 +250,23 @@ useEffect(() => {
                         aria-label="Location"
                         aria-describedby="basic-addon1"
                         value={location}
-                        readOnly 
+                        readOnly
                         required
                       />
-
                     </div>
 
                     <div id="map" style={{ height: "300px" }}></div>
-                    <p className= "fs-6 m-0">לחץ על המפה כדי להוסיף מיקום או השתמש בחיפוש למציאת כתובת.</p>
-                    <p className= "fs-7 text-danger p-0 m-0">*לא ניתן להכניס כתובת מדויקת כדי לשמור על פרטיותכם (אנחנו ממליצים לבחור את מיקום ע"י לחיצה על האזור הרלוונטי במפה)</p>
+                    <p className="fs-6 m-0">
+                      לחץ על המפה כדי להוסיף מיקום או השתמש בחיפוש למציאת כתובת.
+                    </p>
+                    <p className="fs-7 text-danger p-0 m-0">
+                      *לא ניתן להכניס כתובת מדויקת כדי לשמור על פרטיותכם (אנחנו
+                      ממליצים לבחור את מיקום ע"י לחיצה על האזור הרלוונטי במפה)
+                    </p>
 
-                    <label className= "my-3">פרטי איש קשר:</label>
+                    <label className="my-3">פרטי איש קשר:</label>
 
                     <div class="input-group  input-group input-group-outline mb-3">
-                      
                       <input
                         type="text"
                         placeholder="מספר טלפון של איש קשר*"
@@ -291,7 +296,7 @@ useEffect(() => {
                         required
                       />
                     </div>
-                    <label className= "my-3">תאריך סיום התרומה:</label>
+                    <label className="my-3">תאריך סיום התרומה:</label>
                     <div class="input-group input-group input-group-outline mb-3">
                       <input
                         placeholder="תאריך סיום התרומה"
@@ -307,104 +312,111 @@ useEffect(() => {
                         required
                       />
                     </div>
-                    
-                  <label className= "">הוספת פריטים:</label>
-                   <div className="input-group input-group-outline align-items-center"> 
-                    <select
-                      className="form-select ms-2 rounded-2"
-                      aria-label="Select Category"
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                    >
-                      <option value="">בחר קטגוריה</option>
-                      {categories.map((cat, index) => (
-                        <option key={index} value={cat}>{cat}</option>
-                      ))}
-                    </select>
-                    <input
-                      type="text"
-                      className="form-control ms-2 rounded-2"
-                      placeholder="שם הפריט"
-                      value={itemName}
-                      onChange={(e) => setItemName(e.target.value)}
-                    />
-                  
-                    <input
-                      type="number"
-                      className="form-control ms-2 rounded-2"
-                      placeholder="כמות מבוקשת"
-                      value={wantedQuantity}
-                      onChange={(e) => setWantedQuantity(e.target.value)}
-                    />
-                    <button className="btn btn-primary rounded-start me-2 mt-2" onClick={handleAddItem}>                        
-                      <i className="fas fa-plus" style={{ marginLeft: '5px' }}></i>
-                        הוסף
-                    </button>
-                    </div>
-                  <div>
-                  {wantedItems.length > 0 && (
-                      <div>
-                        <h4>הפריטים המבוקשים:</h4>
-                        <ul>
-                        <table className="table  table-hover text-center">
-                          <thead className="table-primary ">
-                            <tr>
-                              <th scope="col">קטגוריה</th>
-                              <th scope="col">שם הפריט</th>
-                              <th scope="col">כמות</th>
-                              <th scope="col">פעולות</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {wantedItems.map((item, index) => (
-                              <tr key={index}>
-                                <td>{item.category}</td>
-                                <td>{item.itemName}</td>
-                                <td>{item.quantity}</td>
-                                <td>
-                                <button
-                                  className="btn btn p-0 ms-5"
-                                  onClick={() => handleEditItem(index)}
-                                >
-                                  <i className="fas fa-edit text-info fs-5"></i>
-                                </button>
-                                  <button
-                                    className="btn p-0"
-                                    onClick={() => handleDeleteItem(index)}
-                                  >
-                                    <i className="bi bi-trash text-danger fs-5"></i>
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
 
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
-                    <textarea
-                      class="form-control"
-                      placeholder="תיאור אודות התרומה*"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      onChange={(e) => {
-                        setDonationDescription(e.target.value);
-                      }}
-                      required
-                    ></textarea>
-                  </div>
-                  <div>הוספת תמונה</div>
-                  <FileBase64 onDone={(files) => fileUpload(files)} />
-                  <div class="text-center">
-                   {wantedItems.length > 0 && (
-                      <button type="submit" class="btn btn-secondary">
-                        יצירת בקשה לתרומה
+                    <label className="">הוספת פריטים:</label>
+                    <div className="input-group input-group-outline align-items-center">
+                      <select
+                        className="form-select ms-2 rounded-2"
+                        aria-label="Select Category"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                      >
+                        <option value="">בחר קטגוריה</option>
+                        {categories.map((cat, index) => (
+                          <option key={index} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="text"
+                        className="form-control ms-2 rounded-2"
+                        placeholder="שם הפריט"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                      />
+
+                      <input
+                        type="number"
+                        className="form-control ms-2 rounded-2"
+                        placeholder="כמות מבוקשת"
+                        value={wantedQuantity}
+                        onChange={(e) => setWantedQuantity(e.target.value)}
+                      />
+                      <button
+                        className="btn btn-primary rounded-start me-2 mt-2"
+                        onClick={handleAddItem}
+                      >
+                        <i
+                          className="fas fa-plus"
+                          style={{ marginLeft: "5px" }}
+                        ></i>
+                        הוסף
                       </button>
-                    )}
-                  </div>
+                    </div>
+                    <div>
+                      {wantedItems.length > 0 && (
+                        <div>
+                          <h4>הפריטים המבוקשים:</h4>
+                          <ul>
+                            <table className="table  table-hover text-center">
+                              <thead className="table-primary ">
+                                <tr>
+                                  <th scope="col">קטגוריה</th>
+                                  <th scope="col">שם הפריט</th>
+                                  <th scope="col">כמות</th>
+                                  <th scope="col">פעולות</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {wantedItems.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{item.category}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>
+                                      <button
+                                        className="btn btn p-0 ms-5"
+                                        onClick={() => handleEditItem(index)}
+                                      >
+                                        <i className="fas fa-edit text-info fs-5"></i>
+                                      </button>
+                                      <button
+                                        className="btn p-0"
+                                        onClick={() => handleDeleteItem(index)}
+                                      >
+                                        <i className="bi bi-trash text-danger fs-5"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                    <div class="input-group mb-3 input-group input-group-outline mb-3">
+                      <textarea
+                        class="form-control"
+                        placeholder="תיאור אודות התרומה*"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        onChange={(e) => {
+                          setDonationDescription(e.target.value);
+                        }}
+                        required
+                      ></textarea>
+                    </div>
+                    <div>הוספת תמונה</div>
+                    <FileBase64 onDone={(files) => fileUpload(files)} />
+                    <div class="text-center">
+                      {wantedItems.length > 0 && (
+                        <button type="submit" class="btn btn-secondary">
+                          יצירת בקשה לתרומה
+                        </button>
+                      )}
+                    </div>
                   </form>
                 </div>
               </div>
