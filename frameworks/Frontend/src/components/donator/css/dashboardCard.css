@@ -48,7 +48,7 @@
    .cardScall{
       width: 100%;
       flex: 0 0 auto;
-
+      font-size: calc(1.3125rem + 0.75vw) !important;
    }
    .cardH3{
       font-size: 100%;

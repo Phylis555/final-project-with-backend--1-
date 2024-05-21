@@ -47,6 +47,7 @@ export default function CreateDonation() {
   const [location, setLocation] = useState("");
   const [donationDescription, setDonationDescription] = useState("");
   const [donationEndDate, setDonationEndDate] = useState("");
+  const [donationImage, setDonationImage] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
@@ -64,6 +65,7 @@ export default function CreateDonation() {
   }, []);
 
   useEffect(() => {
+    if (userId) {
     console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
     requesterProfile(userId)
       .then((res) => {
@@ -74,12 +76,13 @@ export default function CreateDonation() {
       .catch((error) => {
         console.error("Failed to fetch user details:", error);
       });
+    }
   }, [userId]);
 
-  let filesarr = [];
   // Handle file upload
   const fileUpload = (files) => {
-    filesarr = files;
+    setDonationImage(files.base64);
+
   };
 
   useEffect(() => {
@@ -114,7 +117,7 @@ export default function CreateDonation() {
 
   // Handle donation creation
   const createDonation = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     if (!submitButtonClicked) {
       return;
     }
@@ -124,8 +127,6 @@ export default function CreateDonation() {
     }
 
     setLoading(true);
-    // e.preventDefault();
-    const donationImage = filesarr.base64;
     console.log(donationImage);
     const userID = userId;
 
@@ -185,37 +186,37 @@ export default function CreateDonation() {
     <>
       <NavBar />
       {loading ? (
+        // Show loading spinner while loading
         <div style={{ position: "absolute", top: "50%", bottom: 0, left: 0, right: 0, margin: "auto",}}>
           <LoadingSpinner />
         </div>
       ) : (
         <div
-          class="container my-auto"
+          className="container my-auto"
           style={{ paddingTop: 30, marginBottom: 100 }}
         >
-          <div class="row" dir="rtl">
-            <div class="mx-auto">
-              <div class="card z-index-0 fadeIn3 fadeInBottom">
-                <div class="card-body">
+          <div className="row" dir="rtl">
+            <div className="mx-auto">
+              <div className="card z-index-0 fadeIn3 fadeInBottom">
+                <div className="card-body">
                   <form
                     role="form"
-                    class="text-start"
+                    className="text-start"
                     onSubmit={createDonation}
                   >
-                    <div class="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                       <h4>צור את הבקשה לתרומה שלך</h4>
                     </div>
-                    <div class="d-flex justify-content-between">
-                      <div></div>
+                    <div className="d-flex justify-content-between">
                       <div></div>
                       <h6>*שדות חובה</h6>
                     </div>
 
-                    <div class="input-group mb-3 input-group input-group-outline mb-3">
+                    <div className="input-group mb-3 input-group input-group-outline mb-3">
                       <input
                         type="text"
                         maxLength={35}
-                        class="form-control"
+                        className="form-control"
                         placeholder="כותרת*"
                         title="כותרת חייבת לכלול לפוחת 5 תווים "
                         minLength={5}
@@ -228,7 +229,6 @@ export default function CreateDonation() {
                       />
                     </div>
                
-
                     <div className="input-group input-group mb-3 input-group-outline mb-2">
                       <input
                         type="text"
@@ -254,7 +254,7 @@ export default function CreateDonation() {
 
                     <label className="my-3">פרטי איש קשר:</label>
 
-                    <div class="input-group  input-group input-group-outline mb-3">
+                    <div className="input-group  input-group input-group-outline mb-3">
                       <input
                         type="text"
                         placeholder="מספר טלפון של איש קשר*"
@@ -262,7 +262,7 @@ export default function CreateDonation() {
                         aria-describedby="basic-addon1"
                         title="מספר טלפון בעל 10 ספרות"
                         pattern="[0]{1}[5]{1}[0-9]{8}"
-                        class="form-control"
+                        className="form-control"
                         value={contactNumber}
                         onChange={(e) => {
                           setContactNumber(e.target.value);
@@ -270,10 +270,10 @@ export default function CreateDonation() {
                         required
                       />
                     </div>
-                    <div class="input-group input-group input-group-outline ">
+                    <div className="input-group input-group input-group-outline ">
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Email*"
                         aria-label="Email"
                         aria-describedby="basic-addon1"
@@ -285,10 +285,10 @@ export default function CreateDonation() {
                       />
                     </div>
                     <label className="my-3">תאריך סיום התרומה:</label>
-                    <div class="input-group input-group input-group-outline mb-3">
+                    <div className="input-group input-group input-group-outline mb-3">
                       <input
                         placeholder="תאריך סיום התרומה"
-                        class="form-control"
+                        className="form-control"
                         type="date"
                         min={minDate}
                         max={maxDate}
@@ -384,9 +384,9 @@ export default function CreateDonation() {
                         </div>
                       )}
                     </div>
-                    <div class="input-group mb-3 input-group input-group-outline mb-3">
+                    <div className="input-group mb-3 input-group input-group-outline mb-3">
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         placeholder="תיאור אודות התרומה*"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -398,9 +398,9 @@ export default function CreateDonation() {
                     </div>
                     <div>הוספת תמונה</div>
                       <FileBase64 onDone={(files) => fileUpload(files)} />
-                    <div class="text-center">
+                    <div className="text-center">
                       {wantedItems.length > 0 && (
-                        <button type="submit" class="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
+                        <button type="submit" className="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
                          יצירת בקשה לתרומה
                         </button>
                       )}

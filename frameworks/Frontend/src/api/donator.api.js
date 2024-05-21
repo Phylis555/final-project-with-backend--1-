@@ -90,6 +90,14 @@ export const getOngoingDonations = (donationID) =>
     }
   );
 
+  export const getCompletedDonations = (donationID) =>
+    API.get(`/getCompletedDonations/${donationID}`, getAuthHeader()).catch(
+      (error) => {
+        if (error.response.data.message === "jwt expired") {
+          logOut();
+        }
+      }
+    );
 // Function to get details of a specific donation
 export const getOneDonation = (donationID) =>
   API.get(`/getOneDonation/${donationID}`, getAuthHeader()).catch((error) => {

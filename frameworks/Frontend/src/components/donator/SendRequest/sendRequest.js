@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getOneDonation } from "../../../api/donator.api";
 import { newRequest } from "../../../api/donator.api";
 import NavBar from "../../NavBar";
@@ -12,7 +12,7 @@ import { getCookie } from "../../common/getCookie";
 export default function SendRequest() {
   const navigate = useNavigate();
 
-  const { id } = useParams();
+  const { id } = useParams(); 
   const [donation, setDonation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [requesterName, setRequesterName] = useState("");
@@ -24,39 +24,44 @@ export default function SendRequest() {
 
   const [hasSelectedItem,seyHasSelectedItem]=useState(false);
   const [userId, setUserId] = useState("");
-    // const [profileData, setProfileData] = useState(false);
+
   useEffect(() => {
-    setUserId(getCookie("uId"));
+    setUserId(getCookie("uId"));// Fetch the user ID from cookies
   }, []);
-  useEffect(() => {
-    
-    requesterProfile(userId)
-      .then((res) => {
-        // setProfileData(res.data.requester);
-         console.log(res.data);
-        // console.log(res);
-        setRequesterEmail(res.data.requester.email);
-        setRequesterContact("0" + res.data.requester.contactNumber);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [userId]);
 
   // useEffect(() => {
-  //   console.log("Fetching user details for user ID:", userId); // Check if the user ID is updated
+  //   // Fetch the requester profile when the user ID changes
   //   requesterProfile(userId)
   //     .then((res) => {
-  //       console.log("User details:", res.data); // Check if user details are retrieved correctly
+  //       // Update the requester details
+  //        console.log(res.data);
   //       setRequesterEmail(res.data.requester.email);
   //       setRequesterContact("0" + res.data.requester.contactNumber);
   //     })
-  //     .catch((error) => {
-  //       console.error("Failed to fetch user details:", error);
+  //     .catch((e) => {
+  //       console.log(e);
   //     });
-  // }, [userId])
+  // }, [userId]);
 
   useEffect(() => {
+    if (userId) {
+      // Fetch the requester profile when the user ID changes
+      requesterProfile(userId)
+        .then((res) => 
+          {
+            // Update the requester details
+          setRequesterEmail(res.data.requester.email);
+          setRequesterContact("0" + res.data.requester.contactNumber);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [userId]);
+  
+
+  useEffect(() => {
+    // Fetch donation details when the donation ID changes
     getOneDonation(id)
       .then((res) => {
         setDonation(res.data.donation);
@@ -65,13 +70,14 @@ export default function SendRequest() {
         setLoading(false);
         whenStartItemQuantityChange();
           
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.error("Error fetching donation:", error);
         setLoading(false);
       });
   }, [id]);
+
   const whenStartItemQuantityChange = () => {
+     // Initialize the received amount of each item to 0
     setDonationItems((prevItems) =>
       prevItems.map((item) => ({ ...item, receivedAmount: 0 }))
     );
@@ -79,18 +85,20 @@ export default function SendRequest() {
 
 
   const handleItemQuantityChange = (itemId, quantity) => {
+    // Update the received amount of the selected item
     setDonationItems((prevItems) =>
       prevItems.map((item) =>
         item.item._id === itemId ? { ...item, receivedAmount: quantity } : item
       )
     );
-    seyHasSelectedItem(true);
+    seyHasSelectedItem(true);// Indicate that at least one item is selected
 
   };
 
+  // Handle form submission to create a new request
   const createRequest = async (e) => {
     e.preventDefault();
-
+    // Alert the user if no item is selected
     if (!hasSelectedItem) {
       alert('אנא הוסף פריט לפני הגשת הבקשה');        
       return;
@@ -109,6 +117,7 @@ export default function SendRequest() {
     await newRequest(request)
       .then((res) => {
         setLoading(false);
+        // Show success message and navigate to the home page
         swal("הבקשה נשלחה בהצלחה", "", "success").then((value) => {
           if (value) {
             navigate("/");
@@ -116,7 +125,8 @@ export default function SendRequest() {
         });     
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
+        //show error message;
         swal("שליחת הבקשה נכשלה", "בבקשה נסה שוב", "error").then(
           (value) => {
             if (value) {
@@ -129,6 +139,7 @@ export default function SendRequest() {
   };
 
   if (loading) {
+    // Show a loading indicator while data is being fetched
     return <div>Loading...</div>;
   }
 
@@ -150,6 +161,7 @@ export default function SendRequest() {
                     <h6>*שדות חובה</h6>
                   </div>
 
+                  {/* Input fields for requester details */}
                   <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
@@ -214,7 +226,8 @@ export default function SendRequest() {
                                   <input
                                     type="number"
                                     min="0"
-                                    max={item.wantedQuantity}
+                                    max={donationItemsForItenAmount.find((donationItem) => donationItem.item._id === item.item._id).wantedQuantity - 
+                                      donationItemsForItenAmount.find((donationItem) => donationItem.item._id === item.item._id).receivedAmount}
                                     placeholder="הכנס כמות"
                                     onChange={(e) => handleItemQuantityChange(item.item._id, parseInt(e.target.value))}
                                     className="form-control fw-bold fs-6 text-center"

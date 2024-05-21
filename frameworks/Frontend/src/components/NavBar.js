@@ -8,35 +8,38 @@ export default function NavBar() {
   const [userId, setUserId] = useState("");
   const navigate = useNavigate()
   const [showDonations, setShowDonations] = useState(false);
-  useEffect(() => {
-    userId
-      ? getUserDonations(userId)
-          .then((donations) => {
-            if (donations.length > 0) {
-              setShowDonations(true);
-            }
-            setShowDonations(false);
-          })
-          .catch((e) => console.log(e))
-      : setShowDonations(false);
-  }, [userId]);
+
+    // Fetch the user ID from cookies when the component
   useEffect(() => {
     setUserId(getCookie("uId"));
-    // setLoading(true);
-    //fetching all inbound item data from the database
+}, []);
+
+  // Fetch user donations when the user ID changes
+  useEffect(() => {
+    if (userId) {
+      getUserDonations(userId)
+        .then((donations) => {
+          setShowDonations(donations.length > 0);
+        })
+        .catch((e) => console.log(e));
+    } else {
+      setShowDonations(false);
+    }
   }, [userId]);
-  // console.log(userId);
 
+
+  // Handle user logout
   const logOut = (e) => {
-
     e.preventDefault();
+    // Clear cookies
     document.cookie = "uId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "roles=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // Redirect to sign-in page
     navigate("/user/signin");
+  };
 
-};
 
   return (
     <div >
@@ -59,93 +62,66 @@ export default function NavBar() {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
+              <Link className="nav-link active" aria-current="page" to="/">
                   ראשי
-                </a>
+                </Link>
               </li>
               <li className="nav-item ms-4">
-                <a className="nav-link" href="/fund/all">
+                <Link className="nav-link" to="/fund/all">
                   גיוס כספים לעמותות
-                </a>
+                </Link>
               </li>
               <li className="nav-item ms-4">
-                <a className="nav-link" href="/donator/home">
+                <Link className="nav-link" to="/donator/home">
                    בקשות לתרומת ציוד
-                </a>
+                </Link>
               </li>
-              {/* <li className="nav-item ms-4">
-                <a className="nav-link" href="/requester/all/requests">
-                  ציוד לתרומה
-                </a>
-              </li> */}
+              
               {userId ? (
                 <li className="nav-item dropdown mx-4" dir="rtl">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    פרופיל
-                  </a>
-                  <ul 
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    {/* <li>
-                      <a className="dropdown-item" href={`/requester/my/requests/${userId}`} key={userId}>
-                        ציוד שאני מעוניין לתרום
-                      </a>
-                    </li> */}
-
-                    
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  פרופיל
+                </a>
+                  <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
                     {setShowDonations ? (
                       <li>
-                        <a className="dropdown-item" href="/donator/dashboard">
-                        הבקשות ציוד שלי
-                        </a>
+                         <Link className="dropdown-item" to="/donator/dashboard">
+                          הבקשות ציוד שלי
+                        </Link>
                       </li>
                     ) : (
                       <li>
-                        <a
-                          className="dropdown-item"
-                          href="donator/createDonation"
-                        >
+                       <Link className="dropdown-item" to="/donator/createDonation">
                           צור תרומה
-                        </a>
+                        </Link>
                       </li>
                     )}
                     
-                    
-                    <Link to={`/user/profile/${userId}`} key={userId}>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          הגדרות חשבון
-                        </a>
-                      </li>
-                    </Link>
-                    {/* <li>
-                      <a className="dropdown-item" href="/requester/new?">
-                         צור בקשה  
+                    <li>
+                      <Link className="dropdown-item" to={`/user/profile/${userId}`}>
+                        הגדרות חשבון
+                      </Link>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={logOut}>
+                        התנתק
                       </a>
-                    </li> */}
-                    <Link to="/requester/signin">
-                      <li>
-                        <a className="dropdown-item" onClick={logOut} href="#">
-                          התנתק
-                        </a>
-                      </li>
-                    </Link>
+                    </li>
                   </ul>
                 </li>
               ) : (
                 <li className="nav-item ms-4">
-                  <a className="nav-link" href="/user/signin">
+                  <Link className="nav-link" to="/user/signin">
                     התחבר
-                  </a>
+                  </Link>
                 </li>
               )}
             </ul>

@@ -5386,13 +5386,21 @@ fieldset:disabled .btn {
 
 .card-title {
   margin-bottom: var(--bs-card-title-spacer-y);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-subtitle {
   margin-top: calc(-.5 * var(--bs-card-title-spacer-y));
   margin-bottom: 0;
 }
-
+.card-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; 
+}
 .card-text:last-child {
   margin-bottom: 0;
 }
