@@ -29,20 +29,6 @@ export default function SendRequest() {
     setUserId(getCookie("uId"));// Fetch the user ID from cookies
   }, []);
 
-  // useEffect(() => {
-  //   // Fetch the requester profile when the user ID changes
-  //   requesterProfile(userId)
-  //     .then((res) => {
-  //       // Update the requester details
-  //        console.log(res.data);
-  //       setRequesterEmail(res.data.requester.email);
-  //       setRequesterContact("0" + res.data.requester.contactNumber);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }, [userId]);
-
   useEffect(() => {
     if (userId) {
       // Fetch the requester profile when the user ID changes
