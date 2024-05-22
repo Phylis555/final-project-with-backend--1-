@@ -6,20 +6,27 @@ const Item = require("../../models/item.model");
 
 const createDonation = async (req, res) => {
   try {
-    let donationImage;
     const errors = validationResult(req);
     console.log(errors);
     if (!errors.isEmpty()) {
-      return res
-        .status(422)
-        .json({ message: "Validation failed.", error: errors.array() });
+      const error = new Error("Validation failed, entered data is incorrect");
+      error.status = 422;
+      throw error;
     }
 
-    const donationData = req.body;
-    if (donationData.donationImage != null) {
-      const imageBase64 = donationData.donationImage;
-      donationImage = await imageUpload(imageBase64);
+    if (!req.file) {
+      const error = new Error("No image provided.");
+      error.statusCode = 422;
+      throw error;
     }
+
+    const donationImage = req.file.path;
+
+    // const donationData = req.body;
+    // if (donationData.donationImage != null) {
+    //   const imageBase64 = donationData.donationImage;
+    //   donationImage = await imageUpload(imageBase64);
+    // }
 
     const {
       userID,
@@ -93,12 +100,11 @@ const createDonation = async (req, res) => {
           error: err,
         });
       });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Error creating donation",
-      error: err,
-    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

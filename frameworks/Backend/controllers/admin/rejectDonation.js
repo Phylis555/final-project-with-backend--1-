@@ -1,4 +1,3 @@
-const { imageUpload } = require("../../common/imageUpload");
 const { body, validationResult } = require("express-validator");
 const Donation = require("../../models/donation.model");
 const { sendRejectedEmail } = require("../../common/sendEmail");

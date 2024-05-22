@@ -1,4 +1,3 @@
-const { imageUpload } = require("../../common/imageUpload");
 const { sendAcceptedEmail } = require("../../common/sendEmail");
 
 const Fund = require("../../models/fund.model");
