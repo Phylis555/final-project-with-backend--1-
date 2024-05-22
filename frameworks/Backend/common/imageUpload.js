@@ -1,8 +1,8 @@
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
-  cloud_name: "dicjf8jjn",
-  api_key: "153389117368677",
-  api_secret: "iQGV8ggQU3UvZY9l2u7N4rpTYRM",
+  cloud_name: "dqq5vqbk4",
+  api_key: "469877517994647",
+  api_secret: "rbp2q8PzlccBJ1PBWgy5XfS3Y4k",
 });
 
 async function imageUpload(imageBase64) {
@@ -10,7 +10,7 @@ async function imageUpload(imageBase64) {
     const imageUploaded = await cloudinary.uploader.upload(
       imageBase64,
       {
-        folder: "akila",
+        folder: "InstantGiving",
       },
       function (error, result) {
         console.log(result, error);
