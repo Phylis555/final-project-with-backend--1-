@@ -6,7 +6,7 @@ const getAllDonations = async (req, res) => {
       status: "active",
     }).populate("wantedItems.item");
     console.log(currDon[0].wantedItems);
-    res.json(currDon);
+    res.status(200).json(currDon);
   } catch (error) {
     console.log(error);
     res.status(500).send({

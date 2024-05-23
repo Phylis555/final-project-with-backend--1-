@@ -1,0 +1,24 @@
+paths:
+  /donator/getDonations:
+    get:
+      summary: Gives an array of all donations.
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Server error
+  /donations/createDonation:
+    post:
+      summary: Add a new donation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              name: id
+          text/plain:
+            schema:
+              type: string
+      responses:
+        "201":
+          description: Created
