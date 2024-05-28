@@ -35,7 +35,7 @@ export default function NewFund() {
                         <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
                             <NavButton path="Organization / Funds" page="New Fund" />
                             <div className="container-fluid" onClick={toggleSidenav}>
-                                <h3 className="font-weight-bolder mt-4 mb-3 text-center">Create a new fund</h3>
+                                <h3 className="font-weight-bolder mt-4 mb-3 text-center">יצירת בקשה לתרומה חדשה</h3>
                                 <div className="my-auto pb-5">
                                     <div className="row">
                                         <div className="mx-auto col-lg-6 col-md-10 col-sm-12">

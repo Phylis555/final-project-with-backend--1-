@@ -13,16 +13,17 @@ import DonateFund from './DonateFund';
 import { toggleSidenav } from '../../common/toggleSidenav';
 
 export default function SelectedFund() {
+  // State variables to manage fund, organization, and loading status
   const [fund, setFund] = useState({ organizationID: "", endingDate: "2024-09-27T12:20:02.029+00:00" });
   const [organization, setOrganization] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const { fundID } = useParams();
   const navigate = useNavigate()
 
+  // Fetch fund data by ID
   useEffect(() => {
     getFundByID(fundID)
       .then(res => {
-        // console.log(res.data.fund);
         setFund(res.data.fund);
         setIsLoaded(true);
       })
@@ -31,19 +32,15 @@ export default function SelectedFund() {
       })
   }, [fundID])
 
+  // Fetch organization data by organization ID
   useEffect(() => {
     getOrganizationByID(fund.organizationID)
       .then(res => {
-        // console.log(res.data.organization);
         setOrganization(res.data.organization);
       })
   }, [fund.organizationID])
 
-  // const toggleSidenav = (e) => {
-  //   e.preventDefault();
-  //   document.body.classList.remove("g-sidenav-pinned");
-  // };
-
+  // Function to handle fund removal
   const removeFundbtn = (e) => {
     e.preventDefault();
     swal({
@@ -68,6 +65,7 @@ export default function SelectedFund() {
     });
   }
 
+  // Function to handle donation button click
   const handleDonate = (e) => {
     e.preventDefault();
     if (getCookie("roles") === '1984') {
@@ -84,6 +82,7 @@ export default function SelectedFund() {
     }
   }
 
+  // Function to close donate modal
   const closeDonateModal = (e) => {
     e.preventDefault();
     document.getElementById("donateModal").style.display = "none";
@@ -94,19 +93,18 @@ export default function SelectedFund() {
   return (
     <>
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
-        {
-          getCookie("roles") === '5150' ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)
-        }
-
+        {/* Conditional rendering of NavButton or NavBar based on user role */}
+        { getCookie("roles") === '5150' ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)}
 
         <div className="container-fluid" onClick={toggleSidenav} dir="rtl"> 
+         {/* Back button */}
           <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
             onClick={() => navigate(-1)}> הקודם</i>
 
           <div className="card card-body px-md-5 pb-5 my-3">
             <h3 className='mt-3'>{fund.title}</h3>
-            {
-              fund.organizationID === getCookie("uId") && fund.status !== "completed" ? (
+            {/* Edit and delete buttons for organization */}
+            { fund.organizationID === getCookie("uId") && fund.status !== "completed" ? (
                 <div className="col-lg-2 col-sm-3 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                   <div className="nav-wrapper position-relative end-0">
                     <ul className="nav nav-pills nav-fill p-1" role="tablist">
@@ -127,6 +125,7 @@ export default function SelectedFund() {
                 </div>
               ) : null
             }
+            {/* Fund details */}
             {isLoaded ? (
               <div className="row">
                 <div className="col-sm-5 row">
@@ -154,11 +153,8 @@ export default function SelectedFund() {
                       <div className='p-2'>₪ {fund.budget}</div>
                     </div>
                     <div className="d-flex">
-
                       <div className='text-dark font-weight-bold p-2 ps-0'>נותר לגיוס:</div>
-
-                      <div className='p-2'>₪ {fund.budget - fund.currentAmount}</div>
-
+                        <div className='p-2'>₪ {fund.budget - fund.currentAmount}</div>
                     </div>
                     <div>
                       <ProgressBar
