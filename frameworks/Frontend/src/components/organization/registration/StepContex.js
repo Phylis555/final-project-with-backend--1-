@@ -5,6 +5,7 @@ import { formValidation } from './formValidation';
 import swal from "sweetalert";
 import { useNavigate } from 'react-router-dom';
 
+// Context to manage multi-step form state
 export const multiStepContext = React.createContext()
 
 export default function StepContex() {
@@ -15,43 +16,29 @@ export default function StepContex() {
     const [imageFile, setImageFile] = useState(null);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
-
+    
+    // Function to handle form submission
     function submitData(e) {
         e.preventDefault();
-        // console.log(userData);
         setFormErrors(formValidation(userData))
         setIsSubmit(true);
     }
 
+    // Effect to set the current step based on form errors
     useEffect(() => {
-        if (
-            formErrors.name ||
-            formErrors.address ||
-            formErrors.country ||
-            formErrors.zipCode ||
-            formErrors.contactNumber ||
-            formErrors.email ||
-            formErrors.registrationNumber
-        ) { setCurrentStep(1); }
-        else if (
-            formErrors.presidentName ||
-            formErrors.presidentEmail ||
-            formErrors.presidentContactNumber ||
-            formErrors.secretaryName ||
-            formErrors.secretaryEmail ||
-            formErrors.secretaryContactNumber
-        ) { setCurrentStep(2); }
-        else if (formErrors.registrationCertificate) {
+        if (formErrors.name || formErrors.address || formErrors.country || formErrors.zipCode || formErrors.contactNumber || formErrors.email || formErrors.registrationNumber) {
+            setCurrentStep(1);
+        } else if (formErrors.presidentName || formErrors.presidentEmail || formErrors.presidentContactNumber || formErrors.secretaryName || formErrors.secretaryEmail || formErrors.secretaryContactNumber) {
+            setCurrentStep(2);
+        } else if (formErrors.registrationCertificate) {
             setCurrentStep(3);
         }
-    }, [formErrors])
+    }, [formErrors]);
 
+    // Effect to handle form submission after validation
     useEffect(() => {
-        // console.log(formErrors);
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            // console.log(userData);
             newOrganization(userData).then(res => {
-                // console.log(res);
                 swal(
                     "הפרטים נרשמו בהצלחה",
                     "אנא המתן עד שתבדוק את הבקשה שלך",
@@ -59,7 +46,6 @@ export default function StepContex() {
                 ).then((value) => {
                     navigate('/user/signin')
                 })
-
             }).catch(err => {
                 console.log(err);
                 swal(
@@ -67,7 +53,6 @@ export default function StepContex() {
                     err.response.data.message,
                     "error"
                 )
-
             })
         }
     }, [formErrors, isSubmit])

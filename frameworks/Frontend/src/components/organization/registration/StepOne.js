@@ -14,10 +14,8 @@ export default function StepOne() {
                 <form className="text-start" >
                     <div className="form-group text-center pb-3">פרטי הארגון</div>
 
-                    
+                    {/* Organization Name */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label className="form-label">שם הארגון</label> */}
-
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -30,8 +28,9 @@ export default function StepOne() {
                             {formErrors.name}
                         </div>
                     </div>
+
+                    {/* Organization Address */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label dir="rtl" className="form-label">כתובת</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -45,9 +44,8 @@ export default function StepOne() {
                         </div>
                     </div>
 
-                  
+                  {/* Organization Country */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label className="form-label">מדינה</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -60,8 +58,9 @@ export default function StepOne() {
                             {formErrors.country}
                         </div>
                     </div>
+
+                    {/* Organization Zip Code */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מיקוד</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -74,10 +73,10 @@ export default function StepOne() {
                             {formErrors.zipCode}
                         </div>
                     </div>
+
+                    {/* Organization Contact Number */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מספר ליצירת קשר</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
-                        
                             <input
                                 type="contact"
                                 className="form-control"
@@ -89,8 +88,9 @@ export default function StepOne() {
                             {formErrors.contactNumber}
                         </div>
                     </div>
+
+                    {/* Organization Email */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">Email</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="email"
@@ -103,8 +103,9 @@ export default function StepOne() {
                             {formErrors.email}
                         </div>
                     </div>
+
+                    {/* Organization Registration Number */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מספר ארגון</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                         
                             <input
@@ -118,10 +119,11 @@ export default function StepOne() {
                             {formErrors.registrationNumber}
                         </div>
                     </div>
+
+                    {/* Organization Registration Date */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
                          <label className="form-label"> תאריך רישום</label>
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ">
-                        
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker 
                                     label="Registration Date"
@@ -129,7 +131,6 @@ export default function StepOne() {
                                     value={userData['registrationDate']}
                                     maxDate={new Date()}
                                     onChange={(newValue) => {
-                                        // console.log(newValue);
                                         setUserData({ ...userData, "registrationDate": newValue.$d });
                                     }}
                                     renderInput={({ inputRef, inputProps, InputProps }) => (
@@ -144,7 +145,9 @@ export default function StepOne() {
                         <div className="text-danger form-label mb-3">
                             {formErrors.registrationDate}
                         </div>
-                    </div>                   
+                    </div>  
+
+                    {/* Next Step Button */}                 
                     <div className="row d-flex justify-content-center">
                         <div className="col-lg-4 col-md-4 col-sm-4">
                             <button type="button" onClick={() => setCurrentStep(2)} className="btn bg-gradient-primary w-100 my-4 mb-2">הבא</button>
