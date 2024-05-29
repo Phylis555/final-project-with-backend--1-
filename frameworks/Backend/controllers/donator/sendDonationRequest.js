@@ -1,15 +1,16 @@
 const Donation = require("../../models/donation.model");
 const DonationRequest = require("../../models/donationRequest.model");
 const Item = require("../../models/item.model");
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require("express-validator/check");
 
 const sendDonationRequest = async (req, res) => {
   try {
     const errors = validationResult(req);
-    console.log("lol");
     console.log(errors);
     if (!errors.isEmpty()) {
-      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+      const error = new Error("Validation failed, entered data is incorrect");
+      error.status = 422;
+      throw error;
     }
 
     const {
@@ -18,10 +19,9 @@ const sendDonationRequest = async (req, res) => {
       requesterEmail,
       requesterContact,
       requestDescription,
-      donatedItems
+      donatedItems,
     } = req.body;
     console.log(donatedItems);
-
 
     const newRequest = new DonationRequest({
       donationID,
@@ -29,13 +29,18 @@ const sendDonationRequest = async (req, res) => {
       requesterEmail,
       requesterContact,
       requestDescription,
-      items : donatedItems
+      items: donatedItems,
     });
     await newRequest.save();
     res.status(201).json({
       message: "Requetsted created successfully",
     });
-  } catch (error) {}
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 module.exports = {

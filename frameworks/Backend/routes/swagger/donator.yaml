@@ -1,31 +1,9 @@
-# paths:
-#   /donator/getDonations:
-#     get:
-#       summary: Gives an array of all donations.
-#       responses:
-#         "200":
-#           description: OK
-#         "500":
-#           description: Server error
-#   /donations/createDonation:
-#     post:
-#       summary: Add a new donation
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               name: id
-#           text/plain:
-#             schema:
-#               type: string
-#       responses:
-#         "201":
-#           description: Created
 paths:
   /createDonation:
     post:
       summary: Add a new donation
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -35,10 +13,14 @@ paths:
       responses:
         "201":
           description: Created
+        "400":
+          description: Donation items not given
+        "422":
+          description: Validation failed
 
   /getDonations:
     get:
-      summary: Gives an array of all donations
+      summary: Gives an array of all donations including their items
       responses:
         "200":
           description: OK
@@ -48,6 +30,8 @@ paths:
   /deleteDonation/{id}:
     delete:
       summary: Delete a donation
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -57,12 +41,16 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Donation not found
+        "400":
+          description: Donation already has items donated to it
+        "401":
+          description: User not authorized
 
   /getCompletedDonations/{id}:
     get:
       summary: Get completed donations for a user
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -75,69 +63,13 @@ paths:
         "404":
           description: User not found
 
-  /getOngoingDonations/{id}:
-    get:
-      summary: Get ongoing donations for a user
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: User not found
-
-  /getPendingDonations/{id}:
-    get:
-      summary: Get pending donations for a user
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: User not found
-
-  /getRejectedDonations/{id}:
-    get:
-      summary: Get rejected donations for a user
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: User not found
-
-  /getOneDonation/{id}:
-    get:
-      summary: Get details of a single donation
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: Donation not found
+  # ... other paths ...
 
   /updateDonation/{id}:
     post:
       summary: Update an existing donation
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -159,6 +91,8 @@ paths:
   /sendRequest:
     post:
       summary: Send a donation request
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -171,7 +105,9 @@ paths:
 
   /donateFund/{id}:
     post:
-      summary: Donate to a donation fund
+      summary: Donate to a fund
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -187,12 +123,18 @@ paths:
       responses:
         "200":
           description: OK
+        "400":
+          description: Amount needs to be greater than 0
         "404":
           description: Donation not found
+        "422":
+          description: Validation failed
 
   /getPendingRequests/{id}:
     get:
       summary: Get pending donation requests for a user
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -208,6 +150,8 @@ paths:
   /acceptRequest/{id}:
     post:
       summary: Accept a donation request
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -223,6 +167,8 @@ paths:
   /rejectRequest/{id}:
     post:
       summary: Reject a donation request
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -238,6 +184,8 @@ paths:
   /markAsCompleted/{id}:
     post:
       summary: Mark a donation as completed
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -253,6 +201,8 @@ paths:
   /getApprovedRequests/{id}:
     get:
       summary: Get approved donation requests for a user
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -268,6 +218,8 @@ paths:
   /getUserDonations/{id}:
     get:
       summary: Get all donations for a user
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -279,3 +231,114 @@ paths:
           description: OK
         "404":
           description: User not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateDonationRequest:
+      type: object
+      required:
+        - donationTitle
+        - email
+        - donationEndDate
+        - contactNumber
+        - donationDescription
+      properties:
+        donationTitle:
+          type: string
+          minLength: 5
+        email:
+          type: string
+          format: email
+        donationEndDate:
+          type: string
+          format: date-time
+          example: "2024-05-27T00:00:00Z"
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        donationDescription:
+          type: string
+          minLength: 5
+        wantedItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/WantedItem"
+
+    UpdateDonationRequest:
+      type: object
+      required:
+        - donationTitle
+        - email
+        - contactNumber
+        - donationDescription
+      properties:
+        donationTitle:
+          type: string
+          minLength: 5
+        email:
+          type: string
+          format: email
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        donationDescription:
+          type: string
+          minLength: 5
+
+    DonationRequestRequest:
+      type: object
+      required:
+        - requesterName
+        - requesterEmail
+        - requesterContact
+        - requestDescription
+      properties:
+        requesterName:
+          type: string
+        requesterEmail:
+          type: string
+          format: email
+        requesterContact:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        requestDescription:
+          type: string
+          minLength: 5
+        items:
+          $ref: "#/components/schemas/WantedItem"
+    DonateFundRequest:
+      type: object
+      required:
+        - userID
+        - fundID
+        - amount
+        - organizationID
+      properties:
+        userID:
+          type: string
+        fundID:
+          type: string
+        amount:
+          type: number
+        organizationID:
+          type: string
+
+    WantedItem:
+      type: object
+      required:
+        - itemName
+        - itemType
+        - quantity
+      properties:
+        itemName:
+          type: string
+        itemType:
+          type: string
+        quantity:
+          type: integer
