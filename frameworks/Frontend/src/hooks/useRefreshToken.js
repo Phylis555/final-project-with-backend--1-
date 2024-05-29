@@ -8,6 +8,7 @@ const useRefreshToken = () => {
         const response = await axios.get('/refresh', {
             withCredentials: true
         });
+        // Update the auth state with the new access token
         setAuth(prev => {
             console.log(JSON.stringify(prev));
             console.log(response.data.accessToken);
@@ -15,6 +16,7 @@ const useRefreshToken = () => {
         });
         return response.data.accessToken;
     }
+    // Return the refresh function
     return refresh;
 };
 

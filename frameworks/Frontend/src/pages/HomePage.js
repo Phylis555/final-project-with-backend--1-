@@ -5,14 +5,10 @@ import Img1 from "./image-1.jpg"
 import Img2 from "./image-2.jpg"
 import Img3 from "./image-3.jpg"
 import Img4 from "./image-4.jpg"
-// import Img5 from "./image-5.jpg"
 import "../App.css"
 import { useState, useEffect } from 'react';
-
 import { getFundByStatus } from '../api/fund.api';
-// import NoItems from '../components/common/noItems/noItems';
 import ViewFundsCard from '../components/fund/viewFunds/ViewFundsCard';
-
 import DonationHomeCard from '../components/donator/HomePage/donationHomeCard';
 import { getAllDonations } from '../api/donator.api';
 import { Link } from 'react-router-dom';
@@ -28,9 +24,9 @@ export default function HomePage() {
         fetchMostUrgentDonations();
     }, []);
 
+    // Fetch most urgent funds
     const fetchMostUrgentFunds = async () => {
         try {
-            console.log("please be here");
             const res = await getFundByStatus('approved');
             const funds = res.data.funds;
             funds.sort((a, b) => new Date(a.endingDate) - new Date(b.endingDate));
@@ -41,6 +37,7 @@ export default function HomePage() {
         }
     };
 
+    // Fetch most urgent donations
     const fetchMostUrgentDonations = async () => {
         try {
             setLoading(true);
@@ -59,9 +56,11 @@ export default function HomePage() {
   return (
     <div >
         <nav>
+             {/* Navigation bar */}
             <NavBar />
         </nav>
 
+        {/* img section */}
         <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="false">
         <div className="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -101,6 +100,7 @@ export default function HomePage() {
         </button>
         </div>
 
+         {/* Urgent donations section */}
         <div className="container mt-5" dir="rtl">
             {mostUrgentDonations.length > 0 && (
                 <h3 className="d-flex justify-content-center mb-4"> תרומות ציוד דחופות ביותר</h3>
@@ -138,10 +138,9 @@ export default function HomePage() {
                     </div>
                 )
             }
-        </div>
-
-
-
+        </div> 
+            
+        {/* About section */}
         <div className='container mt-5 ' dir="rtl">
             <h3 className='d-flex justify-content-center mb-4'>אודות</h3>
 

@@ -15,7 +15,6 @@ export default function ViewAllOngoing() {
         try {
             getFundByStatus("approved")
                 .then((res) => {
-                    console.log(res.data.funds);
                     setOngoingFunds(res.data.funds);
                 })
         } catch (error) {

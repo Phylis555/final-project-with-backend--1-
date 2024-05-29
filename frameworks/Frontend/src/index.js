@@ -12,6 +12,7 @@ import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./context/AuthProvider";
 import User from "./routes/user.routes";
 
+// Define roles for authentication
 const ROLES = {
   'User': 1984,
   'Organization': 5150,
@@ -27,10 +28,7 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/donator/*" element={<Donator />} />
       <Route path="/organization/*" element={<Organization />} />
-
-      
       <Route path="/admin/*" element={<Admin />}/>
-
       <Route path="/fund/*" element={<Fund />} />
       <Route path="/user/*" element={<User />} />
     </Routes>

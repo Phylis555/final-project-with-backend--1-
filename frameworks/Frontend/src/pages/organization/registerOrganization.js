@@ -31,11 +31,6 @@ export default function RegisterOrganization() {
 
     // function to navigate to the relevant step in the stepper on the top of the form
     function clickStepLabel(step) {
-        // can navigate only for the previous steps
-        // if (step < currentStep) {
-        //     setCurrentStep(step);
-        // }
-
         // can navigate to any step
         setCurrentStep(step);
     }
@@ -44,7 +39,6 @@ export default function RegisterOrganization() {
         <>
             <NavBar />
             <h3 className="font-weight-bolder mt-5 mb-3 text-center">הירשם כארגון</h3>
-            {/* <div className='d-flex justify-content-center'> */}
             <div className="container my-auto mb-5">
                 <div className="row">
                     <div className="mx-auto col-lg-6 col-md-10 col-sm-12">

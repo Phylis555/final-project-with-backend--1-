@@ -330,7 +330,6 @@ export default function DonationHome() {
                 })
 
                 .map(function (f) {
-                  console.log(f);
                   return (
                     <Link key={f._id} to={"/donator/view/" + f._id}>
                       <DonationHomeCard donation={f} />
