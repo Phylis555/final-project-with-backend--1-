@@ -1,72 +1,75 @@
 const Donation = require("../../models/donation.model");
 
-
-const getCompletedDonations = async (req, res) => {
+const getCompletedDonations = async (req, res, next) => {
   try {
-    await Donation.find({ status: "completed", userID: req.params.id })
-    .then((donations) => {
-      res.json(donations);
-    })
-    .catch((err) => {
-      res.json({
-        errror: err,
-      });
+    const completedDon = await Donation.find({
+      status: "completed",
+      userID: req.params.id,
     });
-  } catch (error) {
-    console.log(error);
-    if(error.statusCode){
-      res.status(error.statusCode).json({error: error});
+    res.status(200).json(completedDon);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
+    next(err);
   }
-
 };
 
-const getOngoingDonations = async (req, res) => {
-  await Donation.find({ status: "active", userID: req.params.id })
-    .then((donations) => {
-      res.json(donations);
-    })
-    .catch((err) => {
-      res.json({
-        errror: err,
-      });
+const getOngoingDonations = async (req, res, next) => {
+  try {
+    const activeDon = await Donation.find({
+      status: "active",
+      userID: req.params.id,
     });
+    res.status(200).json(activeDon);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
-const getPendingDonations = async (req, res) => {
-  await Donation.find({ status: "pending", userID: req.params.id })
-    .then((donations) => {
-      res.json(donations);
-    })
-    .catch((err) => {
-      res.json({
-        errror: err,
-      });
+const getPendingDonations = async (req, res, next) => {
+  try {
+    const pendingDonations = await Donation.find({
+      status: "pending",
+      userID: req.params.id,
     });
+    res.status(200).json(pendingDonations);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
-const getRejectedDonations = async (req, res) => {
-  await Donation.find({ status: "rejected", userID: req.params.id })
-    .then((donations) => {
-      res.json(donations);
-    })
-    .catch((err) => {
-      res.json({
-        errror: err,
-      });
+const getRejectedDonations = async (req, res, next) => {
+  try {
+    const rejectedDonations = await Donation.find({
+      status: "rejected",
+      userID: req.params.id,
     });
+    res.status(200).json(rejectedDonations);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
-const getUserDonations = async (req, res) => {
-  await Donation.find({ userID: req.params.id })
-    .then((donations) => {
-      res.json(donations);
-    })
-    .catch((err) => {
-      res.json({
-        errror: err,
-      });
-    });
+const getUserDonations = async (req, res, next) => {
+  try {
+    const userDonations = await Donation.find({ userID: req.params.id });
+    res.status(200).json(userDonations);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 module.exports = {

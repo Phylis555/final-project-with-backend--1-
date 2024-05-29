@@ -12,7 +12,6 @@ const swaggerjsdocs = require("swagger-jsdoc");
 const swaggerui = require("swagger-ui-express");
 
 require("dotenv").config();
-//kjijo
 const PORT = process.env.PORT || 8070;
 
 app.use(credentials);
