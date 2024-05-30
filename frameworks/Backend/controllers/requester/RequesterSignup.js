@@ -1,16 +1,16 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
 const SignUp = require("../../models/requester.model");
-const { validationResult } = require('express-validator/check');
-const { sendEmail } = require('../../common/sendEmail');
+const { validationResult } = require("express-validator/check");
+const { sendEmail } = require("../../common/sendEmail");
 
-
-
-const requesterSignUp = async (req, res) => {
+const requesterSignUp = async (req, res, next) => {
   const errors = validationResult(req);
   console.log(errors);
-  if(!errors.isEmpty()){
-      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+  if (!errors.isEmpty()) {
+    return res
+      .status(422)
+      .json({ message: "Validation failed.", error: errors.array() });
   }
   const userData = req.body; // get user data
   console.log(userData);

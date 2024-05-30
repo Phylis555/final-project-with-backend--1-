@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const Organization = require("../../models/organization.model");
 const { sendAcceptedOrginizationEmail } = require("../../common/sendEmail");
 
-const editOrganizationStatus = async (req, res) => {
+const editOrganizationStatus = async (req, res, next) => {
   try {
     // const errors = validationResult(req);
     // console.log(errors);

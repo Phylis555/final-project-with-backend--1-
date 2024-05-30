@@ -1,6 +1,6 @@
 const Requests = require("../../models/requestFund.model");
 
-const deleteRequest = async (req, res) => {
+const deleteRequest = async (req, res, next) => {
   try {
     console.log("is this for fund actually");
     const requestID = req.params.id;

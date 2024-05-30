@@ -1,37 +1,22 @@
 const DonationRequest = require("../../models/donationRequest.model");
-const Item = require("../../models/donationRequest.model"); 
+const Item = require("../../models/donationRequest.model");
 
-// const getRequests = async (req, res) => {
-//   console.log(req.params.id);
-
-//   await DonationRequest.find({
-//     donationID: req.params.id,
-//     requestStatus: "pending",
-//   })
-//     .then((requests) => {
-//       res.json(requests);
-//     })
-//     .catch((err) => {
-//       res.json({
-//         error: err,
-//       });
-//     });
-// };
-
-const getPendingRequests = async (req, res) => {
-  await DonationRequest.find({
-    donationID: req.params.id,
-    requestStatus: { $in: ["pending", "accepted"] }
-  }).populate('items.item')
-    .then((requests) => {
-      res.json(requests);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+const getPendingRequests = async (req, res, next) => {
+  try {
+    const requests = await DonationRequest.find({
+      donationID: req.params.id,
+      requestStatus: { $in: ["pending", "accepted"] },
+    }).populate("items.item");
+    res.status(200).json(requests);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
-const getRejectedRequests = async (req, res) => {
+const getRejectedRequests = async (req, res, next) => {
   console.log(req.params.id);
   try {
     await DonationRequest.find({
@@ -51,23 +36,19 @@ const getRejectedRequests = async (req, res) => {
   }
 };
 
-const getApprovedRequests = async (req, res) => {
+const getApprovedRequests = async (req, res, next) => {
   console.log(req.params.id);
   try {
-    await DonationRequest.find({
+    requests = await DonationRequest.find({
       donationID: req.params.id,
       requestStatus: "accepted",
-    })
-      .then((requests) => {
-        res.json(requests);
-      })
-      .catch((err) => {
-        res.json({
-          error: err,
-        });
-      });
+    });
+    res.status(200).json(requests);
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

@@ -2,7 +2,7 @@ const Fund = require("../../models/fund.model");
 const FundDonation = require("../../models/fundDonation.model");
 const { validationResult } = require("express-validator/check");
 
-const donateToFund = async (req, res) => {
+const donateToFund = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     console.log(errors);

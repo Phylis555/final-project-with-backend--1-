@@ -122,10 +122,7 @@ router.post(
 );
 router.post(
   "/donateFund/:id",
-  [
-    //do we care if its the actual user?
-    body("amount").isNumeric(),
-  ],
+  [body("amount").isNumeric()],
   isAuth,
   donateToFund
 );

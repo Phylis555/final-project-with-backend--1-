@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 const Donation = require("../../models/donation.model");
 const { sendAcceptedEmail } = require("../../common/sendEmail");
 
-const updateDonationStatus = async (req, res) => {
+const updateDonationStatus = async (req, res, next) => {
   try {
     // const errors = validationResult(req);
     // console.log(errors);

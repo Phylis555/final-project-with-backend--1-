@@ -1,6 +1,8 @@
 paths:
   /createDonation:
     post:
+      tags:
+        - donator
       summary: Add a new donation
       security:
         - bearerAuth: []
@@ -20,6 +22,8 @@ paths:
 
   /getDonations:
     get:
+      tags:
+        - donator
       summary: Gives an array of all donations including their items
       responses:
         "200":
@@ -29,6 +33,8 @@ paths:
 
   /deleteDonation/{id}:
     delete:
+      tags:
+        - donator
       summary: Delete a donation
       security:
         - bearerAuth: []
@@ -48,6 +54,8 @@ paths:
 
   /getCompletedDonations/{id}:
     get:
+      tags:
+        - donator
       summary: Get completed donations for a user
       security:
         - bearerAuth: []
@@ -63,10 +71,10 @@ paths:
         "404":
           description: User not found
 
-  # ... other paths ...
-
   /updateDonation/{id}:
     post:
+      tags:
+        - donator
       summary: Update an existing donation
       security:
         - bearerAuth: []
@@ -90,6 +98,8 @@ paths:
 
   /sendRequest:
     post:
+      tags:
+        - donator
       summary: Send a donation request
       security:
         - bearerAuth: []
@@ -105,6 +115,8 @@ paths:
 
   /donateFund/{id}:
     post:
+      tags:
+        - donator
       summary: Donate to a fund
       security:
         - bearerAuth: []
@@ -132,6 +144,8 @@ paths:
 
   /getPendingRequests/{id}:
     get:
+      tags:
+        - donator
       summary: Get pending donation requests for a user
       security:
         - bearerAuth: []
@@ -149,6 +163,8 @@ paths:
 
   /acceptRequest/{id}:
     post:
+      tags:
+        - donator
       summary: Accept a donation request
       security:
         - bearerAuth: []
@@ -161,11 +177,15 @@ paths:
       responses:
         "200":
           description: OK
+        "401":
+          description: User not auth
         "404":
           description: Request not found
 
   /rejectRequest/{id}:
     post:
+      tags:
+        - donator
       summary: Reject a donation request
       security:
         - bearerAuth: []
@@ -178,11 +198,15 @@ paths:
       responses:
         "200":
           description: OK
+        "401":
+          description: User not auth
         "404":
           description: Request not found
 
   /markAsCompleted/{id}:
     post:
+      tags:
+        - donator
       summary: Mark a donation as completed
       security:
         - bearerAuth: []
@@ -195,11 +219,15 @@ paths:
       responses:
         "200":
           description: OK
+        "401":
+          description: User not auth
         "404":
           description: Donation not found
 
   /getApprovedRequests/{id}:
     get:
+      tags:
+        - donator
       summary: Get approved donation requests for a user
       security:
         - bearerAuth: []
@@ -217,6 +245,8 @@ paths:
 
   /getUserDonations/{id}:
     get:
+      tags:
+        - donator
       summary: Get all donations for a user
       security:
         - bearerAuth: []

@@ -1,22 +1,22 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
 const UserDetails = require("../../models/requester.model");
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require("express-validator/check");
 
-const updateProfile = async (req, res) => {
-  
+const updateProfile = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     console.log(errors);
     if (!errors.isEmpty()) {
-      return res.status(422).json({message: 'Validation failed.', error : errors.array()});
+      return res
+        .status(422)
+        .json({ message: "Validation failed.", error: errors.array() });
     }
 
     const userId = req.params.id;
-    console.log(userId)
+    console.log(userId);
 
-    const { firstName, lastName, email, contactNumber } =
-      req.body;
+    const { firstName, lastName, email, contactNumber } = req.body;
 
     const updateDetails = {
       firstName,
@@ -24,12 +24,11 @@ const updateProfile = async (req, res) => {
       email,
       contactNumber,
     };
-    console.log(updateDetails)
+    console.log(updateDetails);
     await UserDetails.findByIdAndUpdate(userId, updateDetails)
       .then((details) => {
         console.log(details);
         res.status(200).send({ status: "profile updated" });
-
       })
       .catch(() => {
         res.status(500).send({ status: "error" });
@@ -39,7 +38,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-const updatePassword = async (req, res) => {
+const updatePassword = async (req, res, next) => {
   try {
     const userId = req.params.id;
     // console.log(userId)
@@ -59,6 +58,5 @@ const updatePassword = async (req, res) => {
     console.log(error);
   }
 };
-
 
 module.exports = { updateProfile, updatePassword };

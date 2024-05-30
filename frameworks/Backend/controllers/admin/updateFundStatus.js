@@ -3,7 +3,7 @@ const { sendAcceptedEmail } = require("../../common/sendEmail");
 
 const Fund = require("../../models/fund.model");
 
-const updateFundStatus = async (req, res) => {
+const updateFundStatus = async (req, res, next) => {
   try {
     const fundId = req.params.id;
 

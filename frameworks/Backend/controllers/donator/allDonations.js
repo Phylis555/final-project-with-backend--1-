@@ -1,6 +1,6 @@
 const Donation = require("../../models/donation.model");
 
-const getAllDonations = async (req, res) => {
+const getAllDonations = async (req, res, next) => {
   try {
     const currDon = await Donation.find({
       status: "active",
