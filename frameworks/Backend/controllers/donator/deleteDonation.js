@@ -2,7 +2,7 @@ const { sendDonationDeletedEmail } = require("../../common/sendEmail");
 const Donation = require("../../models/donation.model");
 const Request = require("../../models/donationRequest.model");
 
-const deleteDonation = async (req, res) => {
+const deleteDonation = async (req, res, next) => {
   try {
     //var donationTitle = "";
     const donationID = req.params.id;

@@ -1,9 +1,9 @@
 const Organization = require("../../models/organization.model");
 
-const deleteReqOrganization = async (req, res) => {
+const deleteReqOrganization = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log(id)
+    console.log(id);
 
     await Organization.findByIdAndDelete(id)
       .then(() => {

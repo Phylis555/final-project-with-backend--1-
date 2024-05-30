@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const Requester = require("../models/requester.model");
 const { validationResult } = require("express-validator/check");
 
-const handleLogin = async (req, res) => {
+const handleLogin = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);

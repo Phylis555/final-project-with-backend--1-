@@ -4,7 +4,7 @@ const { sendOrganizationEmail } = require("../../common/sendEmail");
 const Fund = require("../../models/fund.model");
 const User = require("../../models/user");
 
-const updateFund = async (req, res) => {
+const updateFund = async (req, res, next) => {
   try {
     const formData = req.body;
     const fundId = req.params.id;

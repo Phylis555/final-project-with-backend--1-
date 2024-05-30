@@ -5,7 +5,7 @@ const Requester = require("../../models/requester.model");
 const { admin } = require("../../config/roles_list");
 
 // Delete the fund details from database
-const deleteFund = async (req, res) => {
+const deleteFund = async (req, res, next) => {
   try {
     const fundID = req.params.id;
 
@@ -30,7 +30,7 @@ const deleteFund = async (req, res) => {
 };
 
 // Mark the status of the fund as removed
-const removeFund = async (req, res) => {
+const removeFund = async (req, res, next) => {
   try {
     const fundID = req.params.id;
     await Fund.findByIdAndUpdate(fundID, { status: "removed" })

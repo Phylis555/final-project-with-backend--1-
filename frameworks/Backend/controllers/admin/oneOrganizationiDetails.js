@@ -1,14 +1,12 @@
 const Organization = require("../../models/organization.model");
 
-const getOneOrganizationDetails = async (req, res) => {
+const getOneOrganizationDetails = async (req, res, next) => {
   try {
     const id = req.params.id;
     console.log(id);
-    await Organization.findOne({ _id: id})
+    await Organization.findOne({ _id: id })
       .then((org) => {
-        res
-          .status(200)
-          .send({ message: "Organization fetched", org: org });
+        res.status(200).send({ message: "Organization fetched", org: org });
       })
       .catch((err) => {
         console.log(err);
@@ -19,4 +17,4 @@ const getOneOrganizationDetails = async (req, res) => {
   }
 };
 
-module.exports = {getOneOrganizationDetails,};
+module.exports = { getOneOrganizationDetails };

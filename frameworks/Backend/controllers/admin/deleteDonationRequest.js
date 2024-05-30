@@ -1,9 +1,9 @@
 const DonationRequest = require("../../models/donation.model");
 
-const deleteDonationRequest = async (req, res) => {
+const deleteDonationRequest = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log(id)
+    console.log(id);
 
     await DonationRequest.findByIdAndDelete(id)
       .then(() => {

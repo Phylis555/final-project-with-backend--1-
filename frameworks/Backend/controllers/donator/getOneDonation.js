@@ -1,7 +1,7 @@
 const Donation = require("../../models/donation.model");
 const Item = require("../../models/item.model");
 
-const getOneDonationDetails = async (req, res) => {
+const getOneDonationDetails = async (req, res, next) => {
   try {
     const donationId = req.params.id;
     donation = await Donation.findOne({ _id: donationId }).populate(

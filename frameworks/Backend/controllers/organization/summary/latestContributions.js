@@ -3,7 +3,7 @@ const Requester = require("../../../models/requester.model");
 const User = require("../../../models/user");
 
 // Get latest n contributions
-const getNContributions = async (req, res) => {
+const getNContributions = async (req, res, next) => {
   const { limit, organizationID } = req.params;
   const result = [];
 

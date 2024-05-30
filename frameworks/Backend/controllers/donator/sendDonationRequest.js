@@ -3,7 +3,7 @@ const DonationRequest = require("../../models/donationRequest.model");
 const Item = require("../../models/item.model");
 const { validationResult } = require("express-validator/check");
 
-const sendDonationRequest = async (req, res) => {
+const sendDonationRequest = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     console.log(errors);
