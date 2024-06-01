@@ -4,15 +4,10 @@ const Request = require("../../models/donationRequest.model");
 
 const deleteDonation = async (req, res, next) => {
   try {
-    //var donationTitle = "";
     const donationID = req.params.id;
     const donation = await Donation.findById(donationID)
       .populate("wantedItems")
       .exec();
-
-    //***** will work after authentication is dealth with *****/
-    // if(req.userID !== donation.userID)
-    //   throw new Error('Donation user different than token user');
 
     console.log(donation.wantedItems);
 

@@ -1,42 +1,37 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
-
-const { sendEmail } = require("../../common/sendEmail");
-
 const Organization = require("../../models/organization.model");
 
 const updateOrganization = async (req, res, next) => {
   const formData = req.body;
   const organizationId = req.params.id;
 
-  Organization.findOne({ email: formData.email }).then(async (organization) => {
-    // if organization is available with the email
-    // and the id is not the same as the id of the organization being updated
-    if (organization && organization._id != organizationId) {
-      res.status(400).json({
-        message: "Organization already exists",
-      });
-    } else {
-      try {
-        await Organization.findByIdAndUpdate(organizationId, formData)
-          .then((organization) => {
-            res.status(201).json({
-              message: "Organization updated successfully",
-              organization: organization,
-            });
-          })
-          .catch((err) => {
-            console.log(err.message);
-            res.status(500).json({
-              message: "Error updating organization",
-              error: err,
-            });
-          });
-      } catch (error) {
-        console.log(error);
-      }
+  try {
+    const organiztion = await Organization.findOne({ email: formData.email })
+
+    if (organization || organization._id != organizationId) {
+      const error = new Error("Organization doesn't exist or id isn't the same");
+      error.status = 400;
+      throw error;
     }
+
+    // Update only the properties that exist in formData
+  Object.keys(formData).forEach((key) => {
+    organization[key] = formData[key];
   });
+
+  await organiztion.save();
+  res.status(201).json({
+    message: "Organization updated successfully",
+    organization: organization,
+  });
+  } catch (error) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+
 };
 
 // Update board member details
@@ -45,22 +40,16 @@ const updateOrganizationBoard = async (req, res, next) => {
   const organizationId = req.params.id;
 
   try {
-    await Organization.findByIdAndUpdate(organizationId, formData)
-      .then((organization) => {
-        res.status(201).json({
-          message: "Organization updated successfully",
-          organization: organization,
-        });
-      })
-      .catch((err) => {
-        console.log(err.message);
-        res.status(500).json({
-          message: "Error updating organization",
-          error: err,
-        });
-      });
+    const organization = await Organization.findByIdAndUpdate(organizationId, formData)
+    res.status(201).json({
+      message: "Organization updated successfully",
+      organization: organization,
+    });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
@@ -74,20 +63,18 @@ const changePassword = async (req, res, next) => {
   const hashedPassword = bcrypt.hashSync(formData.password, saltRounds); // hash the password
   formData.password = hashedPassword; // set the hashed password to the formData object
 
-  await Organization.findByIdAndUpdate(organizationId, formData)
-    .then((organization) => {
-      res.status(201).json({
-        message: "Password changed successfully",
-        organization: organization,
-      });
-    })
-    .catch((err) => {
-      console.log(err.message);
-      res.status(500).json({
-        message: "Error changing password",
-        error: err,
-      });
+  try {
+    const organization = await Organization.findByIdAndUpdate(organizationId, formData)
+    res.status(201).json({
+      message: "Organization updated successfully",
+      organization: organization,
     });
+  } catch (error) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 module.exports = {

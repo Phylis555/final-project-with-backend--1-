@@ -13,50 +13,37 @@ const getDashboardSummary = async (req, res, next) => {
   };
 
   try {
-    await FundDonation.find({
+    const contributions = await FundDonation.find({
       organizationID: organizationID,
     })
-      .then(async (contributions) => {
-        // get total donations received
-        result.totalDonations = contributions.length;
+    // get total donations received
+    result.totalDonations = contributions.length;
 
-        // get the number of donors
-        const donors = new Set();
-        for (const contribution of contributions) {
-          donors.add(contribution.userID);
-        }
-        result.totalDonors = donors.size;
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-
-    await Fund.find({
+    // get the number of donors
+    const donors = new Set();
+    for (const contribution of contributions) {
+      donors.add(contribution.userID);
+    }
+    result.totalDonors = donors.size;
+    
+    const funds = await Fund.find({
       organizationID: organizationID,
     })
-      .then(async (funds) => {
-        result.totalFunds = funds.length;
-        for (const fund of funds) {
-          if (fund.status === "approved") {
-            result.activeFunds++;
-          }
-          result.totalFundsAmount += fund.currentAmount;
-        }
-        res.status(200).send({
-          summary: result,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
+    result.totalFunds = funds.length;
+    for (const fund of funds) {
+      if (fund.status === "approved") {
+        result.activeFunds++;
+      }
+      result.totalFundsAmount += fund.currentAmount;
+    }
+    res.status(200).send({
+      summary: result,
+    });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
