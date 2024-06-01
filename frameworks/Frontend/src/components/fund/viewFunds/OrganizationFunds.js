@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { toggleSidenav } from '../../common/toggleSidenav';
-import NavButton from '../../NavButton'
+// import NavButton from '../../NavButton'
 import CompletedFunds from './CompletedFunds';
 import OngoingFunds from './OngoingFunds';
 import PendingFunds from './PendingFunds';
@@ -12,7 +12,7 @@ export default function OrganizationFunds(props) {
     
         <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
             {/* Navigation button */}
-            <NavButton page="Funds" path="Organization" />
+            {/* <NavButton page="Funds" path="Organization" /> */}
 
             <div className="container-fluid py-3 " onClick={toggleSidenav}>
                 {/* Button to create new fund */}

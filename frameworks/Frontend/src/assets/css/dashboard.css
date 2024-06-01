@@ -4896,6 +4896,7 @@ fieldset:disabled .btn {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  padding-inline-start: 20px;
 }
 
 .navbar-nav .show>.nav-link,
@@ -23659,7 +23660,7 @@ hr.horizontal.full-dark {
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
   display: block;
   overflow: auto;
-  height: calc(100vh - 260px);
+  height: calc(100vh - 230px);
 }
 
 .navbar-vertical.navbar-expand-xs>[class*="container"] {

@@ -311,7 +311,7 @@ export default function DonatorDashboard() {
                               return f == null ? (
                                   <h1>אין פריטים</h1>
                               ) : (
-                              <div className="col mb-4" key={f._id}>
+                              <div className="col mb-6" key={f._id}>
                                   <div className="courses-container">
                                       <div className="course">
                                           <div className="course-info">

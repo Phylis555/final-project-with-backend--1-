@@ -52,7 +52,6 @@ export default function HomePage() {
         }
     };
 
-
   return (
     <div >
         <nav>
@@ -60,44 +59,44 @@ export default function HomePage() {
             <NavBar />
         </nav>
 
-        {/* img section */}
-        <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="false">
-        <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div className="carousel-inner" dir="rtl">
-            <div className="carousel-item active">
-            <img src={Img1} className="img-1 d-block w-100 hd-image" alt="..." />
-            <div className="carousel-caption d-none d-md-block">
-                <h1 className='welcome-image-heading'>יש לך ציוד עודף שאינך משתמש בו</h1>
-                <h4 className='text-muted'>תרום אותו למי שזקוק לו</h4>
+       {/* img section */}
+        <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div className="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
+            <div className="carousel-inner" dir="rtl">
+                <div className="carousel-item active">
+                    <img src={Img1} className="img-1 d-block w-100 hd-image" alt="..." />
+                    <div className="carousel-caption d-none d-md-block">
+                        <h1 className='welcome-image-heading'>יש לך ציוד עודף שאינך משתמש בו</h1>
+                        <h4 className='text-muted'>תרום אותו למי שזקוק לו</h4>
+                    </div>
+                </div>
+                <div className="carousel-item">
+                    <img src={Img2} className="d-block w-100 hd-image" alt="..." />
+                    <div className="carousel-caption d-none d-md-block">
+                        <h1 className='welcome-image-heading'>הצטרף אלינו למסע של הערכה </h1>
+                        <h4 className='text-muted'>תרום ותן להם להרגיש קצת יותר בבית</h4>
+                    </div>
+                </div>
+                <div className="carousel-item">
+                    <img src={Img3} className="d-block w-100 hd-image" alt="..." />
+                    <div className="carousel-caption d-none d-md-block">
+                        <h1 className='welcome-image-heading'>הצטרף אלינו למסע של נתינה </h1> 
+                        <h4 className='text-muted'> יחד נוכל לעשות הבדל גדול </h4>
+                    </div>
+                </div>
             </div>
-            <div className="carousel-item">
-            <img src={Img2} className="d-block w-100 hd-image" alt="..." />
-            <div className="carousel-caption d-none d-md-block">
-                <h1 className='welcome-image-heading'>הצטרף אלינו למסע של הערכה </h1>
-                <h4 className='text-muted'>תרום ותן להם להרגיש קצת יותר בבית</h4>
-            </div>
-            </div>
-            <div className="carousel-item">
-            <img src={Img3} className="d-block w-100 hd-image" alt="..." />
-            <div className="carousel-caption d-none d-md-block">
-                <h1 className='welcome-image-heading'>הצטרף אלינו למסע של נתינה </h1> 
-                <h4 className='text-muted'> יחד נוכל לעשות הבדל גדול </h4>
-            </div>
-            </div>
-        </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-        </button>
+            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+            </button>
         </div>
 
          {/* Urgent donations section */}
@@ -158,8 +157,6 @@ export default function HomePage() {
                 </div>
 
             </div>
-
-
         </div>
        
         <footer>

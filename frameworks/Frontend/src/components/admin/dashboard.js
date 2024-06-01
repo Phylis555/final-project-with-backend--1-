@@ -1,6 +1,4 @@
 import React from "react";
-import NavButton from "./NavButton";
-import classes from "../admin/dashCard/DashCard"
 
 export default function Dashboard() {
     const toggleSidenav = (e) => {
@@ -9,9 +7,8 @@ export default function Dashboard() {
     };
     return (
         <>
-            <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
-                <NavButton />
-                <div className="container-fluid py-4" onClick={toggleSidenav} dir="rtl">
+            <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
+                <div className="container-fluid py-4 " onClick={toggleSidenav}>
                     <div className="row">
                         <h1>מנהל מערכת</h1>
                     </div>
