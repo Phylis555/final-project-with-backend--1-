@@ -17,6 +17,9 @@ export default function FundraiserRequestList() {
           const data = await axios.get(`http://localhost:8070/admin/reqfunds`, getAuthHeader());
           setDatatable(data.data);
       } catch (error) {
+        if (error.response.data.message === "jwt expired") {
+          logOut();
+        }
           console.log(error);
       }
   };
@@ -126,7 +129,7 @@ export default function FundraiserRequestList() {
                                       <div className={classes.ActionBtnSec}>
                                           <button className="btn btn-outline-info" onClick={() => onView(org._id)}>בדוק</button>
                                           <button className="btn btn-outline-success" onClick={() => onAccept(org._id)}>אשר</button>
-                                          <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>מחק</button>
+                                          <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>דחה</button>
                                       </div>
                                   </td>
                               </tr>

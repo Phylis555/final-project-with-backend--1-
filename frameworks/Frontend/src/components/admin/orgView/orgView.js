@@ -45,6 +45,9 @@ export default function AdminEditOrg() {
         setOrgStatus(res.data.org.status);
     })
     .catch((e)=>{
+      if (e.response.data.message === "jwt expired") {
+        logOut();
+      }
         console.log(e);
     })};
     fetchOrg();
@@ -96,10 +99,6 @@ export default function AdminEditOrg() {
       }
     })
   }
-
-  const[orgDetails, setOrgDetails]=useState([])
-
-  
 
   return (
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">

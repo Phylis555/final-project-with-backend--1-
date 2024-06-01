@@ -18,6 +18,9 @@ export default function OrganizationRequestList() {
             setDatatable(data.data)
 
         }catch(e){
+          if (e.response.data.message === "jwt expired") {
+            logOut();
+          }
             console.log(e)
         }
     }
@@ -107,7 +110,7 @@ export default function OrganizationRequestList() {
                                 <td>{org.registrationDate.substring(0, 10)}</td>
                                 <td>
                                     <div className={classes.ActionBtnSec}>
-                                        <button className="btn btn-outline-info me-2" onClick={() => onView(org._id)}>בדיקה</button>
+                                        <button className="btn btn-outline-info me-2" onClick={() => onView(org._id)}>בדוק</button>
                                         <button className="btn btn-outline-danger me-2" onClick={() => onDelete(org._id)}>דחה</button>
                                     </div>
                                 </td>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFundByID, removeFund } from '../../../api/fund.api';
 import { getOrganizationByID } from '../../../api/organization.api';
-import NavButton from '../../NavButton';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getRemainingTime } from '../../common/getRemainingTime';
 import LoadingSpinner from '../../common/LoadingSpinner';
@@ -93,8 +92,7 @@ export default function SelectedFund() {
   return (
     <>
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
-        {/* Conditional rendering of NavButton or NavBar based on user role */}
-        { getCookie("roles") === '5150' ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)}
+        { getCookie("roles") === '5150' ? ("") : (<div className='mb-3'><NavBar /></div>)}
 
         <div className="container-fluid" onClick={toggleSidenav} dir="rtl"> 
          {/* Back button */}
@@ -102,11 +100,10 @@ export default function SelectedFund() {
             onClick={() => navigate(-1)}> הקודם</i>
 
           <div className="card card-body px-md-5 pb-5 my-3">
-            <h3 className='mt-3'>{fund.title}</h3>
             {/* Edit and delete buttons for organization */}
             { fund.organizationID === getCookie("uId") && fund.status !== "completed" ? (
-                <div className="col-lg-2 col-sm-3 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                  <div className="nav-wrapper position-relative end-0">
+                <div className="col-lg-2 col-sm-3 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3" dir="ltr">
+                  <div className="progress-container">
                     <ul className="nav nav-pills nav-fill p-1" role="tablist">
                       <li className="nav-item">
                         <Link className="nav-link mb-0 px-0 py-1 active" to={`/fund/editFund`} state={fund}>
@@ -125,6 +122,8 @@ export default function SelectedFund() {
                 </div>
               ) : null
             }
+            <h3 className='mt-3'>{fund.title}</h3>
+            
             {/* Fund details */}
             {isLoaded ? (
               <div className="row">
@@ -158,8 +157,9 @@ export default function SelectedFund() {
                     </div>
                     <div>
                       <ProgressBar
-                        completed={Math.round(fund.currentAmount / fund.budget * 100 * 100) / 100} // rounded to 2 decimal places
-                        className="px-4" />
+                          completed={Math.round(fund.currentAmount / fund.budget * 100)}
+                          labelSize={"10px"}
+                          labelColor="#FDE1FF" />
                     </div>
                     <div className="d-flex mt-3">
                       <div className='text-dark font-weight-bold p-2 ps-0'>תאריך סיום:</div>

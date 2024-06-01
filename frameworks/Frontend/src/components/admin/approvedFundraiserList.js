@@ -7,7 +7,6 @@ import { getAuthHeader } from "../common/authHeader";
 
 export default function ApprovedFundraiser() {
     const navigate = useNavigate();
-
     const [datatable, setDatatable] = useState([]);
     const [search, setSearch] = useState("");
 
@@ -17,7 +16,10 @@ export default function ApprovedFundraiser() {
             const data = await axios.get(`http://localhost:8070/admin/approvedfunds`, getAuthHeader());
             setDatatable(data.data);
         } catch (error) {
-            console.log(error);
+            if (error.response.data.message === "jwt expired") {
+                logOut();
+            }
+            console.error(error);
         }
     };
 
@@ -27,8 +29,7 @@ export default function ApprovedFundraiser() {
 
     // Function to navigate to view fundraiser page
     const onView = (id) => {
-        const oid = id;
-        navigate(`/admin/viewreqfund/${oid}`);
+        navigate(`/admin/viewreqfund/${id}`);
     };
 
     // Function to delete fundraiser request
@@ -87,29 +88,27 @@ export default function ApprovedFundraiser() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {datatable
-                                    .filter((org) => {
-                                        if (search === "") {
-                                            return org;
-                                        } else {
-                                            return Object.values(org).some((value) =>
-                                                value.toString().toLowerCase().includes(search.toLowerCase())
-                                            );
-                                        }
-                                    })
-                                    .map((org) => (
-                                        <tr key={org._id}>
-                                            <td>{org.title}</td>
-                                            <td>{org.budget}</td>
-                                            <td>{org.endingDate.substring(0, 10)}</td>
-                                            <td>
-                                                <div className={classes.ActionBtnSec}>
-                                                    <button className="btn btn-outline-info" onClick={() => onView(org._id)}>בדוק</button>
-                                                    <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>מחק</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                {datatable.filter((org) => {
+                                    if (search === "") {
+                                        return org;
+                                    } else {
+                                        return Object.values(org).some((value) => {
+                                            return value !== null && value.toString().toLowerCase().includes(search.toLowerCase());
+                                        });
+                                    }
+                                }).map((org) => (
+                                    <tr key={org._id}>
+                                        <td>{org.title}</td>
+                                        <td>{org.budget}</td>
+                                        <td>{org.endingDate.substring(0, 10)}</td>
+                                        <td>
+                                            <div className={classes.ActionBtnSec}>
+                                                <button className="btn btn-outline-info" onClick={() => onView(org._id)}>בדוק</button>
+                                                <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>מחק</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

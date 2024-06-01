@@ -79,7 +79,7 @@ export default function ActiveDonations() {
             <div className=" row d-flex">
 
               {/* Dashboard card for pending donations */}
-              <div className="mb-4 p-2 col col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12">
+              <div className="mb-4 p-2 col col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <Link  to="/donator/pendingDonations">
                   <DashboardCard
                     image="https://i.postimg.cc/5t0vBGNQ/ds-5.png"
@@ -90,7 +90,7 @@ export default function ActiveDonations() {
               </div>
 
               {/* Dashboard card for active donations */}
-              <div className="mb-4 p-2 col col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12">
+              <div className="mb-4 p-2 col col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <Link  to="/donator/myDonations">
                 <DashboardCard
                   image="https://i.postimg.cc/T12tg0Sk/ds-4.png"
@@ -101,7 +101,7 @@ export default function ActiveDonations() {
               </div>
 
               {/* Dashboard card for rejected donations */}
-              <div className="mb-4 p-2 col col-xxl-3 col-xl-4 col-lg-6 col-md-12 col-sm-12">
+              <div className="mb-4 p-2 col col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <Link  to="/donator/rejectedDonations">
                   <DashboardCard
                     image="https://i.postimg.cc/tCFmYzKx/ds-8.png"

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import NavButton from "../NavButton";
 import FundraisingChart from "./dashboard/FundraisingChart";
 import LatestContributions from "./dashboard/LatestContributions";
 import DashboardSummary from "./dashboard/DashboardSummary";
@@ -20,8 +19,9 @@ export default function Dashboard() {
             {
                 organizationId ? (
                     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-                        <NavButton page="Dashboard" path="Organization" />
                         <div className="container-fluid py-4 " onClick={toggleSidenav}>
+                        <hr className="dark horizontal mb-4" />
+
                             {/* Dashboard summary */}
                             <DashboardSummary organizationId={organizationId} />
                             <hr className="dark horizontal my-3" />

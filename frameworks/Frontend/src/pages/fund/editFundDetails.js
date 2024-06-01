@@ -4,7 +4,6 @@ import { multiStepContextEdit } from '../../components/fund/editFund/EditFundCon
 import { getCookie } from '../../components/common/getCookie';
 import StepOne from '../../components/fund/editFund/StepOne';
 import StepTwo from '../../components/fund/editFund/StepTwo';
-import NavButton from '../../components/NavButton';
 import SideNav from '../../components/organization/sideNav';
 import Unauthorized from "../../components/common/unauthorized";
 
@@ -34,7 +33,6 @@ export default function EditFundDetails() {
                     <>
                         <SideNav fund="true" />
                         <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-                            <NavButton path="Organization / Funds" page="Update Fund" />
                             <div className="container-fluid" onClick={toggleSidenav}>
                                 <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
                                     onClick={() => navigate(-1)}> הקודם</i>

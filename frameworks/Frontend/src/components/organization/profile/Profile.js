@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { getOrganizationByID } from '../../../api/organization.api';
 import { getCookie } from '../../common/getCookie';
 import { toggleSidenav } from '../../common/toggleSidenav';
-import NavButton from '../../NavButton';
 import LatestContributions from "../dashboard/LatestContributions";
 import NewFundraisings from './NewFundraisings';
 import ChangePassoword from './ChangePassoword';
@@ -42,8 +41,6 @@ export default function Profile() {
         <>
             {organizationID ? (
                 <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-                    {/* Render NavButton if viewing own profile */}
-                    {organizationID === getCookie("uId") ? (<NavButton page="Profile" path="Organization" />) : null}
                     <div className="container-fluid py-4 " onClick={toggleSidenav}>
                         <div className="card card-body">
                             <div className="row gx-4 mb-2">

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getPendingDonations } from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
 import LoadingSpinner from "../../common/LoadingSpinner";
-import NavButton from "../../NavButton";
 import NoItems from "../noItems";
 import SideNav from "../sideNav";
 import PendingDonationCard from "./pendingDonationCard";
@@ -38,20 +37,13 @@ export default function PendingDonationView() {
     }
   }, [userId]);
 
-  // Function to toggle the side navigation bar
-  const toggleSidenav = (e) => {
-    e.preventDefault();
-    document.body.classList.remove("g-sidenav-pinned");
-  };
-
   return (
     <div>
       {/* Side navigation bar */}
       <SideNav pending="true" />
       {/* Main content */}
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-        <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav}>
+        <div className="container-fluid py-4" >
           <div className="row align-items-center">
             {/* Heading */}
             <>
@@ -75,7 +67,7 @@ export default function PendingDonationView() {
               <NoItems />
             ) : (
               // Render the list of pending donations
-              <div className="row row-cols-2">
+              <div className="row row-cols-2 row-cols-md-2 row-cols-sm-1">
                 {donations.map(function (f) {
                   return (
                     <div className="col" key={f._id}>

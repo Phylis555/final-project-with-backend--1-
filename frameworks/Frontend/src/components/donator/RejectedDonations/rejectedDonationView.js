@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { getRejectedDonations } from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
-import NavButton from "../../NavButton";
 import NoItems from "../noItems";
 import SideNav from "../sideNav";
 import RejectedDonationsCard from "./rejectedDonationsCard";
@@ -33,17 +32,12 @@ export default function RejectedDonationView() {
     }
   }, [userId]);
 
-  // Function to toggle the side navigation
-  const toggleSidenav = (e) => {
-    e.preventDefault();
-    document.body.classList.remove("g-sidenav-pinned");
-  };
+
   return (
     <div>
       <SideNav rejected="true" />
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg "  dir="rtl">
-        <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav}>
+        <div className="container-fluid py-4" >
           <div className="row align-items-center">
             {donations.length == 0 ? (
               <NoItems />

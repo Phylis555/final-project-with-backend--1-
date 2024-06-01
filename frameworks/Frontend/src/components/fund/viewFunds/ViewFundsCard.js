@@ -7,7 +7,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function ViewFundsCard({ fund }) {
     return (
-        <div className='col col-xxl-4 col-xl-6 col-lg-10  col-md-12 col-sm-12 h-100' dir="rtl">
+        <div className='col col-xxl-6 col-xl-6 col-lg-12 col-md-12  h-100' dir="rtl">
             <div className="card mb-3">
                 <div className="row g-0 row-cols-md-4">
                     {/* Fund Image */}
