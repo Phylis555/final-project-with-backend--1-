@@ -32,7 +32,6 @@ export default function HomePage() {
             funds.sort((a, b) => new Date(a.endingDate) - new Date(b.endingDate));
             setMostUrgentFunds(funds.slice(0, 2));
         } catch (error) {
-            console.log("is error stemming from here?");
             console.log(error);
         }
     };
@@ -54,13 +53,13 @@ export default function HomePage() {
 
   return (
     <div >
-        <nav>
+        <nav className="fixed-top">
              {/* Navigation bar */}
             <NavBar />
         </nav>
 
        {/* img section */}
-        <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div id="carouselExampleCaptions" className="carousel slide pt-6" data-bs-ride="carousel" data-bs-interval="3000">
             <div className="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -68,7 +67,7 @@ export default function HomePage() {
             </div>
             <div className="carousel-inner" dir="rtl">
                 <div className="carousel-item active">
-                    <img src={Img1} className="img-1 d-block w-100 hd-image" alt="..." />
+                    <img src={Img1} className="d-block w-100 hd-image" alt="..." />
                     <div className="carousel-caption d-none d-md-block">
                         <h1 className='welcome-image-heading'>יש לך ציוד עודף שאינך משתמש בו</h1>
                         <h4 className='text-muted'>תרום אותו למי שזקוק לו</h4>

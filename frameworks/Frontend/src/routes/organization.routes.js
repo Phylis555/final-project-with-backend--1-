@@ -4,7 +4,6 @@ import OrganizationDashboard from "../pages/organization/organizationDashboard";
 import RegisterOrganization from "../pages/organization/registerOrganization";
 import ViewOrganizationFunds from "../pages/fund/viewOrganizationFunds";
 import OrganizationProfile from "../pages/organization/organizationProfile";
-// import ViewAllRequests from "../pages/organization/viewAllRequests";
 
 export default function Organization() {
   return (

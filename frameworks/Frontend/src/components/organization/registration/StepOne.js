@@ -21,10 +21,10 @@ export default function StepOne() {
                                 type="text"
                                 className="form-control"
                                 placeholder="שם הארגון"
-                                value={userData['name']}
+                                value={userData['name']||""}
                                 onChange={(e) => { setUserData({ ...userData, "name": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.name}
                         </div>
                     </div>
@@ -39,7 +39,7 @@ export default function StepOne() {
                                 value={userData['address']}
                                 onChange={(e) => { setUserData({ ...userData, "address": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.address}
                         </div>
                     </div>
@@ -54,7 +54,7 @@ export default function StepOne() {
                                 value={userData['country']}
                                 onChange={(e) => { setUserData({ ...userData, "country": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.country}
                         </div>
                     </div>
@@ -69,7 +69,7 @@ export default function StepOne() {
                                 value={userData['zipCode']}
                                 onChange={(e) => { setUserData({ ...userData, "zipCode": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.zipCode}
                         </div>
                     </div>
@@ -84,7 +84,7 @@ export default function StepOne() {
                                 value={userData['contactNumber']}
                                 onChange={(e) => { setUserData({ ...userData, "contactNumber": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.contactNumber}
                         </div>
                     </div>
@@ -99,7 +99,7 @@ export default function StepOne() {
                                 value={userData['email']}
                                 onChange={(e) => { setUserData({ ...userData, "email": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.email}
                         </div>
                     </div>
@@ -115,7 +115,7 @@ export default function StepOne() {
                                 value={userData['registrationNumber']}
                                 onChange={(e) => { setUserData({ ...userData, "registrationNumber": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.registrationNumber}
                         </div>
                     </div>
@@ -142,7 +142,7 @@ export default function StepOne() {
                                 />
                             </LocalizationProvider>
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.registrationDate}
                         </div>
                     </div>  

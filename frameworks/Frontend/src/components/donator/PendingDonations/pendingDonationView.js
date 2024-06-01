@@ -67,7 +67,7 @@ export default function PendingDonationView() {
               <NoItems />
             ) : (
               // Render the list of pending donations
-              <div className="row row-cols-2 row-cols-md-2 row-cols-sm-1">
+              <div className="row row-cols-2 row-cols-xl-3 row-cols-md-2 row-cols-sm-1">
                 {donations.map(function (f) {
                   return (
                     <div className="col" key={f._id}>

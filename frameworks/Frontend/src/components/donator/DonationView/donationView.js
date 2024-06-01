@@ -251,10 +251,12 @@ export default function DonationView() {
                       דחה
                     </button>
                   </>
-                ) : accepted && fromAdmin || (donation.status === "completed" ||donation.status === "pending") ? (
+                  //If the user is the user who created the donation or the donation has not yet been approved by the system administrator or completed, no button will appear
+                ) : accepted && fromAdmin || (donation.status === "completed" ||donation.status === "pending") || (donation.userID === userId)? (
                   <>
                     <h2></h2>
                   </>
+                  //If the user is logged in, a button will appear to send a request, else a button will appear telling him that he needs to log in first
                 ) : userId ? (
                     <Link to={`/donator/sendRequest/${id}`}>
                       <button className="btn btn-info">שלח בקשה</button>

@@ -8,8 +8,6 @@ import Donator from "./routes/donator.routes";
 import Organization from "./routes/organization.routes";
 import Admin from "./routes/admin.routes";
 import Fund from "./routes/fund.routes";
-import RequireAuth from "./components/RequireAuth";
-import { AuthProvider } from "./context/AuthProvider";
 import User from "./routes/user.routes";
 
 // Define roles for authentication

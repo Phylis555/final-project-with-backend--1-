@@ -44,7 +44,7 @@ export default function RejectedDonationView() {
             ) : (
               <>
                 <h3>תרומות שנדחו</h3>
-                <div className="row row-cols-2" style={{ overflow: "hidden",}}>
+                <div className="row row-cols-2 row-cols-xl-3 row-cols-md-2 row-cols-sm-1 " style={{ overflow: "hidden",}}>
                   {donations.map(function (f) {
                     return (
                       <div className="col" key={f._id}>
