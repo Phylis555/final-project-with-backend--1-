@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10; // For hashing passwords
 const { imageUpload } = require("../../common/imageUpload");
+const { validationResult } = require("express-validator/check");
+
 
 const Organization = require("../../models/organization.model");
 
@@ -13,46 +15,40 @@ const createOrganization = async (req, res, next) => {
     error.status = 422;
     throw error;
   }
+  
   const formData = req.body; // get data from the request body
 
-  const organization = Organization.findOne({ email: formData.email })
-    .then(async (organization) => {
-      if (organization) {
-        res.status(400).json({
-          message: "Organization already exists",
-        });
-      } else {
-        const hashedPassword = bcrypt.hashSync(formData.password, saltRounds); // hash the password
-        formData.password = hashedPassword; // set the hashed password to the formData object
+  try {
+    const organization = await Organization.findOne({ email: formData.email });
+    if (organization) {
+      const error = new Error("Organization already exists");
+      error.status = 400;
+      throw error;
+    } 
 
-        // upload the registration certificate
-        formData.registrationCertificate = await imageUpload(
-          formData.registrationCertificate
-        );
+    const hashedPassword = bcrypt.hashSync(formData.password, saltRounds); // hash the password
+    formData.password = hashedPassword; // set the hashed password to the formData object
 
-        const newOrganization = new Organization(formData); // create a new organization
-        newOrganization
-          .save() // save the new organization to the database
-          .then((organization) => {
-            res.status(201).json({
-              message: "Organization created successfully",
-              organization: organization,
-            });
-          })
-          .catch((err) => {
-            res.status(500).json({
-              message: "Error creating organization",
-              error: err,
-            });
-          });
-      }
+    // upload the registration certificate
+    formData.registrationCertificate = await imageUpload(
+      formData.registrationCertificate
+    );
+
+    const newOrganization = new Organization(formData); // create a new organization
+    await newOrganization.save() // save the new organization to the database
+    res.status(201).json({
+      message: "Organization created successfully",
+      organization: newOrganization,
     })
-    .catch((err) => {
-      res.status(500).json({
-        message: "Error creating organization",
-        error: err,
-      });
-    });
+    
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+   
+
 };
 
 // View all organizations

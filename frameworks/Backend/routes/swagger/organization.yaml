@@ -41,6 +41,8 @@ paths:
       responses:
         "201":
           description: Created
+        "400":
+          description: Email already in use
 
   /view:
     get:
@@ -67,10 +69,11 @@ paths:
       responses:
         "200":
           description: OK
+        "400":
+          description: Org doesn't exist or trying to change another organizations details
         "401":
           description: Unauthorized
-        "403":
-          description: Forbidden
+
 
   /update/board/{id}:
     put:
@@ -234,33 +237,85 @@ components:
       type: object
       required:
         - name
+        - address
         - country
+        - zipCode
         - contactNumber
         - email
+        - registrationNumber
+        - registrationDate
         - presidentName
         - presidentContactNumber
         - presidentEmail
         - secretaryName
         - secretaryContactNumber
         - secretaryEmail
+        - registrationCertificate
+        - password
+        - status
+        - roles
       properties:
         name:
           type: string
+          trim: true
+          notEmpty: true
+        address:
+          type: string
         country:
           type: string
+          trim: true
+          notEmpty: true
+        zipCode:
+          type: integer
         contactNumber:
           type: string
+          trim: true
+          isMobilePhone: he-IL
         email:
           type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        registrationNumber:
+          type: string
+        registrationDate:
+          type: string
+          format: date-time
         presidentName:
           type: string
+          trim: true
+          notEmpty: true
         presidentContactNumber:
           type: string
+          trim: true
+          isMobilePhone: he-IL
         presidentEmail:
           type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
         secretaryName:
           type: string
+          trim: true
+          notEmpty: true
         secretaryContactNumber:
           type: string
+          trim: true
+          isMobilePhone: he-IL
         secretaryEmail:
           type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        registrationCertificate:
+          type: string
+        password:
+          type: string
+        status:
+          type: string
+        roles:
+          type: string
+
