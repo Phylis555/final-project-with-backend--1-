@@ -21,16 +21,17 @@ const updateDonationStatus = async (req, res, next) => {
     };
     console.log(updateDonation);
 
-    await Donation.findByIdAndUpdate(donationID, updateDonation)
-      .then((donation) => {
-        sendAcceptedEmail(donation.email);
-        res.status(200).send({ message: "Status updated" });
-      })
-      .catch(() => {
-        res.status(500).send({ message: "Error" });
-      });
+    const donation = await Donation.findByIdAndUpdate(
+      donationID,
+      updateDonation
+    );
+    sendAcceptedEmail(donation.email);
+    res.status(200).send({ message: "Status updated" });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

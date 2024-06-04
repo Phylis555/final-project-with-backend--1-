@@ -38,16 +38,17 @@ const editOrganization = async (req, res, next) => {
       secretaryName,
     };
 
-    await Organization.findByIdAndUpdate(orgID, updateOrganization)
-      .then((organization) => {
-        console.log(organization);
-        res.status(200).send({ status: "Organization updated" });
-      })
-      .catch(() => {
-        res.status(500).send({ status: "error" });
-      });
+    const organization = await Organization.findByIdAndUpdate(
+      orgID,
+      updateOrganization
+    );
+    console.log(organization);
+    res.status(200).send({ status: "Organization updated" });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

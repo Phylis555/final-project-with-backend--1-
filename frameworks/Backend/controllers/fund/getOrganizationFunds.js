@@ -3,73 +3,44 @@ const Fund = require("../../models/fund.model");
 const getOrganizationFunds = async (req, res, next) => {
   try {
     const organizationID = req.params.id;
-
-    await Fund.find({ organizationID: organizationID })
-      .then((funds) => {
-        res.status(200).send({
-          funds,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+    const funds = await Fund.find({ organizationID });
+    res.status(200).send({ funds });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
-// Get fund by organization and status
-const getFundByOrganizationAndStatus = (req, res, next) => {
+const getFundByOrganizationAndStatus = async (req, res, next) => {
   try {
-    // console.log(req.params);
-    Fund.find({
-      organizationID: req.params.organizationID,
-      status: req.params.status,
-    })
-      .then((funds) => {
-        // console.log(funds);
-        res.status(200).send({
-          funds,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+    const { organizationID, status } = req.params;
+    const funds = await Fund.find({ organizationID, status });
+    res.status(200).send({ funds });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
-// Get latest n funds
-const getNFunds = (req, res, next) => {
-  const { limit } = req.params;
-
+const getNFunds = async (req, res, next) => {
   try {
-    Fund.find({
+    const { limit, organizationId } = req.params;
+    const funds = await Fund.find({
       status: { $in: ["approved", "completed"] },
-      organizationID: req.params.organizationId,
+      organizationID: organizationId,
     })
       .sort({ _id: -1 })
-      .limit(limit)
-      .then((funds) => {
-        res.status(200).send({
-          funds,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+      .limit(Number(limit));
+    res.status(200).send({ funds });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

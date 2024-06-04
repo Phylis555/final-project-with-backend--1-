@@ -28,9 +28,11 @@ const updateFund = async (req, res, next) => {
     currFund.set(formData);
     await currFund.save();
     res.status(200).send({ status: "fund updated" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

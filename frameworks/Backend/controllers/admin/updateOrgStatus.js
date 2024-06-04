@@ -17,17 +17,18 @@ const editOrganizationStatus = async (req, res, next) => {
       status,
     };
 
-    await Organization.findByIdAndUpdate(orgID, updateOrganization)
-      .then((organization) => {
-        console.log(organization);
-        sendAcceptedOrginizationEmail(organization.email);
-        res.status(200).send({ status: "Organization Status updated" });
-      })
-      .catch(() => {
-        res.status(500).send({ status: "error" });
-      });
+    const organization = await Organization.findByIdAndUpdate(
+      orgID,
+      updateOrganization
+    );
+    console.log(organization);
+    sendAcceptedOrginizationEmail(organization.email);
+    res.status(200).send({ status: "Organization Status updated" });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

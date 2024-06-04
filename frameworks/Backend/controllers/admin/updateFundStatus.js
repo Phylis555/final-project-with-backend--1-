@@ -14,23 +14,17 @@ const updateFundStatus = async (req, res, next) => {
       status,
     };
 
-    await Fund.findByIdAndUpdate(fundId, updateFund)
-      .then((fund) => {
-        sendAcceptedEmail(fund.contactEmail);
-        res.status(201).json({
-          message: "Fund updated successfully",
-          fund: fund,
-        });
-      })
-      .catch((err) => {
-        console.log(err.message);
-        res.status(500).json({
-          message: "Error updating fund",
-          error: err,
-        });
-      });
+    const fund = await Fund.findByIdAndUpdate(fundId, updateFund);
+    sendAcceptedEmail(fund.contactEmail);
+    res.status(201).json({
+      message: "Fund updated successfully",
+      fund: fund,
+    });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
