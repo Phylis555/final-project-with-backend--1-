@@ -2,35 +2,25 @@ const Fund = require("../../models/fund.model");
 
 const getRequestedFunds = (req, res, next) => {
   try {
-    Fund.find({ status: "pending" })
-      .then((Funds) => {
-        res.json(Funds);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
+    const funds = Fund.find({ status: "pending" });
+    res.status(200).json(funds);
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
 const getApprovedFunds = (req, res, next) => {
   try {
-    Fund.find({ status: "approved" })
-      .then((Funds) => {
-        res.json(Funds);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
+    const funds = Fund.find({ status: "approved" });
+    res.status(200).json(funds);
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

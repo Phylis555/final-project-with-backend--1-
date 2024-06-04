@@ -19,7 +19,10 @@ const deleteUser = async (req, res, next) => {
     await Donation.deleteMany({ userID: id });
     res.status(200).send({ message: "User Deleted" });
   } catch (err) {
-    res.status(500).send({ message: "Error deleting user", err });
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

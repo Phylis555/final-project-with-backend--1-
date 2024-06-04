@@ -47,7 +47,10 @@ const donateToFund = async (req, res, next) => {
       message: "Donated successfully",
     });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

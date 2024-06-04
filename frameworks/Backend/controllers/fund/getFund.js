@@ -1,41 +1,27 @@
 const Fund = require("../../models/fund.model");
 
-const getFund = (req, res, next) => {
+const getFund = async (req, res, next) => {
   try {
-    Fund.findById(req.params.id)
-      .then((fund) => {
-        res.status(200).send({
-          fund,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+    const fund = await Fund.findById(req.params.id);
+    res.status(200).send({ fund });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
-// Get fund by status
-const getFundByStatus = (req, res, next) => {
+const getFundByStatus = async (req, res, next) => {
   try {
-    Fund.find({ status: req.params.status })
-      .then((funds) => {
-        res.status(200).send({
-          funds,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "Error fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+    const { status } = req.params;
+    const funds = await Fund.find({ status });
+    res.status(200).send({ funds });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

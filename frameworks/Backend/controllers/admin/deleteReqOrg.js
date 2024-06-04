@@ -5,20 +5,15 @@ const deleteReqOrganization = async (req, res, next) => {
     const id = req.params.id;
     console.log(id);
 
-    await Organization.findByIdAndDelete(id)
-      .then(() => {
-        res.status(200).send({
-          msg: "Requested Organization succesfully deleted",
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "error with deletion",
-          error: err,
-        });
-      });
+    await Organization.findByIdAndDelete(id);
+    res.status(200).send({
+      msg: "Requested Organization succesfully deleted",
+    });
   } catch (error) {
-    console.log(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
