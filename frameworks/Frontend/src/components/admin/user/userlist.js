@@ -16,9 +16,6 @@ export default function GetUserList() {
             const data=await axios.get(`http://localhost:8070/admin/getusers/`,getAuthHeader());
             setDatatable(data.data);
         }catch(e){
-            if (e.response.data.message === "jwt expired") {
-                logOut();
-              }
             console.log(e)
         }
     }
