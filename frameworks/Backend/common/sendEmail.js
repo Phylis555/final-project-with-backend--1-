@@ -2,10 +2,6 @@ const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
-const username = "foodforallplatform@gmail.com";
-const senderEmail = "foodforallplatform@gmail.com";
-const password = "loqwplnxvfonmfyi";
-
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
@@ -245,26 +241,6 @@ function sendAcceptedOrginizationEmail(email) {
     from: "instantgivingproject@gmail.com",
     subject: "התרומה נדחתה",
     html: htmlContent,
-  });
-}
-
-function sendDonationDeletedEmail(email, text) {
-  var mailOptions = {
-    from: "foodforallplatform@gmail.com",
-    to: email,
-    subject: "The donation you have sent a request has been deleted",
-    text: `${text}`,
-    template: "index",
-    context: {
-      name: text,
-    },
-  };
-  transporter4.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
   });
 }
 
