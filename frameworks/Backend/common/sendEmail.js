@@ -244,23 +244,6 @@ function sendAcceptedOrginizationEmail(email) {
   });
 }
 
-// For organization emails
-var transporterOrganizationEmails = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: username,
-    pass: password,
-  },
-});
-
-transporterOrganizationEmails.use(
-  "compile",
-  hbs({
-    viewEngine: "express-handlebars",
-    viewPath: "./common/views/organizationEmails",
-  })
-);
-
 function sendOrganizationEmail(email, emailSubject, text) {
   var mailOptions = {
     from: senderEmail,
@@ -286,7 +269,6 @@ module.exports = {
   sendResetEmail,
   sendAcceptedEmail,
   sendRejectedEmail,
-  sendDonationDeletedEmail,
   sendOrganizationEmail,
   sendAcceptedOrginizationEmail,
 };
