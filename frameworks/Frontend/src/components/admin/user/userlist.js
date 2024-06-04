@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
-import { MDBDataTableV5 } from 'mdbreact'
-import SideNav from "../sideNav";
 import classes from "../dashTable/dashTable.module.css";
-import NavButton from "../orgrequestlist/NavButton";
-import swal from "sweetalert";
 import axios from "axios";
 import { getAuthHeader } from "../../common/authHeader";
 
-
 export default function GetUserList() {
 
-    const toggleSidenav = (e) => {
-        e.preventDefault();
-        document.body.classList.remove("g-sidenav-pinned");
-    };
     const navigate = useNavigate()
-    // const navigateTo=()=> useNavigate.push('/admin/orgview/id')
-
-
     const [datatable, setDatatable] = useState([]);
     const [search,setSearch]=useState("");
 
-    const getReqOrgList=async()=>{
+    // Function to fetch the list of users
+    const getUserList=async()=>{
         try{
             const data=await axios.get(`http://localhost:8070/admin/getusers/`,getAuthHeader());
             setDatatable(data.data);
@@ -30,92 +19,74 @@ export default function GetUserList() {
             console.log(e)
         }
     }
-
+    // Function to navigate to view user details page
     const onViewUser = (id, userData) => {
-        // Navigate to the user view page with the user's ID
-
         navigate(`/admin/userview/${id}`, {state: {userData}});
     };
 
     useEffect(()=>{
-        getReqOrgList();
+        getUserList();
     },[]);
 
-
-    const onView=(id)=>{
-        const oid=id;
-        navigate(`/admin/viewreqfund/${oid}`)
-        console.log(oid);
-    }
-
- 
-    
-    
-
-
-
     return (
-        <>
-            <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-                {/* <NavButton /> */}
-                <div className="container-fluid py-4" onClick={toggleSidenav}>
-                    <div className="row">
-                        <h2>רשימת משתמשים</h2>
-                        <div className="col-lg-4 col-md-6 col-sm-8 my-3 me-3">
-                            <div className="input-group input-group-outline bg-white">
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="חפש"
-                                    aria-label="Search"
-                                    onChange={(e) => {
-                                        setSearch(e.target.value);
-                                    }}
-                                />{" "}
-                            </div>
-                        </div> 
-                    </div>
+        <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
+            <div className="container-fluid py-4" >
+                <div className="row">
+                    <h2>רשימת משתמשים</h2>
                 </div>
-                <div className="row me-4 mb-3">
-                    <div className={classes.DashTable}>
-                        <div className={classes.TableBack}>
-                            <table className={classes.Table}>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-8 my-3 me-3">
+                <div className="input-group input-group-outline bg-white">
+                    <input
+                        className="form-control"
+                        type="text"
+                        placeholder="חפש"
+                        aria-label="Search"
+                        onChange={(e) => {
+                        setSearch(e.target.value);
+                        }}
+                    />
+                </div>
+            </div> 
+            <div className="row me-3">
+                <div className={classes.DashTable}>
+                    <div className={classes.TableBack}>
+                        <table className={classes.Table}>
+                            <thead>
                                 <tr>
                                     <th>שם פרטי</th>
                                     <th>שם משפחה</th>
                                     <th>Email</th>
                                     <th id={classes.ActionSec}>פעולה</th>
                                 </tr>
-                                    {datatable.filter((org)=>{
-                                        if (search==""){
-                                        console.log(org)
-                                        return org;
-                                        }else if (org.name.toLowerCase().includes(search.toLocaleLowerCase())){
-                                            return org
+                            </thead>
+                            <tbody>
+                                {datatable
+                                    .filter((user) => {
+                                        if (search === "") {
+                                            return user;
+                                        } else if (user.firstName.toLowerCase().includes(search.toLocaleLowerCase())
+                                                    ||user.lastName.toLowerCase().includes(search.toLocaleLowerCase())) {
+                                            return user;
                                         }
-                                    }).map((org)=>{
-                                        return(
-                                            <tr>
-                                                <td>{org.firstName}</td>
-                                                <td>{org.lastName}</td>
-                                                <td>{org.email}</td>
-                                                <td>
+                                    })
+                                    .map((user) => (
+                                        <tr key={user._id}>
+                                            <td>{user.firstName}</td>
+                                            <td>{user.lastName}</td>
+                                            <td>{user.email}</td>
+                                            <td>
                                                 <div className={classes.ActionBtnSec}>
-                                                <button className="btn btn-outline-info" onClick={() => onViewUser(org._id, org)}>
-                                                    צפה
-                                                </button>
+                                                <button className="btn btn-outline-info" onClick={() => onViewUser(user._id, user)}>צפה</button>                                    
                                                 </div>
-                                                </td>
-                                            </tr>
-
-                                        );
-                                    })}
-
-                            </table>
-                        </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </main>
-        </> 
+            </div>
+      </main> 
     )
 }
