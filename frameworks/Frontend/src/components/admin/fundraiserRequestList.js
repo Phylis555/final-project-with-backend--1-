@@ -17,9 +17,6 @@ export default function FundraiserRequestList() {
           const data = await axios.get(`http://localhost:8070/admin/reqfunds`, getAuthHeader());
           setDatatable(data.data);
       } catch (error) {
-        if (error.response.data.message === "jwt expired") {
-          logOut();
-        }
           console.log(error);
       }
   };

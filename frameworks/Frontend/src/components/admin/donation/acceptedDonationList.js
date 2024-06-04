@@ -18,9 +18,6 @@ export default function GetAcceptedDonations() {
       const data=await axios.get(`http://localhost:8070/admin/getaccepteddon/`, getAuthHeader());
       setDatatable(data.data)
     }catch(e){
-      if (e.response.data.message === "jwt expired") {
-        logOut();
-      }
         console.log(e)
     }
   }

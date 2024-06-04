@@ -16,9 +16,6 @@ export default function ApprovedFundraiser() {
             const data = await axios.get(`http://localhost:8070/admin/approvedfunds`, getAuthHeader());
             setDatatable(data.data);
         } catch (error) {
-            if (error.response.data.message === "jwt expired") {
-                logOut();
-            }
             console.error(error);
         }
     };

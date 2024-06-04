@@ -24,9 +24,6 @@ const DashCard = () => {
       setDatatable(data.data);
       setLength(countPendingDonations(data.data));
     } catch (e) {
-      if (e.response.data.message === "jwt expired") {
-        logOut();
-      }
       console.log(e);
     }
   };
@@ -39,9 +36,6 @@ const DashCard = () => {
         setLength2(countPendingDonations(data.data));
 
     }catch(e){
-      if (e.response.data.message === "jwt expired") {
-        logOut();
-      }
         console.log(e)
     }
 }

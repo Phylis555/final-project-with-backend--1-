@@ -47,9 +47,6 @@ export default function AdminReviewOrg() {
     })
     .catch((e)=>{
         console.log(e);
-        if (e.response.data.message === "jwt expired") {
-          logOut();
-        }
     })};
     fetchOrg();
   },[]);
