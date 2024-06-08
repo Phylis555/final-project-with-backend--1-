@@ -6,6 +6,9 @@ export default function SideNav(props) {
   const navigate = useNavigate();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a08eb7562f01ce46c7ab99ebdc0ef34b79a4705e
   // Function to log out the user
   const logOut = (e) => {
     e.preventDefault();
@@ -196,6 +199,7 @@ export default function SideNav(props) {
     </>
   );
 }
+<<<<<<< HEAD
 =======
     // Function to log out the user
     const logOut = (e) => {
@@ -331,3 +335,5 @@ export default function SideNav(props) {
         );
     }
 >>>>>>> test
+=======
+>>>>>>> a08eb7562f01ce46c7ab99ebdc0ef34b79a4705e
