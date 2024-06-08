@@ -8,6 +8,7 @@ import NewFundraisings from './NewFundraisings';
 import ChangePassoword from './ChangePassoword';
 import UpdateBoardInfo from './UpdateBoardInfo';
 import UpdateOrgInfo from './UpdateOrgInfo';
+import SideNav from '../../donator/sideNav';
 
 export default function Profile() {
     const params = useParams();
@@ -154,9 +155,9 @@ export default function Profile() {
                         { organizationID === getCookie("uId") ? (
                                 <>
                                     {/* Password change */}
-                                    <div className="modal " id="passModel" tabIndex="-1" aria-labelledby="passModel" aria-hidden="true" data-bs-backdrop="static">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
+                                    <div className="modal fade" id="passModel" tabIndex="-1" aria-labelledby="passModel" aria-hidden="true" data-bs-backdrop="static">
+                                        <div className="modal-dialog ">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">שינוי סיסמה</h4>
                                                     <button
@@ -171,9 +172,9 @@ export default function Profile() {
                                     </div>
 
                                     {/* Board member details change */}
-                                    <div className="modal " id="memberModel" tabIndex="-1" aria-labelledby="memberModel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div className="modal fade" id="memberModel" tabIndex="-1" aria-labelledby="memberModel" aria-hidden="true" data-bs-backdrop="static">
                                         <div className="modal-dialog">
-                                            <div className="modal-content">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">פרטי הנהלת הארגון</h4>
                                                     <button
@@ -194,9 +195,9 @@ export default function Profile() {
                                     </div>
 
                                     {/* Organization details change */}
-                                    <div className="modal " id="orgModel" tabIndex="-1" aria-labelledby="orgModel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div className="modal fade" id="orgModel" tabIndex="-1" aria-labelledby="orgModel" aria-hidden="true" data-bs-backdrop="static">
                                         <div className="modal-dialog">
-                                            <div className="modal-content">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">מידע על הארגון</h4>
                                                     <button
