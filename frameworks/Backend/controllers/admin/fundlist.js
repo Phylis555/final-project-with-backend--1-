@@ -4,7 +4,7 @@ const getRequestedFunds = (req, res, next) => {
   try {
     const funds = Fund.find({ status: "pending" });
     res.status(200).json(funds);
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -16,7 +16,7 @@ const getApprovedFunds = (req, res, next) => {
   try {
     const funds = Fund.find({ status: "approved" });
     res.status(200).json(funds);
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

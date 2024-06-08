@@ -6,7 +6,7 @@ const getOrganization = async (req, res, next) => {
     res.status(200).send({
       organization,
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

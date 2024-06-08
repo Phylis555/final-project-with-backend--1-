@@ -20,7 +20,7 @@ const updateFundStatus = async (req, res, next) => {
       message: "Fund updated successfully",
       fund: fund,
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

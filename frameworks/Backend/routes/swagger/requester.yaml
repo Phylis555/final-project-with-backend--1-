@@ -1,0 +1,299 @@
+paths:
+  /requesterSignUp:
+    post:
+      tags:
+        - requester
+      summary: Sign up as a requester
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequesterRegistration"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Invalid input
+
+  /createRequest:
+    post:
+      tags:
+        - requester
+      summary: Create a new donation request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestCreation"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Invalid input
+        "401":
+          description: Unauthorized
+
+  /profile/{id}:
+    get:
+      tags:
+        - requester
+      summary: View a requester's profile
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /updateProfile/{id}:
+    post:
+      tags:
+        - requester
+      summary: Update a requester's profile
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfile"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid input
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /updatePassword/{id}:
+    post:
+      tags:
+        - requester
+      summary: Update a requester's password
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /view/request/{id}:
+    get:
+      tags:
+        - requester
+      summary: View a specific request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /my/requests/{id}:
+    get:
+      tags:
+        - requester
+      summary: View a requester's requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /allrequests:
+    get:
+      tags:
+        - requester
+      summary: View all requests
+      responses:
+        "200":
+          description: OK
+
+  /delete/{id}:
+    delete:
+      tags:
+        - requester
+      summary: Delete a request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    RequesterRegistration:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+        - contactNumber
+        - password
+      properties:
+        email:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+        firstName:
+          type: string
+          trim: true
+          notEmpty: true
+        lastName:
+          type: string
+          trim: true
+          notEmpty: true
+        contactNumber:
+          type: string
+          trim: true
+          isMobilePhone: he-IL
+        password:
+          type: string
+
+    RequestCreation:
+      type: object
+      required:
+        - donationTitle
+        - email
+        - donationEndDate
+        - donationID
+        - requesterName
+        - requesterEmail
+        - requesterContact
+        - requestDescription
+        - items
+      properties:
+        donationTitle:
+          type: string
+          trim: true
+          minLength: 5
+          errorMessage: "Title too short"
+        email:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        donationEndDate:
+          type: string
+          format: date-time
+          isAfter: true
+          errorMessage: "End date must be in the future"
+        donationID:
+          type: string
+          example: "662234df5bbbfb79c12d6713"
+        requesterName:
+          type: string
+          example: "דשגשדגש"
+        requesterEmail:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          example: "lars@dsad.com"
+        requesterContact:
+          type: integer
+          example: 505050505
+        requestDescription:
+          type: string
+          example: "שדגשדכש"
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item:
+                type: object
+                properties:
+                  itemName:
+                    type: string
+                  itemType:
+                    type: string
+              receivedAmount:
+                type: integer
+
+    UpdateProfile:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+        - contactNumber
+      properties:
+        email:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+        firstName:
+          type: string
+          trim: true
+          notEmpty: true
+        lastName:
+          type: string
+          trim: true
+          notEmpty: true
+        contactNumber:
+          type: string
+          trim: true
+          isMobilePhone: he-IL

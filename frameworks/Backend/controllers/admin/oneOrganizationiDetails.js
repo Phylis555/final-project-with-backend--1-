@@ -7,7 +7,7 @@ const getOneOrganizationDetails = async (req, res, next) => {
     const org = await Organization.findOne({ _id: id });
 
     res.status(200).send({ message: "Organization fetched", org: org });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

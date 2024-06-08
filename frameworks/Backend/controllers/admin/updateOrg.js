@@ -44,7 +44,7 @@ const editOrganization = async (req, res, next) => {
     );
     console.log(organization);
     res.status(200).send({ status: "Organization updated" });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
