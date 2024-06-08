@@ -44,7 +44,7 @@ const getApprovedRequests = async (req, res, next) => {
       requestStatus: "accepted",
     });
     res.status(200).json(requests);
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

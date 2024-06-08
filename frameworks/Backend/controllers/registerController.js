@@ -9,47 +9,44 @@ const User = require("../models/user");
 const createUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res
-      .status(422)
-      .json({ message: "Validation failed.", error: errors.array() });
+    const error = new Error("Validation failed, entered data is incorrect");
+    error.status = 422;
+    error.details = errors.array();
+    return next(error);
   }
-  const formData = req.body; // get data from the request body
-  console.log(formData);
 
-  User.findOne({ username: formData.username })
-    .then((user) => {
-      if (user) {
-        res.status(400).json({
-          message: "User already exists",
-        });
-      } else {
-        const hashedPassword = bcrypt.hashSync(formData.password, saltRounds); // hash the password
-        formData.password = hashedPassword; // set the hashed password to the formData object
+  const formData = req.body;
 
-        const newUser = new User(formData); // create a new organization
-        newUser
-          .save() // save the new organization to the database
-          .then((user) => {
-            sendEmail(user.email);
-            res.status(201).json({
-              message: "User created successfully",
-              user: user,
-            });
-          })
-          .catch((err) => {
-            res.status(500).json({
-              message: "Error creating User",
-              error: err,
-            });
-          });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: "Error creating User",
-        error: err,
-      });
+  try {
+    const existingUser = await User.findOne({ username: formData.username });
+    if (existingUser) {
+      const error = new Error("User already exists");
+      error.status = 400;
+      throw error;
+    }
+
+    const hashedPassword = await bcrypt.hash(formData.password, saltRounds);
+    formData.password = hashedPassword;
+
+    const newUser = new User(formData);
+
+    const savedUser = await newUser.save();
+    if (await sendEmail(savedUser.email, next)) {
+      const error = new Error("Failed to send email");
+      error.status = 400;
+      throw error;
+    }
+
+    return res.status(201).json({
+      message: "User created successfully",
+      user: savedUser,
     });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 module.exports = {
