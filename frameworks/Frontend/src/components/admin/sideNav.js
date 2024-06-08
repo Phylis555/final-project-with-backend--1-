@@ -137,6 +137,3 @@ export default function SideNav(props) {
             </>
         );
     }
->>>>>>> test
-=======
->>>>>>> a08eb7562f01ce46c7ab99ebdc0ef34b79a4705e
