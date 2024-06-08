@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import FileBase64 from "react-file-base64";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
-import orgView from "./orgView.css"
 import { getAuthHeader } from "../../common/authHeader";
 
 export default function AdminEditOrg() {
   const navigate = useNavigate();
   const {id}=useParams();
 
+  // State variables for organization details
   const [OrgId,setOrgId]=useState("");
   const [OrgName,setOrgName]=useState("");
   const [OrgAddress,setOrgAddress]=useState("");
@@ -25,37 +24,33 @@ export default function AdminEditOrg() {
   const[pContactNo,setPContactNo]=useState("");
   const [OrgStatus,setOrgStatus]=useState("");
 
+  // Fetch organization details based on ID
   useEffect(()=>{
     const fetchOrg=async()=>{
-        console.log(id)
-        await axios
-        .get(`http://localhost:8070/admin/vieworg/${id}`,getAuthHeader())
-        .then((res)=>{
-            console.log(res)
-            setOrgId(res.data.org._id);
-            setOrgName(res.data.org.name);
-            setOrgAddress(res.data.org.address);
-            setOrgContactNo(res.data.org.contactNumber);
-            setOrgEmail(res.data.org.email);
-            setOrgZipCode(res.data.org.zipCode);
-            setPContactNo(res.data.org.presidentContactNumber);
-            setPemail(res.data.org.presidentEmail);
-            setPname(res.data.org.presidentName);
-            setSContactNo(res.data.org.secretaryContactNumber);
-            setSemail(res.data.org.secretaryEmail);
-            setSname(res.data.org.secretaryName);
-            setOrgStatus(res.data.org.status);
-
+      await axios.get(`http://localhost:8070/admin/vieworg/${id}`,getAuthHeader())
+      .then((res)=>{
+        // Set organization details to state variables
+        setOrgId(res.data.org._id);
+        setOrgName(res.data.org.name);
+        setOrgAddress(res.data.org.address);
+        setOrgContactNo(res.data.org.contactNumber);
+        setOrgEmail(res.data.org.email);
+        setOrgZipCode(res.data.org.zipCode);
+        setPContactNo(res.data.org.presidentContactNumber);
+        setPemail(res.data.org.presidentEmail);
+        setPname(res.data.org.presidentName);
+        setSContactNo(res.data.org.secretaryContactNumber);
+        setSemail(res.data.org.secretaryEmail);
+        setSname(res.data.org.secretaryName);
+        setOrgStatus(res.data.org.status);
     })
     .catch((e)=>{
         console.log(e);
-    })
-    
-    };
+    })};
     fetchOrg();
-    
-  },[]);
+  }, [id]);
 
+   // Function to handle organization details update
   const editOrganization =  (e) => {
     e.preventDefault();
     const Organization = {
@@ -74,70 +69,53 @@ export default function AdminEditOrg() {
       semail,
       sname
     };
-//     await axios
-//       .put(`http://localhost:8070/admin/editorg/${id}`, Organization)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//     console.log(Organization)
-//   };
-swal({
-    title: "שים לב",
-    text: "האם ברצונך לעדכן את פרטי הארגון",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  }).then((willDelete) => {
-    if (willDelete) {
-      axios
-        .put(`http://localhost:8070/admin/editorg/${id}`, Organization, getAuthHeader())
-        .then(() => {
-          if (willDelete) {
-            swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
-            setTimeout(function () {
-              window.location.reload()
-            }, 3000)
-          } else {
-            swal("שגיאה בעדכון פרטים ")
-          }
-        })
-    }
-  })
-
+    // Confirmation before updating organization details
+  swal({
+      title: "שים לב",
+      text: "האם ברצונך לעדכן את פרטי הארגון",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axios
+          .put(`http://localhost:8070/admin/editorg/${id}`, Organization, getAuthHeader())
+          .then(() => {
+            if (willDelete) {
+              // Show success message if organization details are updated successfully
+              swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
+              setTimeout(function () {
+                 // Reload the page after successful update
+                window.location.reload()
+              }, 3000)
+            } else {
+            // Show error message if there's an issue with updating organization details
+              swal("שגיאה בעדכון פרטים ")
+            }
+          })
+      }
+    })
   }
 
-
-
-  const[orgDetails, setOrgDetails]=useState([])
-
-  
-
   return (
-    <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-      {/* <span class="mask bg-gradient-dark opacity-6"></span> */}
-      <div class="container my-auto" style={{ paddingTop: 30 }} dir="rtl">
-        <div class="row">
-          <div class="mx-auto">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-body">
-                <form role="form" class="text-start" onSubmit={editOrganization} >
-                  <div class="d-flex justify-content-center">
+      <div className="container my-auto" style={{ paddingTop: 30 }} dir="rtl">
+        <div className="row">
+          <div className="mx-auto">
+            <div className="card z-index-0 fadeIn3 fadeInBottom">
+              <div className="card-body">
+                <form role="form" className="text-start" onSubmit={editOrganization} >
+                  <div className="d-flex justify-content-center">
                     <h4>ערוך את פרטי הארגון</h4>
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <div></div>
-                    <div></div>
+                  <div className="d-flex justify-content-between">
                     <h6>* שדות חובה</h6>
                   </div>
-                  <label className={orgView.lable}>מספר מזהה ארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label >מספר מזהה ארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Donation Title*"
                       aria-label="Donation Title"
                       aria-describedby="basic-addon1"
@@ -147,11 +125,11 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>שם הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>שם הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Donation Title*"
                       aria-label="Donation Title"
                       aria-describedby="basic-addon1"
@@ -163,11 +141,11 @@ swal({
                     />
                   </div>
                
-                  <label className={orgView.lable}>כתובת </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>כתובת </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Location*"
                       aria-label="Location"
                       aria-describedby="basic-addon1"
@@ -179,11 +157,11 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>מיקוד </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>מיקוד </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Location*"
                       aria-label="Location"
                       aria-describedby="basic-addon1"
@@ -194,8 +172,8 @@ swal({
                       required
                     />
                   </div>
-                  <label className={orgView.lable}>מספר ליצירת קשר </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>מספר ליצירת קשר </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
@@ -203,19 +181,18 @@ swal({
                       aria-describedby="basic-addon1"
                       title="Error Message"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      className="form-control"
                       value={OrgContactNo}
                       onChange={(e) => {
                         setOrgContactNo(e.target.value)
                       }}
                     />
-                    {/* <input type="text" name="country_code"></input> */}
                   </div>
-                  <label className={orgView.lable}>הארגון Email</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>הארגון Email</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
                       aria-describedby="basic-addon1"
@@ -226,11 +203,11 @@ swal({
                       required
                     />
                   </div>
-                  <label className={orgView.lable}>שם המזכירה </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>שם המזכירה </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
                       value={sname}
                        onChange={(e) => {
@@ -240,8 +217,8 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>מספר טלפון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>מספר טלפון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
@@ -249,7 +226,7 @@ swal({
                       aria-describedby="basic-addon1"
                       title="Error Message"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      className="form-control"
                       value={sContactNo}
                       onChange={(e) => {
                         setSContactNo(e.target.value)
@@ -257,11 +234,11 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}> Email</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label> Email</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
                       aria-describedby="basic-addon1"
@@ -273,12 +250,11 @@ swal({
                     />
                   </div>
 
-
-                  <label className={orgView.lable}>שם מנהל הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>שם מנהל הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
                       value={pname}
                        onChange={(e) => {
@@ -288,8 +264,8 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>מספר טלפון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>מספר טלפון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
@@ -297,7 +273,7 @@ swal({
                       aria-describedby="basic-addon1"
                       title="Error Message"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      className="form-control"
                       value={pContactNo}
                       onChange={(e) => {
                         setPContactNo(e.target.value)
@@ -305,11 +281,11 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>Email</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>Email</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
                       aria-describedby="basic-addon1"
@@ -321,11 +297,11 @@ swal({
                     />
                   </div>
 
-                  <label className={orgView.lable}>סטטוס </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>סטטוס </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
                       value={OrgStatus}
                        onChange={(e) => {
@@ -334,10 +310,9 @@ swal({
                       id="date"
                     />
                   </div>
-                  
 
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">
+                  <div className="text-center">
+                    <button type="submit" className="btn btn-primary">
                       עדכן פרטים
                     </button>
                   </div>
@@ -348,6 +323,6 @@ swal({
         </div>
       </div>
       </main>
-    </>
+    
   );
 }

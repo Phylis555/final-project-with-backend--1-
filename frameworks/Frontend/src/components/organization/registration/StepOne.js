@@ -14,24 +14,23 @@ export default function StepOne() {
                 <form className="text-start" >
                     <div className="form-group text-center pb-3">פרטי הארגון</div>
 
-                    
+                    {/* Organization Name */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label className="form-label">שם הארגון</label> */}
-
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder="שם הארגון"
-                                value={userData['name']}
+                                value={userData['name']||""}
                                 onChange={(e) => { setUserData({ ...userData, "name": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.name}
                         </div>
                     </div>
+
+                    {/* Organization Address */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label dir="rtl" className="form-label">כתובת</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -40,14 +39,13 @@ export default function StepOne() {
                                 value={userData['address']}
                                 onChange={(e) => { setUserData({ ...userData, "address": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.address}
                         </div>
                     </div>
 
-                  
+                  {/* Organization Country */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/* <label className="form-label">מדינה</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -56,12 +54,13 @@ export default function StepOne() {
                                 value={userData['country']}
                                 onChange={(e) => { setUserData({ ...userData, "country": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.country}
                         </div>
                     </div>
+
+                    {/* Organization Zip Code */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מיקוד</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="text"
@@ -70,14 +69,14 @@ export default function StepOne() {
                                 value={userData['zipCode']}
                                 onChange={(e) => { setUserData({ ...userData, "zipCode": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.zipCode}
                         </div>
                     </div>
+
+                    {/* Organization Contact Number */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מספר ליצירת קשר</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
-                        
                             <input
                                 type="contact"
                                 className="form-control"
@@ -85,12 +84,13 @@ export default function StepOne() {
                                 value={userData['contactNumber']}
                                 onChange={(e) => { setUserData({ ...userData, "contactNumber": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.contactNumber}
                         </div>
                     </div>
+
+                    {/* Organization Email */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">Email</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                             <input
                                 type="email"
@@ -99,12 +99,13 @@ export default function StepOne() {
                                 value={userData['email']}
                                 onChange={(e) => { setUserData({ ...userData, "email": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.email}
                         </div>
                     </div>
+
+                    {/* Organization Registration Number */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
-                        {/*  <label className="form-label">מספר ארגון</label> */}
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ps-4">
                         
                             <input
@@ -114,14 +115,15 @@ export default function StepOne() {
                                 value={userData['registrationNumber']}
                                 onChange={(e) => { setUserData({ ...userData, "registrationNumber": e.target.value }) }} />
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.registrationNumber}
                         </div>
                     </div>
+
+                    {/* Organization Registration Date */}
                     <div className="row input-group input-group-outline m-0 px-4 pe-3"> 
                          <label className="form-label"> תאריך רישום</label>
                         <div className="input-group input-group-outline mb-1 col-md-6 mb-4 ">
-                        
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker 
                                     label="Registration Date"
@@ -129,7 +131,6 @@ export default function StepOne() {
                                     value={userData['registrationDate']}
                                     maxDate={new Date()}
                                     onChange={(newValue) => {
-                                        // console.log(newValue);
                                         setUserData({ ...userData, "registrationDate": newValue.$d });
                                     }}
                                     renderInput={({ inputRef, inputProps, InputProps }) => (
@@ -141,10 +142,12 @@ export default function StepOne() {
                                 />
                             </LocalizationProvider>
                         </div>
-                        <div className="text-danger form-label mb-3">
+                        <div className="text-danger form-label mt-4">
                             {formErrors.registrationDate}
                         </div>
-                    </div>                   
+                    </div>  
+
+                    {/* Next Step Button */}                 
                     <div className="row d-flex justify-content-center">
                         <div className="col-lg-4 col-md-4 col-sm-4">
                             <button type="button" onClick={() => setCurrentStep(2)} className="btn bg-gradient-primary w-100 my-4 mb-2">הבא</button>

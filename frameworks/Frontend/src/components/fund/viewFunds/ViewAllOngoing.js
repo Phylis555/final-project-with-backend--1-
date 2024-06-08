@@ -10,13 +10,11 @@ export default function ViewAllOngoing() {
     const [sortBy, setSortBy] = useState("");
     const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
 
-
+    // Fetch ongoing funds when component mounts
     useEffect(() => {
         try {
-            console.log("is it actually here?");
             getFundByStatus("approved")
                 .then((res) => {
-                    console.log(res.data.funds);
                     setOngoingFunds(res.data.funds);
                 })
         } catch (error) {
@@ -24,6 +22,7 @@ export default function ViewAllOngoing() {
         }
     }, []);
 
+     // Sort funds based on selected criteria
     useEffect(() => {
         let sortFunds = [...ongoingFunds];
         if (sortBy === "endingDateClosest") {
@@ -36,7 +35,7 @@ export default function ViewAllOngoing() {
         setShowingFunds(sortFunds);
     }, [sortBy, ongoingFunds]);
 
-
+     // Filter funds based on search term
     useEffect(() => {
         setShowingFunds(ongoingFunds.filter(fund =>
             fund.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -52,6 +51,7 @@ export default function ViewAllOngoing() {
             ) : (
                 <div className="row d-flex my-3" dir="rtl">
                     <div className="col-lg-2 col-md-6 col-sm-4 me-7" >
+                         {/* Dropdown for sorting */}
                         <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
                             <button
                                 className="btn btn-secondary dropdown-toggle ms-3"
@@ -70,6 +70,7 @@ export default function ViewAllOngoing() {
                             </ul>
                         </div>
                     </div>
+                    {/* Search input */}
                     <div className="col-lg-4 col-md-6 col-sm-8">
                         <div className="input-group input-group-outline bg-white">
                             <input
@@ -80,7 +81,7 @@ export default function ViewAllOngoing() {
                                 onChange={(e) => {
                                     setsearchTerm(e.target.value);
                                 }}
-                            />{" "}
+                            />
                         </div>
                     </div>
                 </div>
@@ -90,11 +91,9 @@ export default function ViewAllOngoing() {
                     <NoItems message="לא נמצאו תוצאות" />
                 ) :
                     <div className="row d-flex justify-content-center mb-4" dir="rtl">
-                        {
-                            showingFunds.map(fund =>
+                        {showingFunds.map(fund =>
                                 <ViewFundsCard key={fund._id} fund={fund} />
-                            )
-                        }
+                        )}
                     </div>
             }
         </>

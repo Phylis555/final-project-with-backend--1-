@@ -10,27 +10,22 @@ export default function DonateFund({ organizationID, fundID, fund }) {
   const [donationAmount, setDonationAmount] = useState();
   const [isSubmit, setIsSubmit] = useState(false);
 
+    // Function to handle donation submission
   const handleDonation = (e) => {
     e.preventDefault();
-    // console.log(cardDetails);
     setFormErrors(cardValidation(cardDetails));
+    // Check donation amount validity 
     if (donationAmount <= 0 || donationAmount === undefined) {
-      setFormErrors({
-        ...formErrors,
-        donationAmount: "סכום התרומה חייב להיות גדול מאפס ",
-      });
+      setFormErrors({...formErrors,donationAmount: "סכום התרומה חייב להיות גדול מאפס ",});
     } else if (donationAmount > fund.budget - fund.currentAmount) {
-      setFormErrors({
-        ...formErrors,
-        donationAmount: "סכום התרומה חייב להיות נמוך מהתקציב הנותר",
-      });
+      setFormErrors({ ...formErrors, donationAmount: "סכום התרומה חייב להיות נמוך מהתקציב הנותר", });
     }
     setIsSubmit(true);
   };
 
+  // Effect to handle form submission
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      // console.log("Donation successful");
       donateFund(fundID, {
         userID: getCookie("uId"),
         fundID: fundID,
@@ -59,6 +54,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
   return (
     <div>
       <form className="text-start" dir="rtl">
+        {/* Donation Amount */}
         <label className="form-label">סכום (₪)</label>
         <div className="input-group input-group-outline mb-1">
           <input
@@ -74,9 +70,9 @@ export default function DonateFund({ organizationID, fundID, fund }) {
         <div className="text-danger form-label mb-3">
           {formErrors.donationAmount}
         </div>
-
+          {/* Card Details */}   
         <h5 className="form-group text-center pt-2">פרטי כרטיס אשראי</h5>
-
+        {/* Cardholder's Name */}
         <label className="form-label">שם בעל הכרטיס</label>
         <div className="input-group input-group-outline mb-1">
           <input
@@ -90,7 +86,7 @@ export default function DonateFund({ organizationID, fundID, fund }) {
           />
         </div>
         <div className="text-danger form-label mb-3">{formErrors.name}</div>
-
+         {/* Card Number */}   
         <label className="form-label">מספר כרטיס</label>
         <div className="input-group input-group-outline mb-1">
           <input
@@ -109,9 +105,10 @@ export default function DonateFund({ organizationID, fundID, fund }) {
         <div className="text-danger form-label mb-3">
           {formErrors.cardNumber}
         </div>
-
+         {/* Card Expiry and CVV */}   
         <div className="row">
           <div className="col-6">
+            {/* Card Expiry */}
             <label className="form-label">תוקף </label>
             <div className="input-group input-group-outline mb-1">
               <input
@@ -134,14 +131,13 @@ export default function DonateFund({ organizationID, fundID, fund }) {
                     cardExpiry: value,
                   });
                 }}
-             
               />
             </div>
             <div className="text-danger form-label mb-3">
               {formErrors.cardExpiry}
             </div>
           </div>
-
+           {/* CVV */}     
           <div className="col-6">
             <label className="form-label">CVV</label>
             <div className="input-group input-group-outline mb-1">
@@ -158,14 +154,10 @@ export default function DonateFund({ organizationID, fundID, fund }) {
             <div className="text-danger form-label mb-3">{formErrors.cvv}</div>
           </div>
         </div>
-
+          {/* Submit Button */}       
         <div className="row d-flex justify-content-center">
           <div className="col-lg-4 col-md-4 col-sm-4">
-            <button
-              type="button"
-              onClick={handleDonation}
-              className="btn bg-gradient-primary w-100 my-4 mb-2"
-            >
+            <button type="button" onClick={handleDonation} className="btn bg-gradient-primary w-100 my-4 mb-2">
               לתרומה
             </button>
           </div>

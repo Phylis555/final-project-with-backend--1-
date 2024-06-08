@@ -8,25 +8,26 @@ export default function UpdateOrgInfo({ organizationId }) {
   const [alert, setAlert] = useState({})
   const [isSubmit, setIsSubmit] = useState(false);
 
+    // Fetch organization data by ID
   useEffect(() => {
     getOrganizationByID(organizationId)
       .then((res) => {
-        // console.log(res.data.organization);
         setUserData(res.data.organization);
       }).catch((err) => {
         console.log(err);
       })
   }, [organizationId]);
 
+  // Handle form submission
   const handleUpdate = (e) => {
     e.preventDefault()
     setFormErrors(formValidationStep1(userData))
     setIsSubmit(true);
   }
 
+  // Update organization data if there are no form errors
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      // console.log(userData);
       updateOrganization(organizationId, {
         name: userData.name,
         address: userData.address,
@@ -36,7 +37,6 @@ export default function UpdateOrgInfo({ organizationId }) {
         email: userData.email,
       })
         .then((res) => {
-          // console.log(res.data);
           setAlert({
             type: "success",
             message: res.data.message
@@ -53,7 +53,7 @@ export default function UpdateOrgInfo({ organizationId }) {
       setIsSubmit(false);
     }
   }, [formErrors, isSubmit])
-
+// Close alert message
   const closeAlert = (e) => {
     e.preventDefault()
     setAlert({})
@@ -61,8 +61,8 @@ export default function UpdateOrgInfo({ organizationId }) {
   return (
     <>
       <div className="card-body " dir="rtl">
-        {
-          alert.type && alert.type === "success" ? (
+        {/* Display success or error alert */}
+        {alert.type && alert.type === "success" ? (
             <div className="alert alert-success alert-dismissible text-white" role="alert">
               <span className="text-sm">{alert.message}</span>
               <button type="button" className="btn-close text-lg py-3 opacity-10" onClick={closeAlert}>
@@ -81,86 +81,79 @@ export default function UpdateOrgInfo({ organizationId }) {
           )
         }
         <form className="text-start">
-          {/* <h5 className="form-group text-center pb-3">Organization Details</h5> */}
-
+          {/* Organization name */}
           <label className="form-label">שם הארגון</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="text"
               className="form-control"
-              // placeholder="Organization name"
-              value={userData['name']}
+              value={userData['name']||""}
               onChange={(e) => { setUserData({ ...userData, "name": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.name}
           </div>
-
+          {/* Organization address */}
           <label className="form-label">כתובת</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="text"
               className="form-control"
-              // placeholder="Address"
-              value={userData['address']}
+              value={userData['address']||""}
               onChange={(e) => { setUserData({ ...userData, "address": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.address}
           </div>
-
+          {/* Organization country */}
           <label className="form-label">מדינה</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="text"
               className="form-control"
-              // placeholder="Country"
-              value={userData['country']}
+              value={userData['country']||""}
               onChange={(e) => { setUserData({ ...userData, "country": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.country}
           </div>
-
+           {/* ZIP Code */}
           <label className="form-label">מיקוד</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="text"
               className="form-control"
-              // placeholder="ZIP Code"
-              value={userData['zipCode']}
+              value={userData['zipCode']||""}
               onChange={(e) => { setUserData({ ...userData, "zipCode": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.zipCode}
           </div>
-
+          {/* Contact number */}
           <label className="form-label">מספר ליצירת קשר</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="contact"
               className="form-control"
-              // placeholder="Contact Number"
-              value={userData['contactNumber']}
+              value={userData['contactNumber']||""}
               onChange={(e) => { setUserData({ ...userData, "contactNumber": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.contactNumber}
           </div>
-
+          {/* Email */}
           <label className="form-label">Email</label>
           <div className="input-group input-group-outline mb-1">
             <input
               type="email"
               className="form-control"
-              // placeholder="Email"
-              value={userData['email']}
+              value={userData['email']||""}
               onChange={(e) => { setUserData({ ...userData, "email": e.target.value }) }} />
           </div>
           <div className="text-danger form-label mb-3">
             {formErrors.email}
           </div>
-
+          {/* Submit button */}
           <div className="row d-flex justify-content-center">
             <div className="col-lg-4 col-md-4 col-sm-4">
               <button type="button" onClick={handleUpdate} className="btn bg-gradient-primary w-100 my-4 mb-2">עדכן</button>

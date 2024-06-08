@@ -7,31 +7,32 @@ const updateOrganization = async (req, res, next) => {
   const organizationId = req.params.id;
 
   try {
-    const organiztion = await Organization.findOne({ email: formData.email })
+    const organization = await Organization.findOne({ email: formData.email });
 
-    if (organization || organization._id != organizationId) {
-      const error = new Error("Organization doesn't exist or id isn't the same");
+    if (!organization || organization._id != organizationId) {
+      const error = new Error(
+        "Organization doesn't exist or id isn't the same"
+      );
       error.status = 400;
       throw error;
     }
 
     // Update only the properties that exist in formData
-  Object.keys(formData).forEach((key) => {
-    organization[key] = formData[key];
-  });
+    Object.keys(formData).forEach((key) => {
+      organization[key] = formData[key];
+    });
 
-  await organiztion.save();
-  res.status(201).json({
-    message: "Organization updated successfully",
-    organization: organization,
-  });
-  } catch (error) {
+    await organization.save();
+    res.status(201).json({
+      message: "Organization updated successfully",
+      organization: organization,
+    });
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    next(err);
+    next(err);
   }
-
 };
 
 // Update board member details
@@ -40,16 +41,19 @@ const updateOrganizationBoard = async (req, res, next) => {
   const organizationId = req.params.id;
 
   try {
-    const organization = await Organization.findByIdAndUpdate(organizationId, formData)
+    const organization = await Organization.findByIdAndUpdate(
+      organizationId,
+      formData
+    );
     res.status(201).json({
       message: "Organization updated successfully",
       organization: organization,
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    next(err);
+    next(err);
   }
 };
 
@@ -64,16 +68,19 @@ const changePassword = async (req, res, next) => {
   formData.password = hashedPassword; // set the hashed password to the formData object
 
   try {
-    const organization = await Organization.findByIdAndUpdate(organizationId, formData)
+    const organization = await Organization.findByIdAndUpdate(
+      organizationId,
+      formData
+    );
     res.status(201).json({
       message: "Organization updated successfully",
       organization: organization,
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    next(err);
+    next(err);
   }
 };
 

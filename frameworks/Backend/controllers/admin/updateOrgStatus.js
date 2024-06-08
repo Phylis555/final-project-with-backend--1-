@@ -24,7 +24,7 @@ const editOrganizationStatus = async (req, res, next) => {
     console.log(organization);
     sendAcceptedOrginizationEmail(organization.email);
     res.status(200).send({ status: "Organization Status updated" });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

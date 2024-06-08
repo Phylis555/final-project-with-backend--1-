@@ -297,27 +297,15 @@ export default function DonationHome() {
             <div dir="rtl" className="row row-cols-4 " style={{marginLeft: 20, marginRight: 20, overflow: "hidden",}}>
               {filterDonations(donationDetails)
                 .filter((val) => {
-                  if (searchTerm === "") {
-                    return val;
-                  } else if (
-                    val.donationTitle
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.donationDescription
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.location
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
-                    return val;
-                  }
+                    if (searchTerm === "") return val;
+                    return Object.values(val).some(value =>
+                      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                    );
                 })
                 .filter((val) => {
                   if (selectedCategory === "") {
                     return val;
                   } else {
-                    console.log(val.wantedItems.some((item) => item.item.itemCategory));
                     return val.wantedItems.some((item) => item.item.itemCategory === selectedCategory);
                   }
                 })
@@ -330,7 +318,6 @@ export default function DonationHome() {
                 })
 
                 .map(function (f) {
-                  console.log(f);
                   return (
                     <Link key={f._id} to={"/donator/view/" + f._id}>
                       <DonationHomeCard donation={f} />
