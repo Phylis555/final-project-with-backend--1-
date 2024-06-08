@@ -7,7 +7,6 @@ import {BrowserRouter as Router,Link,} from "react-router-dom";
 import img from "./banner.png";
 import swal from "sweetalert";
 import NoItems from "./noItems";
-import NavButton from "../NavButton";
 import SideNav from "./sideNav";
 import { markDonationAsCompleted ,getOngoingDonations, getCompletedDonations} from "../../api/donator.api";
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -29,12 +28,6 @@ export default function DonatorDashboard() {
    useEffect(() => {
     setUserId(getCookie("uId"));
   }, [userID]);
-
-  // Toggle the side navigation bar
-  const toggleSidenav = (e) => {
-    e.preventDefault();
-    document.body.classList.remove("g-sidenav-pinned");
-  };
 
     // Fetch ongoing donations from the database
     useEffect(() => {
@@ -163,9 +156,8 @@ export default function DonatorDashboard() {
     <>
      <SideNav myDonations="true" dir="rtl" />
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style={{ overflow: "hidden" }}>
-       {/* Navigation button */}
-        <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav} dir="rtl">
+        <div className="container-fluid py-4"  dir="rtl">
+          <h3>תרומות שאושרו</h3>
           <div className="row align-items-center">
             <div className="kgcard" style={{ marginLeft: 150, overflow: "hidden" }}>
               <div className="card-body">
@@ -311,7 +303,7 @@ export default function DonatorDashboard() {
                               return f == null ? (
                                   <h1>אין פריטים</h1>
                               ) : (
-                              <div className="col mb-4" key={f._id}>
+                              <div className="col mb-6" key={f._id}>
                                   <div className="courses-container">
                                       <div className="course">
                                           <div className="course-info">

@@ -8,7 +8,7 @@ export const formValidation = (values) => {
     // can only contain numbers
     const numberPattern = /^[0-9]*$/;
     // can only contain letters and spaces
-    const letterPattern = /^[a-zA-Zא-ת]*$/;
+    const letterPattern = /^[a-zA-Zא-ת ]*$/;
 
     if (!values.name) {
         errors.name = 'Name is required';
@@ -88,8 +88,8 @@ export const formValidation = (values) => {
 
     if (!values.password) {
         errors.password = 'Password is required';
-    } else if (values.password.length < 8) {
-        errors.password = 'Password must be at least 8 characters';
+    } else if (values.password.length < 6) {
+        errors.password = 'Password must be at least 6 characters';
     }
 
     if (!values.repassword) {

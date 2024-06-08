@@ -19,7 +19,7 @@ transporter.use(
   })
 );
 
-function sendEmail(email) {
+async function sendEmail(email) {
   const htmlContent = `
       <!DOCTYPE html>
       <html lang="en">
@@ -62,21 +62,28 @@ function sendEmail(email) {
       </html>
   `;
 
-  transporter.sendMail({
-    to: email,
-    from: "instantgivingproject@gmail.com",
-    subject: "Signup succeeded!",
-    html: htmlContent,
-  });
+  try {
+    await transporter.sendMail({
+      to: email,
+      from: "instantgivingproject@gmail.com",
+      subject: "Signup succeeded!",
+      html: htmlContent,
+    });
+    console.log(`Email sent successfully to ${email}`);
+    return 1;
+  } catch (error) {
+    return 0;
+  }
 }
-function sendResetEmail(email, token) {
+async function sendResetEmail(email, token) {
   console.log(email);
   console.log(token);
-  transporter.sendMail({
-    to: email,
-    from: "instantgivingproject@gmail.com",
-    subject: "איפוס סיסמה",
-    html: `
+  try {
+    await transporter.sendMail({
+      to: email,
+      from: "instantgivingproject@gmail.com",
+      subject: "איפוס סיסמה",
+      html: `
     <div dir="rtl" style="font-family: 'Arial', sans-serif;  text-align: center; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
     <h2 style="color: #007bff; text-align: center;">בקשת איפוס סיסמה</h2>
     <p style="font-size: 18px;">שלום,</p>
@@ -85,9 +92,12 @@ function sendResetEmail(email, token) {
     <a href="http://localhost:3000/user/changePassword/${token}" style="display: inline-block; background-color: #007bff; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 5px; text-align: center; margin-top: 20px;">אפס סיסמה</a>
     <p style="font-size: 16px; margin-top: 20px; color: #555;">אם אינך מזהה את בקשה זו, ניתן להתעלם מהודעה זו</p>
   </div>
-  
   `,
-  });
+    });
+    return 1;
+  } catch (error) {
+    return 0;
+  }
 }
 
 // Function to send an email when a user's donation is accepted
@@ -134,7 +144,6 @@ function sendAcceptedEmail(email) {
       </body>
       </html>
   `;
-
   transporter.sendMail({
     to: email,
     from: "instantgivingproject@gmail.com",
@@ -144,7 +153,7 @@ function sendAcceptedEmail(email) {
 }
 
 // Function to send an email when a user's donation is rejected
-function sendRejectedEmail(email) {
+async function sendRejectedEmail(email) {
   const htmlContent = `
       <!DOCTYPE html>
       <html lang="en">
@@ -186,15 +195,21 @@ function sendRejectedEmail(email) {
       </html>
   `;
 
-  transporter.sendMail({
-    to: email,
-    from: "instantgivingproject@gmail.com",
-    subject: "התרומה נדחתה",
-    html: htmlContent,
-  });
+  try {
+    await transporter.sendMail({
+      to: email,
+      from: "instantgivingproject@gmail.com",
+      subject: "התרומה נדחתה",
+      html: htmlContent,
+    });
+    console.log(`Email sent successfully to ${email}`);
+    return 1;
+  } catch (error) {
+    return 0;
+  }
 }
 
-function sendAcceptedOrginizationEmail(email) {
+async function sendAcceptedOrginizationEmail(email) {
   const htmlContent = `
       <!DOCTYPE html>
       <html lang="en">
@@ -236,12 +251,18 @@ function sendAcceptedOrginizationEmail(email) {
       </html>
   `;
 
-  transporter.sendMail({
-    to: email,
-    from: "instantgivingproject@gmail.com",
-    subject: "התרומה נדחתה",
-    html: htmlContent,
-  });
+  try {
+    await transporter.sendMail({
+      to: email,
+      from: "instantgivingproject@gmail.com",
+      subject: "התרומה נדחתה",
+      html: htmlContent,
+    });
+    console.log(`Email sent successfully to ${email}`);
+    return 1;
+  } catch (error) {
+    return 0;
+  }
 }
 
 function sendOrganizationEmail(email, emailSubject, text) {

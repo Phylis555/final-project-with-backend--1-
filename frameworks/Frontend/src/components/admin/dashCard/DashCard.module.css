@@ -1,26 +1,22 @@
 .DashCard {
-  margin-right: 15%;
+  margin: 0;
+  margin-right: 10%;
   display: flex;
-  gap: 4.5%;
+  gap: 1.5%;
   flex-wrap: wrap;
-  box-shadow: 10px 10px;
+  box-shadow: 8px 8px;
 }
 
 .DashCard0 {
-  margin-left: 5%;
+  margin-right: 8%;
   display: flex;
-  gap: 4.5%;
+  gap: 3.5%;
   flex-wrap: wrap;
   box-shadow: 10px 10px;
-  
 }
 
-
 .Card {
-  /* background-color: #ffffff; */
-
   background: #e9d6dc;
-
   border-radius: 10px;
   width: 20%;
   height: 150px;
@@ -29,33 +25,12 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.Card1 {
-  /* background-color: #ffffff; */
-
-  
-
-  border-radius: 10px;
-  width: 90%;
-  height: 250px;
-  margin-left: 40px;
-  margin-right: 30px;
-  margin-bottom: 40px;
-  border: #ea9ab5 solid 1px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  background: url("https://i.ibb.co/MPd46TS/Untitled-design.png");
-
-}
-
 .Card2 {
-  /* background-color: #ffffff; */
-
-  /* background: #e9d6dc; */
-
   border-radius: 10px;
   width: 40%;
   height: 220px;
-  margin-left: 40px;
-  margin-right: 30px;
+  margin-left: 30px;
+  margin-right: 40px;
   margin-bottom: 60px;
   border: #ea9ab5 solid 1px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -64,18 +39,16 @@
 
 .CardHeading {
   text-align: center;
-
-  margin-top: 10px;
-  /* margin-left: 29%; */
-  padding: 10px 10px 10px 10px;
+  margin-top: 4px;
+  padding: 4px 4px 4px 4px;
   font-weight: 700;
   font-size: 30px;
   color:azure;
 }
 
 .CardHeading2 {
-  padding: 10px 10px 0px 10px;
-  margin-top: 60px;
+  padding: 4px 4px 4px 4px;
+  margin-top: 40px;
   font-weight: 700;
   font-size: 40px;
   text-align: center;
@@ -94,18 +67,31 @@
   color: #e9d6dc;
 }
 
-.bgi {
-  background: url("https://i.ibb.co/PtPmnvP/Untitled-design-1.png");
-}
-
 @media (max-width: 1200px) {
   .DashCard {
-    margin: 10px;
-    margin-left: 0px;
+    margin: 0px;
     width: 100%;
+    height: 100%;
+    display: flex;
+
   }
   .Card2 {
     width: 35%;
+  }
+}
+
+@media (max-width: 1140px) {
+  .Card2 {
+    width: 32%;
+  }
+}
+
+@media (max-width: 999px) {
+  .Card2 {
+    width: 70%;
+  }
+  .CardHeading2 {
+    font-size: 40px;
   }
 }
 @media (max-width: 426px) {

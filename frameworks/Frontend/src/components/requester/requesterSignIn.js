@@ -5,7 +5,6 @@ import NavBar from "../NavBar";
 import "./footer.css";
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
@@ -13,7 +12,6 @@ import { VscEye, VscEyeClosed } from "react-icons/vsc";
 const LOGIN_URL = "/login/login";
 
 export default function RequesterSignIn() {
-  const setAuth = useAuth();
   const [cookies, setCookie] = useCookies(["access_token", "roles", "_id"]);
   const Navigate = useNavigate();
   const userRef = useRef();

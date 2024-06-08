@@ -17,6 +17,7 @@ export default function StepOne() {
             <div className="card-body" dir="rtl">
                 <form className="text-start">
                     <div className="form-group text-center pb-3">פרטי גיוס כספים</div>
+                     {/* Title */}
                     <label className="form-label">כותרת</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
@@ -30,6 +31,7 @@ export default function StepOne() {
                         {formErrorsStep1.title}
                     </div>
 
+                     {/* Target */}
                     <label className="form-label">מטרה</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
@@ -43,6 +45,7 @@ export default function StepOne() {
                         {formErrorsStep1.target}
                     </div>
 
+                    {/* Description */}
                     <label className="form-label">תיאור</label>
                     <div className="input-group input-group-outline mb-1">
                         <textarea
@@ -54,7 +57,7 @@ export default function StepOne() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.description}
                     </div>
-
+                    {/* Ending Date */}
                     <label className="form-label">תאריך סיום</label>
                     <div className="input-group input-group-outline mb-1">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -80,7 +83,7 @@ export default function StepOne() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.endingDate}
                     </div>
-
+                     {/* Budget */}               
                     <label className="form-label">סכום</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
@@ -96,7 +99,7 @@ export default function StepOne() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.budget}
                     </div>
-
+                     {/* Next Button */}               
                     <div className="row d-flex justify-content-center">
                         <div className='col-lg-4 col-md-4 col-sm-4'>
                             <button type="button" onClick={handleNext} className="btn bg-gradient-primary w-100 my-4 mb-2">הבא</button>

@@ -35,11 +35,38 @@ const options = {
         url: "http://localhost:8070/",
       },
     ],
+    tags: [
+      {
+        name: "organization",
+        description: "Operations related to organizations",
+      },
+      {
+        name: "donator",
+        description: "Operations related to donators",
+      },
+      {
+        name: "fund",
+        description: "Operations related to funds",
+      },
+      {
+        name: "requester",
+        description: "Operations related to requesters",
+      },
+      {
+        name: "login",
+        description: "Operations related to login and authentication",
+      },
+      {
+        name: "admin",
+        description: "Operations related to administrative tasks",
+      },
+    ],
   },
   apis: ["./routes/swagger/*.yaml"],
 };
 
 const spacs = swaggerjsdocs(options);
+
 app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
 
 //admin routes

@@ -36,44 +36,43 @@ handleReset = async (req, res, next) => {
 };
 
 changePassword = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed, entered data is incorrect");
+    error.status = 422;
+    error.details = errors.array();
+    return next(error);
+  }
+
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(422)
-        .json({ message: "Validation failed.", error: errors.array() });
-    }
     const newPassword = req.body.password;
     const passwordToken = req.body.token;
     let user = await Requester.findOne({ resetToken: passwordToken });
 
     if (!user) {
-      throw new Error("Invalid or expired token");
+      const error = new Error("Invalid or expired token");
+      error.status = 400;
+      throw error;
     }
 
-    if (Date.now() > Date(user.resetTokenExpiration))
-      throw new Error("Invalid or expired token");
+    if (Date.now() > Date(user.resetTokenExpiration)) {
+      const error = new Error("Invalid or expired token");
+      error.status = 401;
+      throw error;
+    }
 
     const saltRounds = 10; // Example salt rounds
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds); // hash the password
-    user.password = hashedPassword;
+    user.passwsord = hashedPassword;
     // user.resetToken = null;
     // user.resetTokenExpiration = undefined;
     await user.save();
 
     return res.status(200).json({ message: "Password changed successfully" });
-  } catch (error) {
-    console.error("Error changing password:", error);
-
-    let statusCode = 500;
-    let errorMessage = "Internal Server Error";
-
-    if (error.message === "Invalid or expired token") {
-      statusCode = 400;
-      errorMessage = "Invalid or expired token";
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-
-    return res.status(statusCode).json({ message: errorMessage });
+    next(err);
   }
 };
 

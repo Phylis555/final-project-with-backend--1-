@@ -1,0 +1,150 @@
+paths:
+  /login/register:
+    post:
+      tags:
+        - login
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Invalid request body
+        "409":
+          description: User already exists
+
+  /login:
+    post:
+      tags:
+        - login
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid credentials
+
+  /changePassword:
+    post:
+      tags:
+        - login
+      summary: Path where the user will have his password changed by entering a new one
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordRequest"
+      responses:
+        "200":
+          description: Password changed successfully
+        "400":
+          description: Invalid request body
+        "401":
+          description: Unauthorized
+
+  /resetPassword:
+    post:
+      tags:
+        - login
+      summary: In this path the user gives his email to recieve a link to reset his password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        "200":
+          description: Password reset token sent
+        "400":
+          description: Invalid request body
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - contactNumber
+        - firstName
+        - lastName
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        firstName:
+          type: string
+        lastName:
+          type: string
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - newPassword
+        - passwordToken
+      properties:
+        newPassword:
+          type: string
+          minLength: 8
+        passwordToken:
+          type: string
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email

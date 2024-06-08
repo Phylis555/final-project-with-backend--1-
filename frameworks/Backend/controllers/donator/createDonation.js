@@ -83,7 +83,7 @@ const createDonation = async (req, res, next) => {
       message: "Donation created successfully",
       donation: donation,
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

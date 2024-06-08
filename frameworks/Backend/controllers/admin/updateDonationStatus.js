@@ -27,7 +27,7 @@ const updateDonationStatus = async (req, res, next) => {
     );
     sendAcceptedEmail(donation.email);
     res.status(200).send({ message: "Status updated" });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
