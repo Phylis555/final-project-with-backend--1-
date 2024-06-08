@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getFundByID, removeFund } from '../../../api/fund.api';
 import { getOrganizationByID } from '../../../api/organization.api';
-import NavButton from '../../NavButton';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getRemainingTime } from '../../common/getRemainingTime';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import { getCookie } from '../../common/getCookie';
 import swal from "sweetalert";
 import NavBar from '../../NavBar';
-import DonateFund from '../../fund/viewFunds/DonateFund';
 
 export default function ViewSelectedFund() {
   const [fund, setFund] = useState({ organizationID: "", endingDate: "2022-09-27T12:20:02.029+00:00" });
@@ -18,10 +16,10 @@ export default function ViewSelectedFund() {
   const { fundID } = useParams();
   const navigate = useNavigate()
 
+  // Fetch fund details by ID when component mounts
   useEffect(() => {
     getFundByID(fundID)
       .then(res => {
-        console.log(res.data.fund);
         setFund(res.data.fund);
         setIsLoaded(true);
       })
@@ -30,19 +28,15 @@ export default function ViewSelectedFund() {
       })
   }, [fundID])
 
+  // Fetch organization details by organization ID
   useEffect(() => {
     getOrganizationByID(fund.organizationID)
       .then(res => {
-        // console.log(res.data.organization);
         setOrganization(res.data.organization);
       })
   }, [fund.organizationID])
 
-  const toggleSidenav = (e) => {
-    e.preventDefault();
-    document.body.classList.remove("g-sidenav-pinned");
-  };
-
+  // Handle the removal of a fund
   const removeFundbtn = (e) => {
     e.preventDefault();
     swal({
@@ -73,12 +67,9 @@ export default function ViewSelectedFund() {
   return (
     <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " >
-      {
-        (getCookie("roles") === '5150' || getCookie("roles") === '2001') ? (<NavButton page="Funds" path="Organization" />) : (<div className='mb-3'><NavBar /></div>)
-      }
+      { (getCookie("roles") === '5150' || getCookie("roles") === '2001') ? ("") : (<div className='mb-3'><NavBar /></div>)}
 
-
-      <div className="container-fluid mb-3" onClick={toggleSidenav} dir="rtl">
+      <div className="container-fluid mb-3"  dir="rtl">
         <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
           onClick={() => navigate(-1)}> הקודם</i>
         <h3 className='mt-3'>{fund.title}</h3>
@@ -123,7 +114,7 @@ export default function ViewSelectedFund() {
               </div>
             </div>
             <div className="col-sm-7 my-5 ps-sm-4 me-4">
-              <h5>Target</h5>
+              <h5>מטרה</h5>
               <p className='text-justify'>{fund.target}</p>
               <div className='mt-3'>
                 <div className="d-flex">
@@ -131,16 +122,14 @@ export default function ViewSelectedFund() {
                   <div className='p-2'>₪ {fund.budget}</div>
                 </div>
                 <div className="d-flex">
-
                   <div className='text-dark font-weight-bold p-2 ps-0'>כספים שנאספו:</div>
-
                   <div className='p-2'>₪ {fund.currentAmount}</div>
-
                 </div>
                 <div>
                   <ProgressBar
-                    completed={Math.round(fund.currentAmount / fund.budget * 100 * 100) / 100} // rounded to 2 decimal places
-                    className="px-4" />
+                      completed={Math.round(fund.currentAmount / fund.budget * 100)}
+                      labelSize={"10px"}
+                      labelColor="#FDE1FF"/>
                 </div>
                 <div className="d-flex mt-3">
                   <div className='text-dark font-weight-bold p-2 ps-0'>תאריך סיום:</div>
@@ -155,32 +144,7 @@ export default function ViewSelectedFund() {
                   <div className='p-2 text-justify'>{fund.description}</div>
                 </div>
               </div>
-              {/* {
-                getCookie("roles") === '1984' || !getCookie("roles") ? (
-                  <div className='mt-3'>
-                    <button className="btn btn-primary" onClick={handleDonate}>Donate</button>
-                  </div>) : null
-              } */}
             </div>
-            {/* {
-              getCookie("roles") === '1984' ? (
-                <div className="modal blur-my-dark" id="donateModal">
-                  <div className="modal-dialog">
-                    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h4 className="modal-title">Donate</h4>
-                          <button onClick={closeDonateModal} type="button" className="btn fs-4">&times;</button>
-                        </div>
-                        <div className="modal-body">
-                          <DonateFund organizationID={fund.organizationID} fundID={fund._id} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null
-            } */}
           </div>
         ) : <LoadingSpinner />}
 

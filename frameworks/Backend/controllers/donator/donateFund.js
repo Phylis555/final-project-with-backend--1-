@@ -46,7 +46,7 @@ const donateToFund = async (req, res, next) => {
     res.status(201).json({
       message: "Donated successfully",
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

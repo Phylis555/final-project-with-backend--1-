@@ -9,7 +9,7 @@ const deleteReqOrganization = async (req, res, next) => {
     res.status(200).send({
       msg: "Requested Organization succesfully deleted",
     });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }

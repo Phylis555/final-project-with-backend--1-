@@ -4,20 +4,14 @@ const getMyRequests = async (req, res, next) => {
   try {
     const userId = req.params.id;
 
-    await Request.find({ userId: userId })
-      .then((requests) => {
-        res.status(200).send({
-          requests,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          msg: "error with fetching data",
-          error: err,
-        });
-      });
-  } catch (error) {
-    console.log(error);
+    const requests = await Request.find({ userId });
+
+    res.status(200).send({ requests });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

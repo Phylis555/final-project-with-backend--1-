@@ -3,19 +3,18 @@ const saltRounds = 10; // For hashing passwords
 const { imageUpload } = require("../../common/imageUpload");
 const { validationResult } = require("express-validator/check");
 
-
 const Organization = require("../../models/organization.model");
 
 // Register new organization
 const createOrganization = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed, entered data is incorrect");
     error.status = 422;
-    throw error;
+    error.details = errors.array();
+    return next(error);
   }
-  
+
   const formData = req.body; // get data from the request body
 
   try {
@@ -24,7 +23,7 @@ const createOrganization = async (req, res, next) => {
       const error = new Error("Organization already exists");
       error.status = 400;
       throw error;
-    } 
+    }
 
     const hashedPassword = bcrypt.hashSync(formData.password, saltRounds); // hash the password
     formData.password = hashedPassword; // set the hashed password to the formData object
@@ -35,20 +34,17 @@ const createOrganization = async (req, res, next) => {
     );
 
     const newOrganization = new Organization(formData); // create a new organization
-    await newOrganization.save() // save the new organization to the database
+    await newOrganization.save(); // save the new organization to the database
     res.status(201).json({
       message: "Organization created successfully",
       organization: newOrganization,
-    })
-    
+    });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
-    next(err);
+    next(err);
   }
-   
-
 };
 
 // View all organizations

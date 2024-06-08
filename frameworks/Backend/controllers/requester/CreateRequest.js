@@ -1,4 +1,5 @@
 const Request = require("../../models/requestFund.model");
+const Donation = require("../../models/donation.model");
 const { imageUpload } = require("../../common/imageUpload");
 const { validationResult } = require("express-validator/check");
 
@@ -6,38 +7,38 @@ const createRequest = async (req, res, next) => {
   console.log("before enter");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res
-      .status(422)
-      .json({ message: "Validation failed.", error: errors.array() });
+    const error = new Error("Validation failed, entered data is incorrect");
+    error.status = 422;
+    return next(error);
   }
+
   const formData = req.body;
   console.log("before donatedItems");
   console.log(formData.donatedItems);
 
-  formData.requestImage = await imageUpload(formData.requestImage);
+  try {
+    formData.requestImage = await imageUpload(formData.requestImage);
 
-  currDonation = await Donation.findById(formData.donationID);
-  console.log(currDonation);
+    // const currDonation = await Donation.findById(formData.donationID);
+    // console.log(currDonation);
 
-  // currDonation.wantedItems.forEach((item) =>{
-  //     //if(formData.donatedItems.find(item._id))
-  // })
+    // currDonation.wantedItems.forEach((item) =>{
+    //     //if(formData.donatedItems.find(item._id))
+    // })
 
-  const newRequest = new Request(formData);
-  newRequest
-    .save()
-    .then((request) => {
-      res.status(201).json({
-        message: "Request created successfully",
-        request: request,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: "Error creating request",
-        error: err,
-      });
+    const newRequest = new Request(formData);
+    const request = await newRequest.save();
+
+    res.status(201).json({
+      message: "Request created successfully",
+      request: request,
     });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 module.exports = { createRequest };

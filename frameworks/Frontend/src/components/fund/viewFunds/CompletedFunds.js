@@ -8,12 +8,12 @@ export default function CompletedFunds(props) {
     const [showingFunds, setShowingFunds] = useState([]);
     const [completedFunds, setCompletedFunds] = useState([])
     const [searchTerm, setsearchTerm] = useState("");
-
+        
+    // Fetch completed funds based on organization ID
     useEffect(() => {
         try {
             getFundByOrganizationAndStatus(props.organizationID, "completed")
                 .then((res) => {
-                    // console.log(res.data.funds);
                     setCompletedFunds(res.data.funds);
                 })
         } catch (error) {
@@ -21,6 +21,7 @@ export default function CompletedFunds(props) {
         }
     }, [props.organizationID]);
 
+    // Filter funds based on search term
     useEffect(() => {
         setShowingFunds(completedFunds.filter(fund =>
             fund.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -30,9 +31,11 @@ export default function CompletedFunds(props) {
 
     return (
         <>
+            {/* Render message if no completed funds */}
             {completedFunds.length === 0 ? (
                 <NoItems message="לא נמצאו בקשות שהושלמו" />
             ) : (
+                 // Render search input if there are completed funds
                 <div className="row d-flex my-3 me-3">
                     <div className="col-lg-4 col-md-6 col-sm-8">
                         <div className="input-group input-group-outline bg-white">
@@ -49,18 +52,17 @@ export default function CompletedFunds(props) {
                     </div>
                 </div>
             )}
-            {
-                completedFunds.length > 0 && showingFunds.length === 0 ? (
+             {/* Render message if no matching funds found */}
+            {  completedFunds.length > 0 && showingFunds.length === 0 ? (
                     <NoItems message="לא נמצאו תוצאות" />
-                ) :
+                ) :(                
+                    // Render completed funds if there are matching funds
                     <div className="row d-fllex">
-                        {
-                            showingFunds.map(fund =>
+                        {showingFunds.map(fund =>
                                 <ViewFundsCard key={fund._id} fund={fund} />
-                            )
-                        }
+                        )}
                     </div>
-            }
+            )}
         </>
 
     )
