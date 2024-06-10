@@ -1,4 +1,4 @@
-Donation Website
+##Donation Website
 This repository contains the code for a web application that facilitates donations of items to private individuals or organizations. The application is built using Node.js for the backend and React.js for the frontend.
 Table of Contents
 
