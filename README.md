@@ -60,7 +60,7 @@ Liat Sagi - https://github.com/LiatSagi
 Liran Meirovich - https://github.com/LiranMeirovich
 
 ## Project status
-Currently we have stopped work on the project, if someone is interested to continue on and deploy the website it could do wonders, in that case contact us Liranmeirovich@gmail.com
+Currently we have stopped work on the project, if someone is interested to continue on and deploy the website it could do wonders, in that case contact us Liranmeirovich@gmail.com\
 We also have an app that is currently in the final stages of development by https://github.com/Phylis555
 
 ## Watch the Demo Video
