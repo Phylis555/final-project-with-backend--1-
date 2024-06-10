@@ -1,3 +1,4 @@
+// Function to toggle the side navigation bar.
 
 export const toggleSidenav = (e) => {
     e.preventDefault();

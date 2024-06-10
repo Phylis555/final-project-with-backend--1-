@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-import {
-  getAllDonations,
-  markDonationAsCompleted,
-  getOneDonation,
-} from "../../../api/donator.api";
+import { getAllDonations,} from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Footer from "../../Footer";
 import NavBar from "../../NavBar";
-import DonationDescription from "../DonationView/DonationViewComponents/DonationDescription";
 import DonationHomeCard from "./donationHomeCard";
-import { getRemainingTime } from "../../common/getRemainingTime";
 
 export default function DonationHome() {
+    // State variables initialization
   const [userId, setUserId] = useState("");
   const navigate = useNavigate();
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
@@ -24,10 +19,11 @@ export default function DonationHome() {
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [sortLocationDropdownOpen, setSortLocationDropdownOpen] = useState(false);
+    useState(false);
 
-
-  const markAsCompleted = (id) => {
+  // Function to handle moving to create a donation
+  const movToCreateDonation = (id) => {
+    // Alert if the user is not logged in
     if (userId == false) {
       swal({
         title: "אתה לא מחובר",
@@ -37,18 +33,21 @@ export default function DonationHome() {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
+         // Redirect to sign in page if confirmed
           navigate("../../user/signin");
         }
       });
     } else {
+      // Redirect to create donation page if user is logged in
       navigate("../createDonation");
     }
   };
-
+// Effect hook to set user ID from cookie on component
   useEffect(() => {
     setUserId(getCookie("uId"));
   }, []);
 
+  //fetch all donations 
   useEffect(() => {
     setLoading(true);
     getAllDonations()
@@ -65,6 +64,7 @@ export default function DonationHome() {
       });
   }, []);
 
+  //update categories array when donation details change
   useEffect(() => {
     const categoriesArray = [];
 
@@ -75,43 +75,45 @@ export default function DonationHome() {
         }
       });
     });
-
     setCategories(categoriesArray);
   }, [donationDetails]);
-  // *************************
+
+  //update locations array when donation details change
   useEffect(() => {
     const locationsArray = [];
-  
+
     donationDetails.forEach((donation) => {
-      const location = donation.location.split(',')[2].trim();
+      const location = donation.location.split(",")[2].trim();
       if (!locationsArray.includes(location)) {
         locationsArray.push(location);
       }
     });
-  
     setLocations(locationsArray);
   }, [donationDetails]);
-  
 
-  // ***************************
   const [loading, setLoading] = useState(false);
   const [donation, setDonation] = useState([]);
   const [searchTerm, setsearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("");
 
+   // Function to filter donations based on selected criteria
   const filterDonations = (donations) => {
     if (sortBy === "closestEndDate") {
       return donations.sort(
-        (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate));
+        (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate)
+      );
     } else if (sortBy === "furthestEndDate") {
       return donations.sort(
-        (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate));
+        (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate)
+      );
     } else if (sortBy === "oldestCreatedDate") {
       return donations.sort(
-        (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate));
+        (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate)
+      );
     } else if (sortBy === "newestCreatedDate") {
       return donations.sort(
-        (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate));
+        (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate)
+      );
     } else if (sortBy === "popularity") {
       return donations.sort((a, b) => b.numberOfRequests - a.numberOfRequests);
     } else {
@@ -121,7 +123,7 @@ export default function DonationHome() {
 
   return (
     <>
-      <div class="overflow-hidden" style={{}}>
+      <div className="overflow-hidden" style={{}}>
         <NavBar />
         {loading ? (
           <div className="mt-6 min-vh-100">
@@ -129,10 +131,8 @@ export default function DonationHome() {
           </div>
         ) : (
           <>
-            <div
-              class="row d-flex justify-content-sm-around mx-5 my-3"
-              dir="rtl"
-            >
+            <div className="row d-flex justify-content-sm-around mx-5 my-3" dir="rtl">
+              {/* Sort dropdown */}
               <div className="col-lg-1 col-md-1 me-4 ">
                 <div className={`dropdown ${sortDropdownOpen ? "show" : ""}`}>
                   <button
@@ -144,70 +144,38 @@ export default function DonationHome() {
                     {" "}
                     מיון{" "}
                   </button>
-                  <ul
-                    className={`dropdown-menu ${
-                      sortDropdownOpen ? "show" : ""
-                    }`}
-                  >
-                    <li
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setSortBy("popularity")}
-                      >
+                  {/* sort options... */}
+                  <ul className={`dropdown-menu ${sortDropdownOpen ? "show" : ""}`}>
+                    <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                      <button className="dropdown-item" onClick={() => setSortBy("popularity")}>
                         מספר תרומות
                       </button>
                     </li>
-                    <li
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setSortBy("closestEndDate")}
-                      >
+                    <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
+                      <button className="dropdown-item" onClick={() => setSortBy("closestEndDate")}>
                         תאריך סיום קרוב ביותר
                       </button>
                     </li>
-                    <li
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setSortBy("furthestEndDate")}
-                      >
+                    <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)}  aria-expanded={sortDropdownOpen}>
+                      <button className="dropdown-item"  onClick={() => setSortBy("furthestEndDate")}>
                         תאריך סיום רחוק ביותר
                       </button>
                     </li>
-                    <li
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setSortBy("oldestCreatedDate")}
-                      >
+                    <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)}  aria-expanded={sortDropdownOpen}>
+                      <button  className="dropdown-item" onClick={() => setSortBy("oldestCreatedDate")}>
                         תאריך יצירה רחוק ביותר
                       </button>
                     </li>
-                    <li
-                      onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                      aria-expanded={sortDropdownOpen}
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setSortBy("newestCreatedDate")}
-                      >
+                    <li  onClick={() => setSortDropdownOpen(!sortDropdownOpen)}  aria-expanded={sortDropdownOpen}>
+                      <button className="dropdown-item"  onClick={() => setSortBy("newestCreatedDate")}>
                         תאריך יצירה קרוב ביותר
                       </button>
                     </li>
                   </ul>
                 </div>
               </div>
-              {/* <div className="col-lg-2 col-md-1 col-sm-1">
+              {/* Filter dropdown */}
+              <div className="col-lg-2 col-md-2 col-sm-2">
                 <div className="dropdown" dir="rtl">
                   <button
                     className="btn btn-secondary dropdown-toggle"
@@ -217,161 +185,85 @@ export default function DonationHome() {
                     }
                     aria-expanded={sortFilterDropdownOpen}
                   >
-                    בחר קטגוריה
+                    סינון
                   </button>
-                  <ul
-                    className={`dropdown-menu ${
-                      sortFilterDropdownOpen ? "show" : ""
-                    }`}
-                  >
+                  {/* Filter options */}
+                  <ul className={`dropdown-menu ${sortFilterDropdownOpen ? "show" : ""}`}>
+                    {/* Category filter */}
                     <li
                       onClick={() => {
                         setSelectedCategory("");
+                        setSelectedLocation("");
                         setSortFilterDropdownOpen(!sortFilterDropdownOpen);
                       }}
                     >
                       <button className="dropdown-item">הכל</button>
                     </li>
-                    {categories.map((category, index) => (
-                      <li
-                        key={index}
-                        onClick={() => {
-                          setSelectedCategory(category);
-                          setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-                        }}
-                      >
-                        <button className="dropdown-item">{category}</button>
-                      </li>
-                    ))}
+                    <li className="dropdown-item">
+                      <button className="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">
+                        סינון לפי קטגוריה{" "}
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li
+                          onClick={() => {
+                            setSelectedCategory("");
+                            setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+                          }}
+                        >
+                          <button className="dropdown-item">הכל</button>
+                        </li>
+                        {categories.map((category, index) => (
+                          <li
+                            key={index}
+                            onClick={() => {
+                              setSelectedCategory(category);
+                              setSortFilterDropdownOpen(
+                                !sortFilterDropdownOpen
+                              );
+                            }}
+                          >
+                            <button className="dropdown-item">
+                              {category}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                    {/* Location filter */}
+                    <li className="dropdown-item">
+                      <button className="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">
+                        סינון לפי מיקום{" "}
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li
+                          onClick={() => {
+                            setSelectedLocation("");
+                            setSortFilterDropdownOpen(!sortFilterDropdownOpen);
+                          }}
+                        >
+                          <button className="dropdown-item">הכל</button>
+                        </li>
+                        {locations.map((location, index) => (
+                          <li
+                            key={index}
+                            onClick={() => {
+                              setSelectedLocation(location);
+                              setSortFilterDropdownOpen(
+                                !sortFilterDropdownOpen
+                              );
+                            }}
+                          >
+                            <button className="dropdown-item">
+                              {location}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-2 col-sm-2">
-                <div className="dropdown" dir="rtl">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    onClick={() => setSortLocationDropdownOpen(!sortLocationDropdownOpen)}
-                    aria-expanded={sortLocationDropdownOpen}
-                  >
-                    בחר מיקום
-                  </button>
-                  <ul
-                    className={`dropdown-menu ${
-                      sortLocationDropdownOpen ? "show" : ""
-                    }`}
-                  >
-                    <li
-                      onClick={() => {
-                        setSelectedLocation("");
-                        setSortLocationDropdownOpen(!sortLocationDropdownOpen);
-                      }}
-                    >
-                      <button className="dropdown-item">הכל</button>
-                    </li>
-                    {locations.map((location, index) => (
-                      <li
-                        key={index}
-                        onClick={() => {
-                          setSelectedLocation(location);
-                          setSortLocationDropdownOpen(!sortLocationDropdownOpen);
-                        }}
-                      >
-                        <button className="dropdown-item">{location}</button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>  */}
-
-<div className="col-lg-2 col-md-2 col-sm-2">
-  <div className="dropdown" dir="rtl">
-    <button
-      className="btn btn-secondary dropdown-toggle"
-      type="button"
-      onClick={() => setSortFilterDropdownOpen(!sortFilterDropdownOpen)}
-      aria-expanded={sortFilterDropdownOpen}
-    >
-      סינון
-    </button>
-    <ul
-      className={`dropdown-menu ${
-        sortFilterDropdownOpen ? "show" : ""
-      }`}
-    >
-      <li
-        onClick={() => {
-          setSelectedCategory("");
-          setSelectedLocation("");
-          setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-        }}
-      >
-        <button className="dropdown-item">הכל</button>
-      </li>
-      <li className="dropdown-item">
-        <button
-          className="dropdown-item dropdown-toggle"
-          data-bs-toggle="dropdown"
-        >
-          סינון לפי קטגוריה
-          {" "}</button>
-        <ul className="dropdown-menu">
-        <li
-            onClick={() => {
-              setSelectedCategory("");
-              setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-            }}
-          >
-            <button className="dropdown-item">הכל</button>
-          </li>
-          {categories.map((category, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setSelectedCategory(category);
-                setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-              }}
-            >
-              <button className="dropdown-item">{category}</button>
-            </li>
-          ))}
-        </ul>
-      </li>
-      <li className="dropdown-item">
-        <button
-          className="dropdown-item dropdown-toggle"
-          data-bs-toggle="dropdown"
-        >
-        סינון לפי מיקום
-        {" "}</button>
-        <ul className="dropdown-menu">
-        <li
-            onClick={() => {
-              setSelectedLocation("");
-              setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-            }}
-          >
-            <button className="dropdown-item">הכל</button>
-          </li>
-          {locations.map((location, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setSelectedLocation(location);
-                setSortFilterDropdownOpen(!sortFilterDropdownOpen);
-              }}
-            >
-              <button className="dropdown-item">{location}</button>
-            </li>
-          ))}
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
-
-
-              {/* *******************8 */}
+              {/* Search input */}
               <div className="col-lg-3 col-md-3 col-sm-3">
                 <div className="input-group input-group-outline bg-white">
                   <input
@@ -385,16 +277,13 @@ export default function DonationHome() {
                   />
                 </div>
               </div>
-
+              {/* Button to create new donation */}
               <div className="col-lg-3 col-md-3 col-sm-4 ms-2">
                 {userId ? (
-                  <button className="btn btn-primary" onClick={markAsCompleted}>
+                  <button className="btn btn-primary" onClick={movToCreateDonation}>
                     בקשה ליצירת תרומה חדשה
                   </button>
                 ) : (
-                  // <button className="btn btn-primary" disabled>
-                  //   התחבר כדי ליצור תרומה
-                  // </button>
                   <Link to={"../../user/signin"}>
                     <button className="btn btn-outline-info">
                       התחבר כדי ליצור תרומה
@@ -403,61 +292,34 @@ export default function DonationHome() {
                 )}
               </div>
             </div>
-
-            <div
-              dir="rtl"
-              className="row row-cols-4 "
-              style={{
-                marginLeft: 20,
-                marginRight: 20,
-                overflow: "hidden",
-              }}
-            >
+            
+             {/* Displaying donation cards based on filtered and sorted donations */}
+            <div dir="rtl" className="row row-cols-4 " style={{marginLeft: 20, marginRight: 20, overflow: "hidden",}}>
               {filterDonations(donationDetails)
                 .filter((val) => {
-                  if (searchTerm === "") {
-                    return val;
-                  } else if (
-                    val.donationTitle
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.donationDescription
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())||
-                    val.location
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
-                    return val;
-                  }
+                    if (searchTerm === "") return val;
+                    return Object.values(val).some(value =>
+                      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                    );
                 })
                 .filter((val) => {
                   if (selectedCategory === "") {
                     return val;
                   } else {
-                    console.log(selectedCategory);
-                    console.log(
-                      val.wantedItems.some((item) => item.item.itemCategory)
-                    );
-
-                    return val.wantedItems.some(
-                      (item) => item.item.itemCategory === selectedCategory
-                    );
+                    return val.wantedItems.some((item) => item.item.itemCategory === selectedCategory);
                   }
                 })
                 .filter((val) => {
                   if (selectedLocation === "") {
                     return val;
                   } else {
-                    return val.location.split(',')[2].trim()=== selectedLocation
-                   
+                    return (val.location.split(",")[2].trim() === selectedLocation);
                   }
                 })
-                
+
                 .map(function (f) {
-                  console.log(f);
                   return (
-                    <Link to={"/donator/view/" + f._id}>
+                    <Link key={f._id} to={"/donator/view/" + f._id}>
                       <DonationHomeCard donation={f} />
                     </Link>
                   );
@@ -465,7 +327,6 @@ export default function DonationHome() {
             </div>
           </>
         )}
-
         <Footer />
       </div>
     </>

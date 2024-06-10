@@ -1,0 +1,314 @@
+paths:
+  /:
+    get:
+      tags:
+        - fund
+      summary: Get all funds
+      responses:
+        "200":
+          description: OK
+
+  /{organizationId}/limit/{limit}:
+    get:
+      tags:
+        - fund
+      summary: Get N funds
+      parameters:
+        - in: path
+          name: organizationId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: limit
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /{id}:
+    get:
+      tags:
+        - fund
+      summary: Get a fund
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /donateFund/{id}:
+    post:
+      tags:
+        - fund
+      summary: Donate to a fund
+      security:
+        - bearerAuth: [] # Requires authentication
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DonateFundRequest"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Amount needs to be greater than 0
+        "404":
+          description: Donation not found
+        "422":
+          description: Validation failed
+  /create:
+    post:
+      tags:
+        - fund
+      summary: Create a fund
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFundRequest"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Validation failed
+
+  /update/{id}:
+    post:
+      tags:
+        - fund
+      summary: Update a fund
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFundRequest"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Validation failed
+        "404":
+          description: Fund not found
+
+  /delete/{id}:
+    delete:
+      tags:
+        - fund
+      summary: Delete a fund
+      security:
+        - bearerAuth: [] # Requires authentication
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Fund not found
+
+  /remove/{id}:
+    post:
+      tags:
+        - fund
+      summary: Remove a fund
+      security:
+        - bearerAuth: [] # Requires authentication
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Fund not found
+
+  /status/{status}:
+    get:
+      tags:
+        - fund
+      summary: Get funds by status
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /{organizationID}/{fundID}:
+    get:
+      tags:
+        - fund
+      summary: Get organization funds
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: fundID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+  /{organizationID}/status/{status}:
+    get:
+      tags:
+        - fund
+      summary: Get funds by organization and status
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: status
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateFundRequest:
+      type: object
+      required:
+        - title
+        - target
+        - description
+        - endingDate
+        - contactEmail
+        - budget
+        - contactNumber
+        - organizationID
+        - fundImage
+      properties:
+        title:
+          type: string
+          minLength: 3
+          example: "בדיקה 1"
+        target:
+          type: string
+          minLength: 10
+          example: "עכבגכדיזזאי"
+        description:
+          type: string
+          minLength: 10
+          example: "ניסיון לתרומה כספית לארגון"
+        endingDate:
+          type: string
+          format: date-time
+          example: "2024-04-09T08:38:59.000+00:00"
+          description: Must be a future date
+        budget:
+          type: number
+          example: 100
+        fundImage:
+          type: string
+          example: "http://res.cloudinary.com/dicjf8jjn/image/upload/v1711532656/akila/p9x…"
+        contactEmail:
+          type: string
+          format: email
+          example: "kldsj@snlfs.com"
+          description: Must be a valid email address
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+          example: "0500000000"
+          description: Must be a valid Israeli mobile phone number
+        organizationID:
+          type: string
+          example: "66030d1cb3bb178a2bbd6655"
+        createdOn:
+          type: string
+          format: date-time
+          example: "2024-03-27T09:44:17.145+00:00"
+
+    UpdateFundRequest:
+      type: object
+      required:
+        - title
+        - target
+        - description
+        - endingDate
+        - budget
+      properties:
+        title:
+          type: string
+          minLength: 3
+        target:
+          type: string
+          minLength: 10
+        description:
+          type: string
+          minLength: 10
+        endingDate:
+          type: string
+          format: date-time
+        budget:
+          type: number
+
+    DonateFundRequest:
+      type: object
+      required:
+        - userID
+        - fundID
+        - amount
+        - organizationID
+      properties:
+        userID:
+          type: string
+        fundID:
+          type: string
+        amount:
+          type: number
+        organizationID:
+          type: string

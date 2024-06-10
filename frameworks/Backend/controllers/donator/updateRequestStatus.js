@@ -5,28 +5,25 @@ const {
 const Donation = require("../../models/donation.model");
 const DonationRequest = require("../../models/donationRequest.model");
 
-const acceptDonationRequest = async (req, res) => {
+const acceptDonationRequest = async (req, res, next) => {
   try {
     const updateRequest = {
       requestStatus: "accepted",
     };
     const currRequest = await DonationRequest.findById(req.params.id);
 
-    // const currRequest = await DonationRequest.findById(req.params.id);
     const currDonation = await Donation.findById(currRequest.donationID);
     console.log(req.userId != currDonation.userID);
-    if (req.userId != currDonation.userID)
-      throw new Error("Not correct user for this action");
-
+    if (req.userId != currDonation.userID) {
+      const error = new Error("Not correct user for this action");
+      error.status = 401;
+      throw error;
+    }
     currRequest.requestStatus = "accepted";
     currRequest.save();
-    // console.log(currDonation.wantedItems);
-    //currDonation.wantedItems.forEach((item) => console.log(item.receivedAmount));
 
     await Promise.all(
       currRequest.items.map(async (currItem) => {
-        // console.log(item.item);
-        // console.log(currDonation.wantedItems[0].item);
         itemId = currItem.item;
         let donationItem = currDonation.wantedItems.find((wantedItem) => {
           return wantedItem.item.toString() === itemId.toString();
@@ -46,21 +43,20 @@ const acceptDonationRequest = async (req, res) => {
     if (completed) currDonation.status = "completed";
 
     currDonation.numberOfRequests++;
-    //currDonation.wantedItems.forEach((item) => console.log(item.receivedAmount));
-    //sendAcceptedEmail(req.body.email, req.body.title); **** NEED TO CHANGE ****
     await currDonation.save();
     res.status(201).json({
       status: currDonation.status,
       message: "Request updated",
     });
   } catch (err) {
-    res.status(500).json({
-      message: err,
-    });
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 
-const rejectDonationRequest = async (req, res) => {
+const rejectDonationRequest = async (req, res, next) => {
   try {
     const request = await DonationRequest.findById(req.params.id);
     const donation = await Donation.findById(request.donationID).select(
@@ -68,12 +64,14 @@ const rejectDonationRequest = async (req, res) => {
     );
 
     console.log(req.userId != donation.userID);
-    if (donation.userID != req.userId)
-      throw new Error("Not correct user for this action");
+    if (donation.userID != req.userId) {
+      const error = new Error("Not correct user for this action");
+      error.status = 401;
+      throw error;
+    }
 
     request.requestStatus = "rejected";
     await request.save();
-    // sendRejectedEmail(req.body.email, req.body.title);
     console.log(request);
     res.status(201).json({
       message: "Request updated",

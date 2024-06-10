@@ -12,7 +12,7 @@
    font-weight: bold;
 }
 .cardScall{
-   width: 370px;
+   /* width: 370px; */
    height: 180px;
    border-radius: 20px;
 
@@ -25,7 +25,7 @@
 
 @media (max-width: 1300px){
    .cardScall{
-      width: 92%;
+      /* width: 80%; */
       height: 98%;
       border-radius: 20px;
    }
@@ -46,9 +46,9 @@
       font-size: 0.75rem !important;
    }
    .cardScall{
-      width: 100%;
+      /* width: 100%; */
       flex: 0 0 auto;
-
+      font-size: calc(1.3125rem + 0.75vw) !important;
    }
    .cardH3{
       font-size: 100%;

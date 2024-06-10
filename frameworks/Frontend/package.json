@@ -1,5 +1,5 @@
 {
-  "name": "foodforall",
+  "name": "instant-giving",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "@mui/styles": "^5.10.3",
     "@mui/x-date-pickers": "^5.0.0",
     "@ramonak/react-progress-bar": "^5.0.2",
+    "@react-pdf/font": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",

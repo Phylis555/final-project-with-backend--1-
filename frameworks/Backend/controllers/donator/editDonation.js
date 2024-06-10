@@ -2,14 +2,14 @@ const { imageUpload } = require("../../common/imageUpload");
 const { body, validationResult } = require("express-validator");
 const Donation = require("../../models/donation.model");
 
-const editDonation = async (req, res) => {
+const editDonation = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     console.log(errors);
     if (!errors.isEmpty()) {
-      return res
-        .status(422)
-        .json({ message: "Validation failed.", error: errors.array() });
+      const error = new Error("Validation failed, entered data is incorrect");
+      error.status = 422;
+      throw error;
     }
 
     const donationID = req.params.id;
@@ -35,9 +35,11 @@ const editDonation = async (req, res) => {
 
     await donation.save();
     res.status(200).send({ status: "donation updated" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: "error" });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

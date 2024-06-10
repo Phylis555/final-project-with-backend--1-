@@ -1,56 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import swal from "sweetalert";
 import { getPendingDonations } from "../../../api/donator.api";
 import { getCookie } from "../../common/getCookie";
 import LoadingSpinner from "../../common/LoadingSpinner";
-import NavButton from "../../NavButton";
 import NoItems from "../noItems";
 import SideNav from "../sideNav";
 import PendingDonationCard from "./pendingDonationCard";
 
 export default function PendingDonationView() {
+  // State variables for managing donations data and loading state
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
 
+  // Fetching the user ID from the cookie
   useEffect(() => {
     setUserId(getCookie("uId"));
-    // setLoading(true);
-    //fetching all inbound item data from the database
-  }, [userId]);
-  console.log(userId);
+  }, []);
 
+  // Fetching pending donations data from the API
   useEffect(() => {
-    setLoading(true);
-
-    getPendingDonations(userId)
-      .then((res) => {
-        setLoading(false);
-
-        console.log(res);
-        if (res.data.length > 0) {
+    if (userId) {
+      setLoading(true);
+  
+      getPendingDonations(userId)
+        .then((res) => {
           setLoading(false);
-          setDonations(res.data);
-          console.log(res.data);
-          //   console.log(donations);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  
+          if (res.data.length > 0) {
+            setDonations(res.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    }
   }, [userId]);
-  const toggleSidenav = (e) => {
-    e.preventDefault();
-    document.body.classList.remove("g-sidenav-pinned");
-  };
+
   return (
     <div>
+      {/* Side navigation bar */}
       <SideNav pending="true" />
+      {/* Main content */}
       <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-        <NavButton />
-        <div className="container-fluid py-4" onClick={toggleSidenav}>
+        <div className="container-fluid py-4" >
           <div className="row align-items-center">
+            {/* Heading */}
             <>
               <h3
                 style={{
@@ -60,27 +55,23 @@ export default function PendingDonationView() {
                 תרומות בהמתנה לאישור
               </h3>
             </>
+
+            {/* Conditional rendering based on loading state and donations data */}
             {loading ? (
-              <div
-                style={{
-                  marginTop: 250,
-                }}
-              >
+              // Loading spinner
+              <div style={{marginTop: 250,}}>
                 <LoadingSpinner />
               </div>
             ) : donations.length == 0 ? (
+              // No pending donations message
               <NoItems />
             ) : (
-              <div
-                class="row row-cols-2"
-                style={{
-                  // marginLeft: 150,
-                  overflow: "hidden",
-                }}
-              >
+              // Render the list of pending donations
+              <div className="row row-cols-2 row-cols-xl-3 row-cols-md-2 row-cols-sm-1">
                 {donations.map(function (f) {
                   return (
-                    <div class="col">
+                    <div className="col" key={f._id}>
+                      {/* Pending donation card component */}
                       <PendingDonationCard
                         donationTitle={f.donationTitle}
                         donationDescribe={f.donationDescription}
