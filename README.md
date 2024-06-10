@@ -7,7 +7,7 @@ Table of Contents
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Authors](#authors)
+- [Authors](#Authors-and-acknowledgment)
 - [Project Status](#project-status)
   
 
