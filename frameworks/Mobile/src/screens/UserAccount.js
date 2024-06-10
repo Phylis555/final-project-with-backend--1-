@@ -125,13 +125,14 @@ import axios from 'axios';
 import { getAuthHeader } from "../components/authHeader";
 import { requesterProfile } from "../api/requester.api";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import DashboardProfile from "./DashboardProfile";
 
 class Account extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userId: null,
-            profileData: null,
+            profileData: {},
             token: null,
         
         };
@@ -210,7 +211,7 @@ class Account extends Component {
                                         marginLeft: 4,
                                         }}
                                     >
-                                        {profileData.contactNumber}
+                                       0{profileData.contactNumber}
                                     </Text>
                                     </View>
 
@@ -232,8 +233,7 @@ class Account extends Component {
 
 
                                 <View style={{ flexDirection: "row" }}>
-                                <TouchableOpacity onPress={() =>  this.props.navigation.navigate('editAccount')
-}
+                                <TouchableOpacity onPress={() =>  this.props.navigation.navigate('editAccount')}
                                 style={styles.btnStyle}
                                 >
                                 <Text
@@ -245,8 +245,8 @@ class Account extends Component {
                                     ערוך פרופיל
                                 </Text>
                                 </TouchableOpacity>
-
-                                <TouchableOpacity
+                                
+                                <TouchableOpacity onPress={() =>  this.props.navigation.navigate('dashBoard')}
                                 style={styles.btnStyle}
 
                                 >

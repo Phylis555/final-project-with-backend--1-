@@ -114,8 +114,14 @@ useEffect(() => {
     setLoading(true);
     e.preventDefault();
     const donationImage = filesarr.base64;
+    console.log("//////imageeee");
+    console.log(typeof donationImage);
+
     console.log(donationImage);
     const userID = userId;
+
+    console.log(donationEndDate);
+    console.log(typeof donationEndDate);
 
 
     const donation = {

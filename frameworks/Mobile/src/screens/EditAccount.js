@@ -2,7 +2,7 @@ import React, { Component, useState } from 'react'
 import { SafeAreaView, 
     Text, 
     ScrollView, 
-  
+    Alert,
     View,
     StyleSheet,
     FlatList,
@@ -75,17 +75,20 @@ export default class EditAccount extends Component {
         updateProfile(this.state.userId, {
             firstName: this.state.profileData.firstName,
             lastName: this.state.profileData.lastName,
-            contactNumber: this.state.profileData.contactNumber,
+            contactNumber: '0' + this.state.profileData.contactNumber,
             email: this.state.profileData.email,
-        })
+        },this.state.token)
             .then(() => {
-                swal("User profile updated successfully", "", "success").then(value => {
-                    if (value) {
-                        navigation.goBack();
-                    }
-                });
+                Alert.alert("הצלחה","הפרופיל עודכן בהצלחה");
+                   
+                this.props.navigation.goBack()
+                    
+             
             })
-            .catch(err => console.error(err));
+            .catch((error)=>{
+                Alert.alert("נכשל",error);
+                console.error(err)
+            })
     };
     
     render(){
@@ -124,7 +127,7 @@ export default class EditAccount extends Component {
                         label='מספר טלפון'
                         height={50}
                         keyboardType="phone-pad"
-                        value={profileData.contactNumber}
+                        value={profileData.contactNumber + ''}
                         onChangeText={text => this.setState(prevState => ({
                             profileData: {
                                 ...prevState.profileData,
@@ -144,9 +147,23 @@ export default class EditAccount extends Component {
                             }
                         }))}
                     />
+                     
 
                 </ScrollView>
-                <CustomBtn1 title="שמור שינויים" onPress={this.handleUpdate} />
+                      
+                       
+                <View style={{flexDirection:'row'}}>
+                        
+                        <View style={{flex:1}}>
+                        <CustomBtn1 title="שינוי סיסמא" onPress={() =>  this.props.navigation.navigate('ChangePassword')} />
+                        </View>
+                        <View style={{marginHorizontal:10}}/>
+                        <View style={{flex:1}}>
+                        <CustomBtn1 title="שמור שינויים" onPress={this.handleUpdate} />
+
+                        </View>
+                </View>
+                                    
 
                 </SafeAreaView>
                

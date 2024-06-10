@@ -74,37 +74,126 @@ componentDidMount() {
   }
 
 
-  onCategorySelect = (category) => {
-    // Filter data based on the selected category
-    const { donationDetails,filteredData, dataSource } = this.state;
-    let categoryArray = [];
+  // onCategorySelect = (category) => {
+  //   // Filter data based on the selected category
+  //   const { donationDetails,filteredData, dataSource } = this.state;
+  //   let categoryArray = [];
 
-    if(category.category == 'הכל')
-  {
-        this.setState({
-          activeCategory: category,
-          filteredData : dataSource,
+  //   if(category.category == 'הכל')
+  // {
+  //       this.setState({
+  //         activeCategory: category,
+  //         filteredData : dataSource,
           
-      });
-      return;
+  //     });
+  //     return;
   
-  }
+  // }
 
     
-      donationDetails.forEach((don) => {
+//       donationDetails.forEach((don) => {
      
-          don.wantedItems.forEach((item) => {
-             // console.log(item);
-          if (item.item.itemCategory == category.category) {
-            categoryArray.push(don);
-          }
-        });
-        this.setState({
-            activeCategory: category,
-            filteredData : categoryArray,
-        });
-      });
+//           don.wantedItems.forEach((item) => {
+//              // console.log(item);
+//           if (item.item.itemCategory == category.category) {
+//             categoryArray.push(don);
+//           }
+//         });
+//         this.setState({
+//             activeCategory: category,
+//             filteredData : categoryArray,
+//         });
+//       });
+//}
+onCategorySelect = (category) => {
+  const { donationDetails, dataSource } = this.state;
+  let filteredData = [];
+  let addedDonations = new Set(); // Use a Set to track added donations
+
+  if (category.category === 'הכל') {
+    this.setState({
+      activeCategory: category,
+      filteredData: dataSource,
+    });
+    return;
+  }
+
+  donationDetails.forEach((don) => {
+    don.wantedItems.forEach((item) => {
+      if (item.item.itemCategory === category.category) {
+        if (!addedDonations.has(don._id)) {
+          addedDonations.add(don._id);
+          filteredData.push(don);
+        }
+      }
+    });
+  });
+
+  this.setState({
+    activeCategory: category,
+    filteredData: filteredData,
+  });
 }
+
+// onSortSelect = (sortBy) => {
+//   let {filteredData } = this.state;
+
+//   if (sortBy === "closestEndDate") {
+//      filteredData.sort(
+//       (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate));
+//     console.log(filteredData)
+//   } else if (sortBy === "furthestEndDate") {
+//     return filteredData.sort(
+//       (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate));
+//   } else if (sortBy === "oldestCreatedDate") {
+//     return filteredData.sort(
+//       (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate));
+//   } else if (sortBy === "newestCreatedDate") {
+//     return filteredData.sort(
+//       (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate));
+//   } else if (sortBy === "popularity") {
+//     return filteredData.sort((a, b) => b.numberOfRequests - a.numberOfRequests);
+//   } else {
+//     return filteredData;
+//   }
+// };
+onSortSelect = (sortBy) => {
+  let { filteredData, dataSource, activeCategory } = this.state;
+
+  let dataToSort = activeCategory === 'הכל' ? dataSource : filteredData;
+
+  switch (sortBy) {
+    case "closestEndDate":
+      dataToSort.sort(
+        (a, b) => new Date(a.donationEndDate) - new Date(b.donationEndDate)
+      );
+      break;
+    case "furthestEndDate":
+      dataToSort.sort(
+        (a, b) => new Date(b.donationEndDate) - new Date(a.donationEndDate)
+      );
+      break;
+    case "oldestCreatedDate":
+      dataToSort.sort(
+        (a, b) => new Date(b.donationStartDate) - new Date(a.donationStartDate)
+      );
+      break;
+    case "newestCreatedDate":
+      dataToSort.sort(
+        (a, b) => new Date(a.donationStartDate) - new Date(b.donationStartDate)
+      );
+      break;
+    case "popularity":
+      dataToSort.sort((a, b) => b.numberOfRequests - a.numberOfRequests);
+      break;
+    default:
+      break;
+  }
+
+  this.setState({
+    filteredData: activeCategory === 'הכל' ? dataSource : filteredData,
+  });
+};
 
 
   render()
@@ -117,7 +206,9 @@ componentDidMount() {
     return(
       <View style={styles.container}>
          <Header />
-         <Categories onCategorySelect={this.onCategorySelect} activeCategory={activeCategory} />
+         <View style={styles.dropdownContainer}>
+          <Categories onCategorySelect={this.onCategorySelect} onSortPress={this.onSortSelect} activeCategory={activeCategory}  />
+        </View>
          <FlatList data={activeCategory == 'הכל'? dataSource : filteredData}
          
          style={{marginTop:15}}         
@@ -140,5 +231,8 @@ const styles = StyleSheet.create({
   },
     container:{
         flex:1
-    }
+    },
+    dropdownContainer: {
+      zIndex: 1000, // Ensure the dropdown appears above the FlatList
+    },
 })

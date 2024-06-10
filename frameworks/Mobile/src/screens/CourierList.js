@@ -8,6 +8,8 @@ import { View,
 } from "react-native"
 import Topic from "../components/topic"
 import DriverCard from "../components/DriverProfile"
+import { TypeBInput } from "../components/customInput"
+import Colors from "../utils/colors"
 
 ////////// dont need this screen, maybe for admin
 
@@ -37,15 +39,12 @@ export default class CourierList extends Component {
             <View style={styles.container}>
                 <Topic title={'שלח בקשה'}/>
                 <SafeAreaView style={styles.content}>
-                    <View>
-                        <FlatList data={this.dataSource}
-                        style={{marginTop:15}}         
-                        renderItem={({item,index})=><DriverCard details={item} />}
-                        keyExtractor={item=>item.id}
-                        contentContainerStyle={styles.content}
-                        showsVerticalScrollIndicator={false}
-                        />
-                    </View>
+                <TypeBInput label="שם מלא*"  height={50} onChangeText={(donationTitle) => this.setState({ donationTitle })} />
+                <TypeBInput label='מספר טלפון' height={50} keyboardType="phone-pad" />
+                <TypeBInput label="אימייל*"  height={50} onChangeText={(donationTitle) => this.setState({ donationTitle })} />
+                <TypeBInput label="תיאור אודות התרומה*"  height={80} multiline={true}numberOfLines={4} onChangeText={(donationDescription) => this.setState({ donationDescription })} />
+                <Text style={styles.label}>הוספת פריטים:</Text>
+
                 </SafeAreaView>
             </View>
         )
@@ -60,5 +59,12 @@ const styles = StyleSheet.create({
     },
     content: {
         marginHorizontal: 10
-    }
+    },
+        label: {
+        fontSize: 16, 
+        fontWeight: '500', 
+        color: Colors.primary, 
+        textAlign: 'right',
+        marginVertical: 10
+      },
 })

@@ -18,6 +18,9 @@ import CourierLogin from '../screens/authentication/CourierLogin'
 import CourierList from '../screens/CourierList'
 import AddItem from '../screens/AddItem'
 import EditAccount from '../screens/EditAccount'
+import ChangePass from '../screens/authentication/changePassword'
+import Dashboard from'../screens/DashboardProfile'
+import EditDonation from '../screens/EditDonation'
 
 const StackNavigator = createNativeStackNavigator()
 
@@ -51,6 +54,13 @@ const Stack = () => {
         <StackNavigator.Screen name="courierList" component={CourierList} />
         <StackNavigator.Screen name="addItem" component={AddItem} />
         <StackNavigator.Screen name="editAccount" component={EditAccount} />
+        <StackNavigator.Screen name="ChangePassword" component={ChangePass} />
+        <StackNavigator.Screen name="dashBoard" component={Dashboard} />
+        <StackNavigator.Screen name="editDonation" component={EditDonation} />
+        {/* <StackNavigator.Screen name="seeRequests" component={ViewRequests} /> */} 
+
+
+
 
 
     
