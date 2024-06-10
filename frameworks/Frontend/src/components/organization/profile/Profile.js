@@ -3,12 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import { getOrganizationByID } from '../../../api/organization.api';
 import { getCookie } from '../../common/getCookie';
 import { toggleSidenav } from '../../common/toggleSidenav';
-import NavButton from '../../NavButton';
 import LatestContributions from "../dashboard/LatestContributions";
 import NewFundraisings from './NewFundraisings';
 import ChangePassoword from './ChangePassoword';
 import UpdateBoardInfo from './UpdateBoardInfo';
 import UpdateOrgInfo from './UpdateOrgInfo';
+import SideNav from '../../donator/sideNav';
 
 export default function Profile() {
     const params = useParams();
@@ -42,8 +42,6 @@ export default function Profile() {
         <>
             {organizationID ? (
                 <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-                    {/* Render NavButton if viewing own profile */}
-                    {organizationID === getCookie("uId") ? (<NavButton page="Profile" path="Organization" />) : null}
                     <div className="container-fluid py-4 " onClick={toggleSidenav}>
                         <div className="card card-body">
                             <div className="row gx-4 mb-2">
@@ -157,9 +155,9 @@ export default function Profile() {
                         { organizationID === getCookie("uId") ? (
                                 <>
                                     {/* Password change */}
-                                    <div className="modal " id="passModel" tabIndex="-1" aria-labelledby="passModel" aria-hidden="true" data-bs-backdrop="static">
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
+                                    <div className="modal fade" id="passModel" tabIndex="-1" aria-labelledby="passModel" aria-hidden="true" data-bs-backdrop="static">
+                                        <div className="modal-dialog ">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">שינוי סיסמה</h4>
                                                     <button
@@ -174,9 +172,9 @@ export default function Profile() {
                                     </div>
 
                                     {/* Board member details change */}
-                                    <div className="modal " id="memberModel" tabIndex="-1" aria-labelledby="memberModel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div className="modal fade" id="memberModel" tabIndex="-1" aria-labelledby="memberModel" aria-hidden="true" data-bs-backdrop="static">
                                         <div className="modal-dialog">
-                                            <div className="modal-content">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">פרטי הנהלת הארגון</h4>
                                                     <button
@@ -197,9 +195,9 @@ export default function Profile() {
                                     </div>
 
                                     {/* Organization details change */}
-                                    <div className="modal " id="orgModel" tabIndex="-1" aria-labelledby="orgModel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div className="modal fade" id="orgModel" tabIndex="-1" aria-labelledby="orgModel" aria-hidden="true" data-bs-backdrop="static">
                                         <div className="modal-dialog">
-                                            <div className="modal-content">
+                                            <div className="modal-content me-8">
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">מידע על הארגון</h4>
                                                     <button

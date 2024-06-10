@@ -68,43 +68,6 @@ export default function SeeRequests() {
       });
   }, []);
 
-    // Function to generate PDF report for requests
-  // const generateReport = (requests) => {
-  //   const doc = new jspdf();
-  //   const tableColumn = [
-  //     "Requester Name",
-  //     "Requester Email",
-  //     "Requester Contact",
-  //     "Request Description",
-  //     "Requested Items",
-  //   ];
-  //   const tableRows = [];
-
-  //   // Converting request data into rows for the PDF table
-  //   requests.forEach(request => {
-  //     const requestedItems = request.requestedItems.map(item => item.itemName).join(", ");
-  //     const rowData = [
-  //       request.requesterName,
-  //       request.requesterEmail,
-  //       request.requesterContact,
-  //       request.requestDescription,
-  //       requestedItems,
-  //     ];
-  //     tableRows.push(rowData);
-  //   });
-  // // Generating the current date string
-  //   const date = new Date();
-  //   const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  //   // Adding image and table to the PDF document
-  //   doc.addImage(img, "PNG", 0, 0, 210, 38);
-  //   doc.autoTable(tableColumn, tableRows, {
-  //     startY: 40,
-  //   });
-  //   // Saving the PDF with a filename containing donation title and date
-  //   doc.save(`Donations_Requests-${donation.donationTitle}_${dateString}.pdf`);
-  // };
-  // Function to generate PDF report for requests
-// Function to generate PDF report for requests
 // Function to generate PDF report for requests
 const generateReport = (requests) => {
   const doc = new jspdf();

@@ -42,7 +42,7 @@ export default function StepThree() {
             <img className='rounded img-fluid w-50 mx-auto d-block' src={userData.registrationCertificate} alt={imageFile.name} /> : ""}</p>
         </div>
         {/* Display form errors */}
-        <div className="text-danger form-label mb-3">
+        <div className="text-danger form-label mt-4">
           {formErrors.registrationCertificate}
         </div>
         {/* Navigation Buttons */}

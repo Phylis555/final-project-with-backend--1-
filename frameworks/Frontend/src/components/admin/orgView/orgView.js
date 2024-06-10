@@ -97,10 +97,6 @@ export default function AdminEditOrg() {
     })
   }
 
-  const[orgDetails, setOrgDetails]=useState([])
-
-  
-
   return (
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
       <div className="container my-auto" style={{ paddingTop: 30 }} dir="rtl">

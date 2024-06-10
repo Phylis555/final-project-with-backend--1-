@@ -43,10 +43,9 @@ export default function StepFour() {
                             <input className="form-check-input" type="checkbox" id="flexCheckDefault"
                                 value={userData['terms']}
                                 onChange={(e) => { setUserData({ ...userData, "terms": e.target.checked }) }} />
-                            <label className="form-check-label me-3" htmlFor="flexCheckDefault">
-                                אני מסכים עם כל התנאים, ההגבלות ולמדיניות הפרטיות
-                            </label>
-                            <div className="text-danger form-label mb-3">
+                                <span className="me-2 textmuted form-check-label"  htmlFor="flexCheckDefault">אני מסכים עם כל התנאים, ההגבלות ולמדיניות הפרטיות</span> 
+
+                            <div className="text-danger form-label mt-2">
                                 {formErrors.terms}
                             </div>
                         </div>

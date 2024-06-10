@@ -5,7 +5,7 @@ import axios from "axios";
 import { getAuthHeader } from "../common/authHeader";
 
 export default function OrganizationRequestList() {
-
+    // State hooks for managing data and search input
     const navigate = useNavigate()
     const [datatable, setDatatable] = useState([]);
     const [search,setSearch]=useState("");
@@ -28,11 +28,10 @@ export default function OrganizationRequestList() {
         console.log(oid);
     }
 
+    // Fetch the list of approved organizations when the component mounts
     useEffect(()=>{
         getReqOrgList();
     },[]);
-
-
 
     return (
         <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
@@ -69,6 +68,7 @@ export default function OrganizationRequestList() {
                             <tbody>
                                 {datatable
                                     .filter((org) => {
+                                        // Filter organizations based on search input
                                         if (search === "") {
                                             return org;
                                         } else if (org.name.toLowerCase().includes(search.toLocaleLowerCase())) {

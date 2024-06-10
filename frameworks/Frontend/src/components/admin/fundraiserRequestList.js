@@ -126,7 +126,7 @@ export default function FundraiserRequestList() {
                                       <div className={classes.ActionBtnSec}>
                                           <button className="btn btn-outline-info" onClick={() => onView(org._id)}>בדוק</button>
                                           <button className="btn btn-outline-success" onClick={() => onAccept(org._id)}>אשר</button>
-                                          <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>מחק</button>
+                                          <button className="btn btn-outline-danger" onClick={() => onDelete(org._id)}>דחה</button>
                                       </div>
                                   </td>
                               </tr>
