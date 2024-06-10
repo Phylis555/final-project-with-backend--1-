@@ -1,43 +1,30 @@
 const Fund = require("../../models/fund.model");
 
-const getRequestedFunds = (req, res) => {
-    try {
-        Fund.find(
-            {"status":"pending"}
-        )
-            .then((Funds) => {
-                res.json(Funds);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    msg: "Error fetching data",
-                    error: err,
-                });
-            });
-    } catch (error) {
-        console.log(error);
+const getRequestedFunds = (req, res, next) => {
+  try {
+    const funds = Fund.find({ status: "pending" });
+    res.status(200).json(funds);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
+    next(err);
+  }
 };
 
-const getApprovedFunds = (req, res) => {
-    try {
-        Fund.find(
-            {"status":"approved"}
-        )
-            .then((Funds) => {
-                res.json(Funds);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    msg: "Error fetching data",
-                    error: err,
-                });
-            });
-    } catch (error) {
-        console.log(error);
+const getApprovedFunds = (req, res, next) => {
+  try {
+    const funds = Fund.find({ status: "approved" });
+    res.status(200).json(funds);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
+    next(err);
+  }
 };
 
 module.exports = {
-    getRequestedFunds,getApprovedFunds,
+  getRequestedFunds,
+  getApprovedFunds,
 };

@@ -17,11 +17,10 @@ export default function StepTwo() {
             console.log('Error: ', error);
         };
     }
-
+    // Handle file upload
     const handleChange = (file) => {
         setFundImage(file);
         getBase64(file, (result) => {
-            // let output = result;
             setFundData({ ...fundData, "fundImage": result })
         })
     }
@@ -29,6 +28,7 @@ export default function StepTwo() {
         <div>
             <div className="card-body">
                 <form className="text-start">
+                     {/* Image upload section */}
                     <div className="form-group text-center pb-3">הוספת תמונה</div>
                     <div className='text-center'>
                         <div className='d-flex justify-content-center'>
@@ -41,7 +41,7 @@ export default function StepTwo() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep2.fundImage}
                     </div>
-
+                     {/* Contact details section */}       
                     <div className="form-group text-center pb-3">פרטי יצירת קשר</div>
                     <label className="form-label">Email</label>
                     <div className="input-group input-group-outline mb-1">
@@ -67,7 +67,7 @@ export default function StepTwo() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep2.contactNumber}
                     </div>
-
+                    {/* Navigation buttons */}        
                     <div className="row d-flex justify-content-center">
                         <div className='col-lg-4 col-md-4 col-sm-4'>
                             <button type="button" onClick={() => setCurrentStep(1)} className="btn bg-gradient-secondary w-100 my-4 mb-2">הקודם</button>

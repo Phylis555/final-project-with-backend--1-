@@ -21,6 +21,7 @@ export default function SeeRequests() {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
+  
   useEffect(() => {
     setLoading(true);
     if (fromAccepted) {
@@ -53,6 +54,7 @@ export default function SeeRequests() {
     }
   }, []);
 
+  // Fetching donation details
   useEffect(() => {
     setLoading(true);
     getOneDonation(id)
@@ -66,44 +68,72 @@ export default function SeeRequests() {
       });
   }, []);
 
-  const generateReport = (requests) => {
-    const doc = new jspdf();
-    const tableColumn = [
-      "Requester Name",
-      "Requester Email",
-      "Requester Contact",
-      "Request Description",
-      "Requested Items",
+// Function to generate PDF report for requests
+const generateReport = (requests) => {
+  const doc = new jspdf();
+  const tableColumn = [
+    "שם הבקשן", // Requester Name
+    "דואר אלקטרוני", // Requester Email
+    "טלפון", // Requester Contact
+    "תיאור הבקשה", // Request Description
+    "פריטים בבקשה", // Requested Items
+  ];
+  const tableRows = [];
+
+  // Converting request data into rows for the PDF table
+  requests.forEach(request => {
+    const requestedItems = request.requestedItems ? request.requestedItems.map(item => item.itemName).join(", ") : "";
+    const rowData = [
+      request.requesterName,
+      request.requesterEmail,
+      request.requesterContact,
+      request.requestDescription,
+      requestedItems,
     ];
-    const tableRows = [];
+    tableRows.push(rowData);
+  });
 
-    requests.forEach(request => {
-      const requestedItems = request.requestedItems.map(item => item.itemName).join(", ");
-      const rowData = [
-        request.requesterName,
-        request.requesterEmail,
-        request.requesterContact,
-        request.requestDescription,
-        requestedItems,
-      ];
-      tableRows.push(rowData);
-    });
+  // Generating the current date string
+  const date = new Date();
+  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  
+  // Adding image and table to the PDF document
+  doc.addImage(img, "PNG", 0, 0, 210, 38);
+  // Set text to English and Hebrew
+  doc.autoTable(tableColumn, tableRows, {
+    startY: 40,
+    styles: { cellPadding: 0.5, fontSize: 10, fontStyle: 'bold' },
+    columnStyles: { 0: { cellWidth: 'auto' } },
+    margin: { top: 40 },
+    headerStyles: { fillColor: [51, 122, 183], textColor: [255, 255, 255] },
+    bodyStyles: { fillColor: [245, 245, 245], textColor: [0, 0, 0] },
+    // Set text direction to right-to-left (Hebrew)
+    hooks: {
+      didDrawCell: data => {
+        if (typeof data.row.raw[0] === 'string') {
+          const textWidth = doc.getStringUnitWidth(data.row.raw[0]) * doc.internal.getFontSize();
+          const textHeight = data.row.height;
+          const cellWidth = data.cell.width;
+          const cellHeight = data.cell.height;
+          const xOffset = (cellWidth - textWidth) / 2;
+          const yOffset = (cellHeight - textHeight) / 2 + textHeight / 2;
+          doc.text(data.row.raw[0], data.cell.x + xOffset, data.cell.y + yOffset, { angle: 180 });
+        }
+      }
+    }
+  });
+  
+  // Saving the PDF with a filename containing donation title and date
+  doc.save(`Donations_Requests-${donation.donationTitle}_${dateString}.pdf`);
+};
 
-    const date = new Date();
-    const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    
-    doc.addImage(img, "PNG", 0, 0, 210, 38);
-    doc.autoTable(tableColumn, tableRows, {
-      startY: 40,
-    });
-    doc.save(`Donations_Requests-${donation.donationTitle}_${dateString}.pdf`);
-  };
 
   return (
     <div dir="rtl" style={{ overflow: "hidden" }}>
       <h3 style={{ marginRight: 50, marginTop: 10, marginBottom: 30, display: "flex", flexDirection: "column", alignItems: "center" }}>
         בקשות עבור תרומה - {donation.donationTitle}
       </h3>
+       {/* Showing a loading spinner while data is being fetched */}
       {loading ? (
         <div style={{ position: "absolute", top: "50%", bottom: 0, left: 0, right: 0, margin: "auto" }}>
           <LoadingSpinner />
@@ -113,11 +143,13 @@ export default function SeeRequests() {
         {donation.status === 'completed'? (
           <> 
              <div className="d-flex justify-content-center">
+               {/* Button to generate PDF report */}
             <button className="btn btn-danger" onClick={() => generateReport([...approvedRequests, ...pendingRequests])}>
               יצירת דוח
             </button>
           </div>
           <ul className="nav nav-tabs" role="tablist">
+            {/* Tabs for approved requests */}
             <li className="nav-item" role="presentation">
               <button className="nav-link active" id="approved-requests-tab" 
               data-bs-toggle="tab" data-bs-target="#approved-requests" 
@@ -155,10 +187,12 @@ export default function SeeRequests() {
         ):(
           <> 
           <div className="d-flex justify-content-center">
+            {/* Button to generate PDF report */}
             <button className="btn btn-danger" onClick={() => generateReport([...approvedRequests, ...pendingRequests])}>
               יצירת דוח
             </button>
           </div>
+          {/* Tabs for pending and approved requests */}
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item" role="presentation">
               <button className="nav-link active" id="pending-requests-tab" 
@@ -180,7 +214,7 @@ export default function SeeRequests() {
               {approvedRequests.length === 0 ? (
                 <NoItems />
               ) : (
-                <div className="row row-cols-2 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
+                <div className="row col-lg-12 col-md-8 col-sm-8 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
 
                   {approvedRequests.map((request) => (
                     <div key={request._id} className="col">
@@ -203,7 +237,7 @@ export default function SeeRequests() {
               {pendingRequests.length === 0 ? (
                 <NoItems />
               ) : (
-                <div className="row row-cols-2 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
+                <div className="row col-lg-12 col-md-8 col-sm-8 mb-4" style={{ marginLeft: 150, overflow: "hidden" }}>
                   {pendingRequests.map((request) => (
                     <div key={request._id} className="col">
                       <RequestCard

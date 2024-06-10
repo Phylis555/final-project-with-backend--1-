@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 const Donation = require("../../models/donation.model");
 const { sendRejectedEmail } = require("../../common/sendEmail");
 
-const rejectDonation = async (req, res) => {
+const rejectDonation = async (req, res, next) => {
   try {
     // const errors = validationResult(req);
     // console.log(errors);
@@ -20,16 +20,16 @@ const rejectDonation = async (req, res) => {
     };
     console.log(updateDonation);
 
-    await Donation.findByIdAndUpdate(donationID, updateDonation)
-      .then((donation) => {
-        sendRejectedEmail(donation.email);
-        res.status(200).send({ message: "Status updated" });
-      })
-      .catch(() => {
-        res.status(500).send({ message: "Error" });
-      });
-  } catch (error) {
-    console.log(error);
+    const donation = await Donation.findByIdAndUpdate(
+      donationID,
+      updateDonation
+    );
+    res.status(200).send({ message: "Status updated" });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

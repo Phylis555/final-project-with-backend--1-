@@ -6,17 +6,68 @@ const dotenv = require("dotenv");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const app = express();
-const schedule = require('node-schedule');
-const completeDonations = require('./common/completeAllDonations.js');
+const schedule = require("node-schedule");
+const completeDonations = require("./common/completeAllDonations.js");
+const swaggerjsdocs = require("swagger-jsdoc");
+const swaggerui = require("swagger-ui-express");
 
 require("dotenv").config();
-//kjijo
 const PORT = process.env.PORT || 8070;
 
 app.use(credentials);
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "30mb", extended: true }));
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Instant giving API doc",
+      version: "0.1",
+      contact: {
+        name: "Liran Meirovich",
+        email: "Liranmeirovich@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:8070/",
+      },
+    ],
+    tags: [
+      {
+        name: "organization",
+        description: "Operations related to organizations",
+      },
+      {
+        name: "donator",
+        description: "Operations related to donators",
+      },
+      {
+        name: "fund",
+        description: "Operations related to funds",
+      },
+      {
+        name: "requester",
+        description: "Operations related to requesters",
+      },
+      {
+        name: "login",
+        description: "Operations related to login and authentication",
+      },
+      {
+        name: "admin",
+        description: "Operations related to administrative tasks",
+      },
+    ],
+  },
+  apis: ["./routes/swagger/*.yaml"],
+};
+
+const spacs = swaggerjsdocs(options);
+
+app.use("/api-docs", swaggerui.serve, swaggerui.setup(spacs));
 
 //admin routes
 const adminRouter = require("./routes/admin/admin.routes");
@@ -44,7 +95,6 @@ app.use("/requester", requesterRoutes);
 const homeRoutes = require("./routes/home.routes");
 app.use("/home", homeRoutes);
 
-
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -53,7 +103,8 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-const URL = 'mongodb+srv://node_Js_Server:102938Node@cluster0.eiackwm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const URL =
+  "mongodb+srv://node_Js_Server:102938Node@cluster0.eiackwm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(URL, {
   useNewUrlParser: true,
@@ -72,4 +123,4 @@ app.listen(PORT, () => {
 
 completeDonations();
 
-const job = schedule.scheduleJob('0 0 * * *', completeDonations);
+const job = schedule.scheduleJob("0 0 * * *", completeDonations);

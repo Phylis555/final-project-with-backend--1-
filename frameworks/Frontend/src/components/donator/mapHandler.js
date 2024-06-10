@@ -6,34 +6,37 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import "leaflet/dist/leaflet.css";
 
 export const initializeMap = (setLocation, setMapInitialized) => {
+  // Create a Leaflet map instance
   const map = L.map("map", {
     maxZoom: 15 // Set the maximum zoom level
-  }).setView([32.0853, 34.7818], 13);
+  }).setView([32.0853, 34.7818], 13);// Set the initial view and zoom leve
+    // Add a tile layer from OpenStreetMap
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors",
   }).addTo(map);
 
+  // Define a custom location icon
   const locationIcon = L.icon({
     iconUrl: 'location-icon.png',
     iconSize: [32, 32], // Set the icon size
     iconAnchor: [16, 32], // Set the icon anchor
   });
-
+// Initialize a variable to hold the location marker
   let locationMarker = null;
-
+// Event listener for clicking on the map
   map.on('click', function (e) {
     const latlng = e.latlng;
     const geocoder = L.Control.Geocoder.nominatim();
-
+    // Reverse geocode the clicked coordinates to get address details
     geocoder.reverse(latlng, map.options.crs.scale(map.getZoom()), function (results) {
       const address = results[0].name;
       const country = results[0].properties.address.country;
-
+    // Check if the selected location is in Israel
       if (country !== 'Israel' && country !== "ישראל" && country !== "השטחים הפלסטיניים") {
         alert('הכתובת שבחרת לא נמצאת בישראל. אנא בחר כתובת בישראל.');
         return;
       }
-
+      // Parse the address components
       const splitAddress = address.split(','); // Split the address by comma
       const city = splitAddress[0].trim();
       const street = splitAddress[1].trim();
@@ -48,10 +51,8 @@ export const initializeMap = (setLocation, setMapInitialized) => {
         // Update the location marker position
         locationMarker.setLatLng(latlng);
       }
-
       // Bind a popup to the location marker with the address
       locationMarker.bindPopup(address).openPopup();
-
       // Update the map view to the selected location
       map.setView(latlng, map.getZoom());
     });
@@ -66,11 +67,12 @@ export const initializeMap = (setLocation, setMapInitialized) => {
   // Add event listener for selecting a location using the geocoding control
   control.on("markgeocode", function (e) {
     const country = e.geocode.properties.address.country;
+    // Check if the selected location is in Israel
     if (country !== 'Israel' && country !== "ישראל" && country !== "השטחים הפלסטיניים") {
       alert('הכתובת שנבחרה אינה בישראל. אנא בחר כתובת בישראל.');
       return;
     }
-
+    // Extract address components
     const addressComponents = e.geocode.properties.address;
     const area = addressComponents.residential || addressComponents.town || addressComponents.state_district || addressComponents.city;
     const city = addressComponents.suburb || addressComponents.city || addressComponents.town;
@@ -87,10 +89,9 @@ export const initializeMap = (setLocation, setMapInitialized) => {
       // Update the location marker position
       locationMarker.setLatLng(e.geocode.center);
     }
-
     // Bind a popup to the location marker with the address
     locationMarker.bindPopup(address).openPopup();
   });
 
-  return map;
+  return map;// Return the initialized map instance
 };

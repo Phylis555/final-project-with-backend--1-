@@ -18,24 +18,25 @@ export default function StepTwo() {
         };
     }
 
+    // Handle file change
     const handleChange = (file) => {
         setFundImage(file);
         getBase64(file, (result) => {
-            // let output = result;
             setFundData({ ...fundData, "fundImage": result })
         })
+         // Indicate that the image has been updated    
         fundData.imageIsUpdated = true;
     }
     return (
         <div>
             <div className="card-body">
                 <form className="text-start">
+                    {/* Image Attachment Section */}
                     <div className="form-group text-center pb-3">צירוף תמונה</div>
                     <div className='text-center'>
                         <div className='d-flex justify-content-center'>
                             <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
                         </div>
-                        {/* <p>{fundImage ? `File name: ${fundImage.name}` : "No files uploaded yet"}</p> */}
                         <p>{
                             fundImage ?
                                 <img className='rounded img-fluid' src={fundData.fundImage} alt={fundImage.name} /> :
@@ -45,7 +46,7 @@ export default function StepTwo() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep2.fundImage}
                     </div>
-
+                    {/* Contact Details Section */}
                     <div className="form-group text-center pb-3">פרטי יצירת קשר</div>
                     <label className="form-label">Email</label>
                     <div className="input-group input-group-outline mb-1">
@@ -53,7 +54,7 @@ export default function StepTwo() {
                             type="email"
                             className="form-control"
                             placeholder=""
-                            value={fundData['contactEmail']}
+                            value={fundData['contactEmail']||''}
                             onChange={(e) => { setFundData({ ...fundData, "contactEmail": e.target.value }) }} />
                     </div>
                     <div className="text-danger form-label mb-3">
@@ -65,13 +66,13 @@ export default function StepTwo() {
                             type="contact"
                             className="form-control"
                             placeholder=""
-                            value={fundData['contactNumber']}
+                            value={fundData['contactNumber']||''}
                             onChange={(e) => { setFundData({ ...fundData, "contactNumber": e.target.value }) }} />
                     </div>
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep2.contactNumber}
                     </div>
-
+                    {/* Navigation Buttons */}        
                     <div className="row d-flex justify-content-center">
                         <div className='col-lg-4 col-md-4 col-sm-4'>
                             <button type="button" onClick={() => setCurrentStep(1)} className="btn bg-gradient-secondary w-100 my-4 mb-2">הקודם</button>

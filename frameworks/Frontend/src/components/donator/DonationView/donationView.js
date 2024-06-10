@@ -14,14 +14,17 @@ import swal from "sweetalert";
 import axios from "axios";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getAuthHeader } from "../../common/authHeader";
-import NavButton from "../../admin/donation/NavButton";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function DonationView() {
+
+    // Get location state and parameters from URL
   const location = useLocation();
   const fromAdmin = location.state?.fromAdmin;
   const accepted = location.state?.accepted;
   const req = location.state?.req;
+
+    // Define state variables
   const [donation, setDonation] = useState([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -34,12 +37,14 @@ export default function DonationView() {
     setUserId(getCookie("uId")); // Get userId from cookie or authentication system
   }, []);
 
+
+    // Fetch donation details
   useEffect(() => {
     setLoading(true);
     getOneDonation(id)
       .then((res) => {
         setLoading(false);
-        setDonation(res.data.donation);
+        setDonation(res.data.donation); // Set the donation details from the API response
       })
       .catch((e) => {
         setLoading(false);
@@ -47,9 +52,11 @@ export default function DonationView() {
       });
   }, []);
 
-  const ddate = getRemainingTime(donation.donationEndDate);
+    // Calculate remaining time for the donation
+  const ddate = getRemainingTime(donation.donationEndDate); 
   console.log(ddate);
 
+    // Handle accept action
   const onAccept = (id) => {
     swal({
       textDirection: "rtl",
@@ -67,7 +74,7 @@ export default function DonationView() {
             });
             setTimeout(function () {
               navigate(-1);
-            }, 2000);
+            }, 2000); // Navigate back after 2 seconds
           } else {
             swal("File Is Not Deleted");
           }
@@ -76,6 +83,7 @@ export default function DonationView() {
     });
   };
 
+    // Handle delete action
   const onDelete = (id) => {
     swal({
       textDirection: "rtl",
@@ -95,7 +103,7 @@ export default function DonationView() {
               });
               setTimeout(function () {
                 navigate(-1);
-              }, 2000);
+              }, 2000); // Navigate back after 2 seconds
             } else {
               swal("File Is Not Deleted");
             }
@@ -104,56 +112,43 @@ export default function DonationView() {
     });
   };
 
-
+  // Calculate total received and total amount of wanted items
   useEffect(() => {
     if (donation && donation.wantedItems) {
       const received = donation.wantedItems.reduce((acc, item) => acc + item.receivedAmount, 0);
       const amount = donation.wantedItems.reduce((acc, item) => acc + item.wantedQuantity, 0);
-      setTotalReceived(received);
-      setTotalAmount(amount);
+      setTotalReceived(received); 
+      setTotalAmount(amount); 
     }
   }, [donation]);
   
 
   return (
     <>
-           { getCookie("roles") === '2001' ? "" : (<div className='mb-3'><NavBar /></div>)}
-      {/* <NavBar /> */}
-
+      {/* Render NavBar unless user is admin */}
+      { getCookie("roles") === '2001' ? "" : (<div className='mb-3'><NavBar /></div>)}
       <div className="container" dir="rtl">
       <i className="bi bi-arrow-left-circle fs-4 cursor-pointer"
           onClick={() => navigate(-1)}> הקודם</i>
+
+       {/* Show loading spinner if loading */}
         {loading ? (
-          <div
-            style={{
-              marginTop: 250,
-              minHeight: "100vh",
-            }}
-          >
+          <div style={{marginTop: 250, minHeight: "100vh"}}>
             <LoadingSpinner />
           </div>
         ) : (
-          <div
-            className="mainDiv"
-            style={{
-              marginLeft: 100,
-              paddingTop: 20,
-              marginRight: 100,
-              marginBottom: 100,
-            }}
-          >
-            <h2
-              style={{
-                marginBottom: 15,
-              }}
-            >
-              {donation.donationTitle}
+          <div  style={{marginLeft: 100,paddingTop: 20,marginRight: 100,marginBottom: 100,}}>
+            {/* Donation title */}
+            <h2 style={{marginBottom: 15,}}>
+              {donation.donationTitle} 
             </h2>
 
+            {/* Donation image */}
             <div className="d-flex card-body ">
               <ViewImage image={donation.donationImage} />
             </div>
 
+          {/* Donation icons */}
             <div className="mx-5 mt-2">
               <DonationIcon
                 location={donation.location}
@@ -165,6 +160,8 @@ export default function DonationView() {
                 }
               />
             </div>
+
+            {/* Progress bar */}
             <div>
               {donation && totalReceived > 0 && (
                 <ProgressBar
@@ -175,9 +172,9 @@ export default function DonationView() {
               )}
             </div>
 
-
+            {/* Wanted items list */}
             {donation.wantedItems && donation.wantedItems.length > 0 && (
-              <div class="card-body card bg-white my-3 text-center">
+              <div className="card-body card bg-white my-3 text-center">
                 <div className="mt-4">
                   <h4 className="mb-3">רשימת הפריטים שמבקשים בתרומה:</h4>
                   <table className="table">
@@ -208,14 +205,17 @@ export default function DonationView() {
               </div>
             )}
 
+            {/* Contact details and description */}
             <div className="row">
-              <div class="col-xl-6 col-sm-5">
-                <div class="card bg-light bg-white">
-                  <div class="card-body">
+              <div className="col-xl-6 col-sm-5">
+                <div className="card bg-light bg-white">
+                  <div className="card-body">
                     <ContactDetails
                       email={donation.email}
                       mobile={"0"+donation.contactNumber}
                     />
+
+                    {/* WhatsApp contact button */}
                     {userId && (
                       <a
                         href={`https://wa.me/972${donation.contactNumber}?text=${encodeURIComponent("שלום, ראיתי את התרומה שלך דרך אתר Instant Giving ואני מעוניין לתרום לך! האם תוכל לשלוח לי עוד פרטים על התרומה?")}`}
@@ -230,9 +230,9 @@ export default function DonationView() {
                 </div>
               </div>
 
-              <div class="col-6 ">
-                <div class="card bg-light bg-white">
-                  <div class="card-body">
+              <div className="col-6 ">
+                <div className="card bg-light bg-white">
+                  <div className="card-body">
                     <DonationDescription
                       description={donation.donationDescription}
                     />
@@ -241,36 +241,22 @@ export default function DonationView() {
               </div>
             
               <div className="d-flex justify-content-center mt-4">
+                 {/* Accept/Reject buttons for admin or donation request button for users */}
                 {req && fromAdmin ? (
                   <>
-                    <button
-                      class="btn btn-outline-success me-3 fs-5"
-                      onClick={() => {
-                        onAccept(donation._id);
-                      }}
-                    >
+                    <button className="btn btn-outline-success me-3 fs-5" onClick={() => {onAccept(donation._id);}}>
                       אשר
                     </button>
-                    <button
-                      class="btn btn-outline-danger me-3 fs-5"
-                      onClick={() => {
-                        onDelete(donation._id);
-                      }}
-                    >
+                    <button className="btn btn-outline-danger me-3 fs-5" onClick={() => { onDelete(donation._id);}}>
                       דחה
                     </button>
                   </>
-                ) : accepted && fromAdmin || (donation.status === "completed" ||donation.status === "pending") ? (
+                  //If the user is the user who created the donation or the donation has not yet been approved by the system administrator or completed, no button will appear
+                ) : accepted && fromAdmin || (donation.status === "completed" ||donation.status === "pending") || (donation.userID === userId)? (
                   <>
                     <h2></h2>
                   </>
-              
-                // ) : (
-                //   <Link to={`/donator/sendRequest/${id}`}>
-                //     <button class="btn btn-info">שלח בקשה</button>
-                //   </Link>
-                // )}
-
+                  //If the user is logged in, a button will appear to send a request, else a button will appear telling him that he needs to log in first
                 ) : userId ? (
                     <Link to={`/donator/sendRequest/${id}`}>
                       <button className="btn btn-info">שלח בקשה</button>

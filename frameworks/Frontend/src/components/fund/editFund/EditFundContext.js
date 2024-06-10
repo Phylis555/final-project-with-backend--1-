@@ -19,13 +19,13 @@ export default function EditFundContext() {
     const [isNext, setIsNext] = useState(false);
     const [isSubmit, setIsSubmit] = useState(false);
 
+    // Function to submit form data 
     function submitData(e) {
         e.preventDefault();
-        // console.log(fundData);
         setFormErrorsStep2(formValidationStep2(fundData))
         setIsSubmit(true);
     }
-
+    // Function to handle next button click
     function handleNext(e) {
         e.preventDefault();
         setFormErrorsStep1(formValidationStep1(fundData))
@@ -51,11 +51,8 @@ export default function EditFundContext() {
 
     // To handle the submit button in step 2
     useEffect(() => {
-        // console.log(formErrors);
         if (Object.keys(formErrorsStep2).length === 0 && isSubmit) {
-            // console.log(fundData);
             updateFund(fundData._id, fundData).then(res => {
-                // console.log(res);
                 swal(
                     "הבקשה עודכנה בהצלחה",
                     "",
@@ -63,8 +60,6 @@ export default function EditFundContext() {
                 ).then((value) => {
                     navigate(-1)
                 })
-
-
             }).catch(err => {
                 console.log(err);
                 swal(
@@ -72,7 +67,6 @@ export default function EditFundContext() {
                     err.response.data.message,
                     "error"
                 )
-
             })
         } else {
             setIsSubmit(false);
