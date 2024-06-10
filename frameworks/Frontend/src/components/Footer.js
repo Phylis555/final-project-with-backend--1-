@@ -12,7 +12,7 @@ function Footer() {
 
   return (
     <div style={{ marginTop: 20 }} dir="rtl">
-      <footer className="text-center text-lg-start text-dark bg-gradient-light">
+      <footer id="footeer" className="text-center text-lg-start text-dark bg-gradient-light">
         <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
           {/* Share section */}
           <div className="me-5 d-none d-lg-block ">
@@ -20,23 +20,23 @@ function Footer() {
           </div>
 
           <div>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
               <i className="bi bi-facebook"></i>
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
               <i className="bi bi-twitter"></i>
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
               <i className="bi bi-google"></i>
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="#" className="me-4 text-reset">
               <i className="bi bi-instagram"></i>
             </a>
           </div>
         </section>
         {/* Information section */}
-        <section className="" dir="rtl">
-          <div className="container text-center text-md-start mt-3" >
+        <section dir="rtl">
+          <div className="container text-center text-md-end mt-3" >
             <div className="row mt-1" >
              {/* Additional information */}
               <div className="col-md-2 col-lg-2 col-xl-3 mx-auto mb-3" dir="rtl">
@@ -45,8 +45,9 @@ function Footer() {
                 </h6>
                 <p  dir="rtl">
                   <a
-                    href="#!"
+                    href="#"
                     className={`text-reset ${isAccordionOpen === "info" ? "active" : ""}`}
+                    aria-label="info"
                     onClick={() => toggleAccordion("info")}
                   >
                     איך זה עובד?
@@ -65,7 +66,7 @@ function Footer() {
                   )}
                 </p>
                 <p>
-                  <a href="#!" className="text-reset">
+                  <a href="#" className="text-reset" aria-label="QA">
                   שאלות / תשובות                 
                   </a>
                 </p>
@@ -77,8 +78,9 @@ function Footer() {
                 </h6>
                 <p dir="rtl">
                   <a
-                    href="#!"
+                    href="#"
                     className={`text-reset ${isAccordionOpen === "faq" ? "active" : ""}`}
+                    aria-label="contact-us"
                     onClick={() => toggleAccordion("cont")}
                   >
                     צור קשר
@@ -94,8 +96,9 @@ function Footer() {
                 </p>
                 <p>
                   <a
-                    href="#!"
+                    href="#"
                     className={`text-reset ${isAccordionOpen === "faq" ? "active" : ""}`}
+                    aria-label="cond"
                     onClick={() => toggleAccordion("con")}
                   >
                     תנאי שימוש
@@ -112,8 +115,8 @@ function Footer() {
               </div>
               {/* Logo section */}
               <div className="col-md-2  col-lg-3 col-xl-2 mx-auto mb-3">
-                <div className="">
-                  <img className="img-footer" src={Logo2} />
+                <div>
+                  <img className="img-footer" src={Logo2} alt="logo"/>
                 </div>
               </div>
             </div>

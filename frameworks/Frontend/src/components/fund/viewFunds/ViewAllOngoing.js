@@ -52,7 +52,7 @@ export default function ViewAllOngoing() {
                 <div className="row d-flex my-3" dir="rtl">
                     <div className="col-lg-2 col-md-6 col-sm-4 me-7" >
                          {/* Dropdown for sorting */}
-                        <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
+                         <div className={`dropdown ${sortDropdownOpen ? 'show' : ''}`}>
                             <button
                                 className="btn btn-secondary dropdown-toggle ms-3"
                                 type="button"
@@ -61,12 +61,15 @@ export default function ViewAllOngoing() {
                             >  מיון{" "}
                             </button>
                             <ul className={`dropdown-menu ${sortDropdownOpen ? 'show' : ''}`}>
-                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateClosest")}>תאריך סיום קרוב ביותר</button></li>
-                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateFurthest")}>תאריך סיום רחוק ביותר</button></li>
-                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)} aria-expanded={sortDropdownOpen}>
-                                    <button className="dropdown-item" onClick={() => setSortBy("creationDateFurthest")}>תאריך יצירה רחוק ביותר</button></li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateClosest")}>תאריך סיום קרוב ביותר</button>
+                                </li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("endingDateFurthest")}>תאריך סיום רחוק ביותר</button>
+                                </li>
+                                <li onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+                                    <button className="dropdown-item" onClick={() => setSortBy("creationDateFurthest")}>תאריך יצירה רחוק ביותר</button>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -74,6 +77,7 @@ export default function ViewAllOngoing() {
                     <div className="col-lg-4 col-md-6 col-sm-8">
                         <div className="input-group input-group-outline bg-white">
                             <input
+                                id="Search-box"
                                 className="form-control"
                                 type="text"
                                 placeholder="חפש"
