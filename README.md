@@ -7,8 +7,8 @@ Table of Contents
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+
+
 
 ## Getting Started
 
@@ -52,7 +52,9 @@ npm start
 
 Open your web browser and visit http://localhost:3000 to access the application.
 
+## Authors and acknowledgment
+Liat Sagi - https://github.com/LiatSagi
+Liran Meirovich - https://github.com/LiranMeirovich
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+## Project status
+Currently we have stopped work on the project, if someone is interested to continue on and deploy the website it could do wonders, in that case contact us Liranmeirovich@gmail.com
