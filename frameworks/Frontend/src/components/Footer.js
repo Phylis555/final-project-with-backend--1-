@@ -6,7 +6,8 @@ import "./requester/footer.css";
 function Footer() {
   const [isAccordionOpen, setIsAccordionOpen] = useState("");
   // Function to toggle accordion sections
-  const toggleAccordion = (section) => {
+  const toggleAccordion = (e, section) => {
+    e.preventDefault();
     setIsAccordionOpen(section === isAccordionOpen ? "" : section);
   };
 
@@ -48,7 +49,7 @@ function Footer() {
                     href="#"
                     className={`text-reset ${isAccordionOpen === "info" ? "active" : ""}`}
                     aria-label="info"
-                    onClick={() => toggleAccordion("info")}
+                    onClick={(e) => toggleAccordion(e,"info")}
                   >
                     איך זה עובד?
                   </a>
@@ -81,7 +82,7 @@ function Footer() {
                     href="#"
                     className={`text-reset ${isAccordionOpen === "faq" ? "active" : ""}`}
                     aria-label="contact-us"
-                    onClick={() => toggleAccordion("cont")}
+                    onClick={(e) => toggleAccordion(e,"cont")}
                   >
                     צור קשר
                   </a>
@@ -99,7 +100,7 @@ function Footer() {
                     href="#"
                     className={`text-reset ${isAccordionOpen === "faq" ? "active" : ""}`}
                     aria-label="cond"
-                    onClick={() => toggleAccordion("con")}
+                    onClick={(e) => toggleAccordion(e,"con")}
                   >
                     תנאי שימוש
                   </a>
