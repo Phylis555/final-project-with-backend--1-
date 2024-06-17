@@ -77,7 +77,11 @@ const createDonation = async (req, res, next) => {
       wantedItems: databaseItems,
     });
 
+<<<<<<< HEAD
     const donation = await newDonation;
+=======
+    const donation = await newDonation.save();
+>>>>>>> 4cc057e65d7150b4196f2678defddcfdbb09f3b6
     console.log(donation);
     res.status(201).json({
       message: "Donation created successfully",

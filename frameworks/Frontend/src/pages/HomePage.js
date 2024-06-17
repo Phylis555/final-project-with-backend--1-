@@ -69,7 +69,7 @@ export default function HomePage() {
                 <div className="carousel-item active">
                     <img src={Img1} className="d-block w-100 hd-image" alt="..." />
                     <div className="carousel-caption d-none d-md-block">
-                        <h1 className='welcome-image-heading'>יש לך ציוד עודף שאינך משתמש בו</h1>
+                        <h1 className='welcome-image-heading'>יש לך ציוד עודף שאינך משתמש בו?</h1>
                         <h4 className='text-muted'>תרום אותו למי שזקוק לו</h4>
                     </div>
                 </div>

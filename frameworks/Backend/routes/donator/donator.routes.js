@@ -55,6 +55,13 @@ router.post(
       }),
     body("contactNumber").trim().isMobilePhone("he-IL"),
     body("donationDescription").trim().isLength({ min: 5 }),
+    body("location")
+      .trim()
+      .custom((value, { req }) => {
+        const commaCount = (value.match(/,/g) || []).length;
+        return commaCount >= 2;
+      })
+      .withMessage("Location must contain at least two commas"),
   ],
   isAuth,
   isCorrectUser,

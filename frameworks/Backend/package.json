@@ -1,7 +1,7 @@
 {
   "name": "spm-backend",
   "version": "1.0.0",
-  "description": "food donation management system created for SPM module Y3S2",
+  "description": "Item donation system",
   "main": "index.js",
   "scripts": {
     "start": " node index.js",
