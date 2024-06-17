@@ -20,7 +20,7 @@ export function DrawerContent(props) {
                     drawerActiveTintColor={Colors.primary}
                 />
                 <DrawerItem 
-                    label="Log out"
+                    label="התנתק"
                     onPress={()=>{
                     AsyncStorage.clear();
                     props.navigation.replace("login");

@@ -79,17 +79,31 @@ export default function DonationHome() {
   }, [donationDetails]);
 
   //update locations array when donation details change
+  // useEffect(() => {
+  //   const locationsArray = [];
+
+  //   donationDetails.forEach((donation) => {
+  //     const location = donation.location.split(",")[2].trim();
+  //     if (!locationsArray.includes(location)) {
+  //       locationsArray.push(location);
+  //     }
+  //   });
+  //   setLocations(locationsArray);
+  // }, [donationDetails]);
   useEffect(() => {
     const locationsArray = [];
-
     donationDetails.forEach((donation) => {
-      const location = donation.location.split(",")[2].trim();
-      if (!locationsArray.includes(location)) {
-        locationsArray.push(location);
+      const locationParts = donation.location.split(",");
+      if (locationParts.length > 2) {
+        const location = locationParts[2].trim();
+        if (!locationsArray.includes(location)) {
+          locationsArray.push(location);
+        }
       }
     });
     setLocations(locationsArray);
   }, [donationDetails]);
+
 
   const [loading, setLoading] = useState(false);
   const [donation, setDonation] = useState([]);

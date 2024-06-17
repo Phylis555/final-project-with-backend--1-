@@ -17,6 +17,7 @@ import { getOneDonation } from "../api/donator.api";
 import { SimpleLineIcons } from '@expo/vector-icons'
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
+
 import { getRemainingTime } from "../components/getRemainingTime";
 import fontStyle from "../utils/fontStyles";
 
@@ -382,7 +383,7 @@ export default class ItemDetails extends Component {
          <View style={styles.bottomContainer}>
     
                  <CustomBtn1 
-                     onPress={() => this.props.navigation.navigate('courierList')}
+                     onPress={() => this.props.navigation.navigate('sendRequest',{ pid: details._id })}
                   title="שלח בקשה" />
     
        </View>

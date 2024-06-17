@@ -62,7 +62,7 @@ export default class Profile extends Component {
                 </View>
                 {profileData && (
                             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-                                <Text style={styles.lvlTxt}>Hi, {profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)}</Text>
+                                <Text style={styles.lvlTxt}>שלום, {profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)}</Text>
                                 <View style={styles.lvlStat}></View>
                             </View>
                         )}

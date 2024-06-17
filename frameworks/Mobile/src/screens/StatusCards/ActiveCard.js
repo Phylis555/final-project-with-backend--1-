@@ -87,8 +87,10 @@ const ActiveCard = ({ details }) => {
                             </View>
 
                             <View style={styles.iconRow}>
-                                <SimpleLineIcons name="people" size={14} color={Colors.primary} />
-                                <Text style={styles.iconInfo} numberOfLines={1} ellipsizeMode="tail">ראה בקשות</Text>
+                            <Pressable onPress={() => navigation.navigate('seeRequests', { pid: details._id })}>
+                                    <SimpleLineIcons name="people" size={14} color={Colors.primary} />
+                                    <Text style={styles.iconInfo} numberOfLines={1} ellipsizeMode="tail">ראה בקשות</Text>
+                                </Pressable>
                             </View>
                         </View>
                     </View>

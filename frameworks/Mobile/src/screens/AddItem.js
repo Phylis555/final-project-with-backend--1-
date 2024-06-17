@@ -27,6 +27,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Colors from '../utils/colors'
 import { newDonation } from '../api/donator.api'
 import { requesterProfile } from '../api/requester.api'
+import MapView, { Marker, Region } from 'react-native-maps';
+import * as Location from 'expo-location'; // Import Location module
+import MapHandler from '../components/MapHandler';
 
 
 
@@ -271,7 +274,21 @@ export default class AddItem extends Component {
 
     }
 
+    // Function to handle map press event
+    handleMapPress = async (e) => {
+        const { latitude, longitude } = e.nativeEvent.coordinate;
 
+        try {
+            // Perform reverse geocoding to get address components
+            let addressResponse = await Location.reverseGeocodeAsync({ latitude, longitude });
+            let address = `${addressResponse[0].street}, ${addressResponse[0].city}, ${addressResponse[0].region}`;
+
+            // Update location state with the formatted address
+            this.setState({ location: address });
+        } catch (error) {
+            console.error('Error fetching address:', error);
+        }
+    };
 
     // INSERT FUNCTION
     InsertFunc = async ({navigation}) => {
@@ -319,6 +336,8 @@ export default class AddItem extends Component {
             this.props.navigation.navigate('dashBoard');
 
         } catch (err) {
+            this.setState({isUploading: true})
+
             console.log(err);
             alert("יצירת התרומה נכשלה");
             this.props.navigation.goBack();
@@ -348,7 +367,15 @@ export default class AddItem extends Component {
                 </Pressable>
                 {donationImage_input && <Image source={{ uri: donationImage_input }} style={styles.selected} />}
                 <TypeBInput label="כותרת*" value = {donationTitle} height={50} onChangeText={(donationTitle) => this.setState({ donationTitle })} />
-                <TypeBInput label="מיקום*" value = {location} height={50}  onChangeText={(location) => this.setState({ location })} />
+
+                <View>
+                <View style={styles.section}>
+                <Text style={styles.label}>Map</Text>
+              <MapHandler setLocation={(location) => this.setState({ location })} />
+                </View>
+                            <TypeBInput label="מיקום*" value={location} height={50} onChangeText={(location) => this.setState({ location })} />
+                        </View>
+
                 <Text style={styles.label}>תאריך סיום התרומה:</Text>
                 <DateTimePicker
                     minimumDate={new Date()}
@@ -428,4 +455,18 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'center',
     },
+
+    mapContainer: {
+        height: 300,
+        backgroundColor: '#d6d6d6',
+        borderRadius: 10,
+        marginBottom: 20,
+        overflow: 'hidden'
+    },
+    section: {
+        marginVertical: 10,
+      },
+    map: {
+        flex: 1,
+    }
 })
