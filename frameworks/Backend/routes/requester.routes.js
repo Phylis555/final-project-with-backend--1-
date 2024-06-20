@@ -24,6 +24,7 @@ router.post(
     body("firstName").trim().notEmpty(),
     body("lastName").trim().notEmpty(),
     body("contactNumber").trim().isMobilePhone("he-IL"),
+    body("password").trim().notEmpty(),
   ],
   requesterSignUp
 );
@@ -61,7 +62,13 @@ router.post(
   isCorrectUser,
   updateProfile
 );
-router.post("/updatePassword/:id", isAuth, isCorrectUser, updatePassword);
+router.post(
+  "/updatePassword/:id",
+  [body("password").trim().notEmpty()],
+  isAuth,
+  isCorrectUser,
+  updatePassword
+);
 router.get("/view/request/:id", isAuth, getRequestersRequest);
 router.get("/my/requests/:id", isAuth, getMyRequests);
 router.get("/allrequests", getAllRequests);

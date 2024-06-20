@@ -1,12 +1,12 @@
 const Donation = require("../../models/donation.model");
 
-const getAllDonations = async (req, res) => {
+const getAllDonations = async (req, res, next) => {
   try {
     const currDon = await Donation.find({
       status: "active",
     }).populate("wantedItems.item");
     console.log(currDon[0].wantedItems);
-    res.json(currDon);
+    res.status(200).json(currDon);
   } catch (error) {
     console.log(error);
     res.status(500).send({

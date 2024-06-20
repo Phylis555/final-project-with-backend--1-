@@ -1,0 +1,321 @@
+paths:
+  /:
+    get:
+      tags:
+        - organization
+      summary: Get all organizations
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Issue in handling the request
+
+  /{id}:
+    get:
+      tags:
+        - organization
+      summary: Get an organization
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Issue in handling the request
+
+  /register:
+    post:
+      tags:
+        - organization
+      summary: Register a new organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrganizationRegistration"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Email already in use
+
+  /view:
+    get:
+      tags:
+        - organization
+      summary: View all organizations
+      responses:
+        "200":
+          description: OK
+
+  /update/{id}:
+    put:
+      tags:
+        - organization
+      summary: Update an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Org doesn't exist or trying to change another organizations details
+        "401":
+          description: Unauthorized
+
+
+  /update/board/{id}:
+    put:
+      tags:
+        - organization
+      summary: Update an organization's board
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /update/changePassword/{id}:
+    put:
+      tags:
+        - organization
+      summary: Change an organization's password
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /delete/{id}:
+    delete:
+      tags:
+        - organization
+      summary: Delete an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /{organizationID}/latest/{limit}:
+    get:
+      tags:
+        - organization
+      summary: Get the latest N contributions for an organization
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: limit
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+
+  /summary/{organizationID}:
+    get:
+      tags:
+        - organization
+      summary: Get dashboard summary for an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /contributionChart/{organizationID}:
+    get:
+      tags:
+        - organization
+      summary: Get contribution chart for an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /{organizationID}/report/{month}:
+    get:
+      tags:
+        - organization
+      summary: Generate report for an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: organizationID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: month
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    OrganizationRegistration:
+      type: object
+      required:
+        - name
+        - address
+        - country
+        - zipCode
+        - contactNumber
+        - email
+        - registrationNumber
+        - registrationDate
+        - presidentName
+        - presidentContactNumber
+        - presidentEmail
+        - secretaryName
+        - secretaryContactNumber
+        - secretaryEmail
+        - registrationCertificate
+        - password
+        - status
+        - roles
+      properties:
+        name:
+          type: string
+          trim: true
+          notEmpty: true
+        address:
+          type: string
+        country:
+          type: string
+          trim: true
+          notEmpty: true
+        zipCode:
+          type: integer
+        contactNumber:
+          type: string
+          trim: true
+          isMobilePhone: he-IL
+        email:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        registrationNumber:
+          type: string
+        registrationDate:
+          type: string
+          format: date-time
+        presidentName:
+          type: string
+          trim: true
+          notEmpty: true
+        presidentContactNumber:
+          type: string
+          trim: true
+          isMobilePhone: he-IL
+        presidentEmail:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        secretaryName:
+          type: string
+          trim: true
+          notEmpty: true
+        secretaryContactNumber:
+          type: string
+          trim: true
+          isMobilePhone: he-IL
+        secretaryEmail:
+          type: string
+          trim: true
+          normalizeEmail: true
+          isEmail: true
+          errorMessage: "Not a legal email"
+        registrationCertificate:
+          type: string
+        password:
+          type: string
+        status:
+          type: string
+        roles:
+          type: string
+

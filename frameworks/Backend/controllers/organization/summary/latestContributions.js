@@ -3,7 +3,7 @@ const Requester = require("../../../models/requester.model");
 const User = require("../../../models/user");
 
 // Get latest n contributions
-const getNContributions = async (req, res) => {
+const getNContributions = async (req, res, next) => {
   const { limit, organizationID } = req.params;
   const result = [];
 
@@ -25,8 +25,10 @@ const getNContributions = async (req, res) => {
 
     res.status(200).json({ contributions: result });
   } catch (err) {
-    console.error("Error fetching contributions:", err);
-    res.status(500).json({ msg: "Error fetching data", error: err });
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

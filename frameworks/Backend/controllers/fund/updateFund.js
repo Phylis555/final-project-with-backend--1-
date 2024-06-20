@@ -4,7 +4,7 @@ const { sendOrganizationEmail } = require("../../common/sendEmail");
 const Fund = require("../../models/fund.model");
 const User = require("../../models/user");
 
-const updateFund = async (req, res) => {
+const updateFund = async (req, res, next) => {
   try {
     const formData = req.body;
     const fundId = req.params.id;
@@ -28,9 +28,11 @@ const updateFund = async (req, res) => {
     currFund.set(formData);
     await currFund.save();
     res.status(200).send({ status: "fund updated" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ error: error.message });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

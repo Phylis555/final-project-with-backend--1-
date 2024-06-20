@@ -1,25 +1,20 @@
 const Request = require("../../models/requestFund.model");
 
-const getRequestersRequest = async (req, res) => {
-    try {
-        const requesterId = req.params.id;
+const getRequestersRequest = async (req, res, next) => {
+  try {
+    const requesterId = req.params.id;
 
-        await Request.find({ _id: requesterId })
-        .then((requests) => {
-            res.status(200).send({
-                requests
-            });
-        }).catch((err) => {
-            res.status(500).send({
-                msg: "Error with fetching data",
-                error: err,
-            });
-        });
-    } catch (error) {
-        console.log(error);
+    const requests = await Request.find({ _id: requesterId });
+
+    res.status(200).send({ requests });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-}
+    next(err);
+  }
+};
 
 module.exports = {
-    getRequestersRequest,
-}
+  getRequestersRequest,
+};
