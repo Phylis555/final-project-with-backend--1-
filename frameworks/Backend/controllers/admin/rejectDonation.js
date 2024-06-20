@@ -1,8 +1,9 @@
 const { imageUpload } = require("../../common/imageUpload");
 const { body, validationResult } = require("express-validator");
-const Donation=require("../../models/donation.model")
+const Donation = require("../../models/donation.model");
+const { sendRejectedEmail } = require("../../common/sendEmail");
 
-const rejectDonation = async (req, res) => {
+const rejectDonation = async (req, res, next) => {
   try {
     // const errors = validationResult(req);
     // console.log(errors);
@@ -12,22 +13,23 @@ const rejectDonation = async (req, res) => {
     // }
     const donationID = req.params.id;
 
-    const  status  = "rejected"
+    const status = "rejected";
 
     const updateDonation = {
-      status: status
+      status: status,
     };
-    console.log(updateDonation)
+    console.log(updateDonation);
 
-    await Donation.findByIdAndUpdate(donationID, updateDonation)
-      .then(() => {
-        res.status(200).send({ message: "Status updated"  });
-      })
-      .catch(() => {
-        res.status(500).send({ message: "Error"  });
-      });
-  } catch (error) {
-    console.log(error);
+    const donation = await Donation.findByIdAndUpdate(
+      donationID,
+      updateDonation
+    );
+    res.status(200).send({ message: "Status updated" });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

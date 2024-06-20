@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import FileBase64 from "react-file-base64";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
-import orgView from "./orgView.css"
 import { getAuthHeader } from "../../common/authHeader";
 
 export default function AdminReviewOrg() {
   const navigate = useNavigate();
   const {id}=useParams();
 
+  // State variables for organization details
   const [OrgId,setOrgId]=useState("");
   const [OrgName,setOrgName]=useState("");
   const [OrgAddress,setOrgAddress]=useState("");
@@ -25,41 +24,37 @@ export default function AdminReviewOrg() {
   const[pContactNo,setPContactNo]=useState("");
   const [OrgStatus,setOrgStatus]=useState("");
 
+  // Fetch organization details based on ID
   useEffect(()=>{
     const fetchOrg=async()=>{
-        console.log(id)
-        await axios
-        .get(`http://localhost:8070/admin/vieworg/${id}`,getAuthHeader())
-        .then((res)=>{
-            console.log(res)
-            setOrgId(res.data.org._id);
-            setOrgName(res.data.org.name);
-            setOrgAddress(res.data.org.address);
-            setOrgContactNo(res.data.org.contactNumber);
-            setOrgEmail(res.data.org.email);
-            setOrgZipCode(res.data.org.zipCode);
-            setPContactNo(res.data.org.presidentContactNumber);
-            setPemail(res.data.org.presidentEmail);
-            setPname(res.data.org.presidentName);
-            setSContactNo(res.data.org.secretaryContactNumber);
-            setSemail(res.data.org.secretaryEmail);
-            setSname(res.data.org.secretaryName);
-            setOrgStatus(res.data.org.status);
-
+      await axios
+      .get(`http://localhost:8070/admin/vieworg/${id}`,getAuthHeader())
+      .then((res)=>{
+        // Set organization details to state variable
+          setOrgId(res.data.org._id);
+          setOrgName(res.data.org.name);
+          setOrgAddress(res.data.org.address);
+          setOrgContactNo(res.data.org.contactNumber);
+          setOrgEmail(res.data.org.email);
+          setOrgZipCode(res.data.org.zipCode);
+          setPContactNo(res.data.org.presidentContactNumber);
+          setPemail(res.data.org.presidentEmail);
+          setPname(res.data.org.presidentName);
+          setSContactNo(res.data.org.secretaryContactNumber);
+          setSemail(res.data.org.secretaryEmail);
+          setSname(res.data.org.secretaryName);
+          setOrgStatus(res.data.org.status);
     })
     .catch((e)=>{
         console.log(e);
-    })
-    
-    };
+    })};
     fetchOrg();
-    
   },[]);
 
+  // Function to handle organization details update
   const editOrganization =  (e) => {
     e.preventDefault();
     const Organization = {
-        
       OrgName,
       OrgId,
       OrgAddress,
@@ -74,72 +69,59 @@ export default function AdminReviewOrg() {
       semail,
       sname
     };
-//     await axios
-//       .put(`http://localhost:8070/admin/editorg/${id}`, Organization)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//     console.log(Organization)
-//   };
-swal({
-    textDirection: "rtl",
-    title: "שים לב",
-    text: "האם ברצונך לעדכן את פרטי הארגון",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  }).then((willDelete) => {
-    if (willDelete) {
-      axios
-        .put(`http://localhost:8070/admin/editorg/${id}`, Organization,getAuthHeader())
-        .then(() => {
-          if (willDelete) {
-            swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
-            setTimeout(function () {
-              window.location.reload()
-            }, 3000)
-          } else {
-            swal("File Is Not Updated")
-          }
-        })
-    }
-  })
-
-  }
-
-  const onAccept = (id)=>{
-    // navigate(-1)
     swal({
         textDirection: "rtl",
         title: "שים לב",
-        text: "בקשת רישום הארגון תאושר",
+        text: "האם ברצונך לעדכן את פרטי הארגון",
         icon: "warning",
         buttons: true,
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
           axios
-            .put(`http://localhost:8070/admin/uporgstatus/${id}`, null, getAuthHeader())
+            .put(`http://localhost:8070/admin/editorg/${id}`, Organization,getAuthHeader())
             .then(() => {
               if (willDelete) {
-                swal("בקשת רישום הארגון אושרה בהצלחה", { icon: "success" })
+                swal("פרטי הארגון עודכנו בהצלחה", { icon: "success" })
                 setTimeout(function () {
-                  navigate(-1)
+                  window.location.reload()
                 }, 3000)
               } else {
-                swal("הבקשה לא אושרה")
+                swal("File Is Not Updated")
               }
             })
         }
       })
-    
+    }
 
-}
-
-const onDelete = (id)=>{
+    // Function to handle acceptance of organization registration request
+    const onAccept = (id)=>{
+      swal({
+          textDirection: "rtl",
+          title: "שים לב",
+          text: "בקשת רישום הארגון תאושר",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            axios
+              .put(`http://localhost:8070/admin/uporgstatus/${id}`, null, getAuthHeader())
+              .then(() => {
+                if (willDelete) {
+                  swal("בקשת רישום הארגון אושרה בהצלחה", { icon: "success" })
+                  setTimeout(function () {
+                    navigate(-1)
+                  }, 3000)
+                } else {
+                  swal("הבקשה לא אושרה")
+                }
+              })
+          }
+        })  
+    }
+  // Function to handle deletion of organization registration request
+  const onDelete = (id)=>{
     swal({
         textDirection: "rtl",
         title: "שים לב",
@@ -163,53 +145,44 @@ const onDelete = (id)=>{
             })
         }
       })
-}
-
-
-
-
+  }
 
   const[orgDetails, setOrgDetails]=useState([])
-
-  
-
   return (
     <>
     <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg " dir="rtl">
-      {/* <span class="mask bg-gradient-dark opacity-6"></span> */}
-      <div class="container my-auto" style={{ paddingTop: 30 }}>
-        <div class="row">
-          <div class="mx-auto">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-body">
-                <form role="form" class="text-start" onSubmit={editOrganization} >
-                  <div class="d-flex justify-content-center">
+      <div className="container my-auto" style={{ paddingTop: 30 }}>
+        <div className="row">
+          <div className="mx-auto">
+            <div className="card z-index-0 fadeIn3 fadeInBottom">
+              <div className="card-body">
+                <form role="form" className="text-start" onSubmit={editOrganization} >
+                  <div className="d-flex justify-content-center">
                     <h4>סקור את פרטי הארגון</h4>
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <div></div>
-                    <div></div>
+                  <div className="d-flex justify-content-between">
                     <h6>* שדות חובה</h6>
                   </div>
-                  <label className={orgView.lable}>מזהה ארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgId">מזהה ארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      id="orgId"
+                      className="form-control"
                       placeholder="Donation Title*"
                       aria-label="Donation Title"
                       aria-describedby="basic-addon1"
                       value={OrgId}
                       disabled
-                      required
                     />
                   </div>
 
-                  <label className={orgView.lable}>שם הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgName">שם הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      id="orgName"
+                      className="form-control"
                       placeholder="Donation Title*"
                       aria-label="Donation Title"
                       aria-describedby="basic-addon1"
@@ -218,34 +191,34 @@ const onDelete = (id)=>{
                         setOrgName(e.target.value) 
                       }}
                       required
-                      disabled
                     />
                   </div>
                
-                  <label className={orgView.lable}>כתובת </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgAddress">כתובת </label>
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Location*"
                       aria-label="Location"
+                      id="orgAddress"
                       aria-describedby="basic-addon1"
                       value={OrgAddress}
                       onChange={(e) => {
                       setOrgAddress(e.target.value)
                       }}
                       required
-                      disabled
                     />
                   </div>
 
-                  <label className={orgView.lable}>מיקוד </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgZipCode">מיקוד </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Location*"
                       aria-label="Location"
+                      id="orgZipCode"
                       aria-describedby="basic-addon1"
                       value={OrgZipCode}
                       onChange={(e) => {
@@ -255,8 +228,8 @@ const onDelete = (id)=>{
                       disabled
                     />
                   </div>
-                  <label className={orgView.lable}>מספר איש קשר של הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgContactNo">מספר איש קשר של הארגון </label>
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
@@ -264,20 +237,21 @@ const onDelete = (id)=>{
                       aria-describedby="basic-addon1"
                       title="Error Message"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      id="orgContactNo"
+                      className="form-control"
                       value={OrgContactNo}
                       disabled
                       onChange={(e) => {
                         setOrgContactNo(e.target.value)
                       }}
                     />
-                    {/* <input type="text" name="country_code"></input> */}
                   </div>
-                  <label className={orgView.lable}>Email</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="orgEmail">Email</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      id="orgEmail"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
                       aria-describedby="basic-addon1"
@@ -289,23 +263,23 @@ const onDelete = (id)=>{
                       disabled
                     />
                   </div>
-                  <label className={orgView.lable}>שם מזכירת הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="sname">שם מזכירת הארגון </label>
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
+                      id="sname"
                       value={sname}
                        onChange={(e) => {
                          setSname(e.target.value);
                        }}
-                      id="date"
                       disabled
                     />
                   </div>
 
-                  <label className={orgView.lable}>טלפון מזכירת הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="sContactNo">טלפון מזכירת הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
@@ -313,7 +287,8 @@ const onDelete = (id)=>{
                       aria-describedby="basic-addon1"
                       title="Error Message"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      className="form-control"
+                      id="sContactNo"
                       value={sContactNo}
                       onChange={(e) => {
                         setSContactNo(e.target.value)
@@ -322,49 +297,50 @@ const onDelete = (id)=>{
                     />
                   </div>
 
-                  <label className={orgView.lable}>Email מזכירות</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="semail">Email מזכירות</label>
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
+                      id="semail"
                       aria-describedby="basic-addon1"
                       value={semail}
                       onChange={(e) => {
                         setSemail(e.target.value)
                       }}
-                      required
                       disabled
                     />
                   </div>
 
 
-                  <label className={orgView.lable}>שם מנהל הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="mName">שם מנהל הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
+                      id= "mName"
                       value={pname}
                        onChange={(e) => {
                          setPname(e.target.value)
                        }}
-                      id="date"
                       disabled
                     />
                   </div>
 
-                  <label className={orgView.lable}>טלפון מנהל הארגון</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="mContact">טלפון מנהל הארגון</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="text"
                       placeholder="Contact Number*"
                       aria-label="Contact Number"
                       aria-describedby="basic-addon1"
                       title="Error Message"
+                      id= "mContact"
                       pattern="[0]{1}[0-9]{9}"
-                      class="form-control"
+                      className="form-control"
                       value={pContactNo}
                       onChange={(e) => {
                         setPContactNo(e.target.value)
@@ -373,11 +349,12 @@ const onDelete = (id)=>{
                     />
                   </div>
 
-                  <label className={orgView.lable}> Email מנהל הארגון</label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label htmlFor="mEmail"> Email מנהל הארגון</label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       type="email"
-                      class="form-control"
+                      id= "mEmail"
+                      className="form-control"
                       placeholder="Email*"
                       aria-label="Email"
                       aria-describedby="basic-addon1"
@@ -386,15 +363,14 @@ const onDelete = (id)=>{
                         setPemail(e.target.value)
                       }}
                       required
-                      
                     />
                   </div>
 
-                  <label className={orgView.lable}>סטטוס הארגון </label> 
-                  <div class="input-group mb-3 input-group input-group-outline mb-3">
+                  <label>סטטוס הארגון </label> 
+                  <div className="input-group mb-3 input-group input-group-outline mb-3">
                     <input
                       placeholder="Donation End Date"
-                      class="form-control"
+                      className="form-control"
                       type="text"
                       value={OrgStatus}
                        onChange={(e) => {
@@ -404,15 +380,13 @@ const onDelete = (id)=>{
                       disabled
                     />
                   </div>
-                  
-
-
+      
                 </form>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-outline-success ms-2" onClick={()=>{onAccept(id)}}>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-outline-success ms-2" onClick={()=>{onAccept(id)}}>
                       אשר
                     </button>
-                    <button type="delete" class="btn btn-outline-danger me-2" onClick={()=>{onDelete(id)}}>
+                    <button type="delete" className="btn btn-outline-danger me-2" onClick={()=>{onDelete(id)}}>
                       מחק
                     </button>
                   </div>

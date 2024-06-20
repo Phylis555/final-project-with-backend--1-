@@ -1,26 +1,20 @@
 const Organization = require("../../models/organization.model");
 
-const getRequestedOrganizations = (req, res) => {
-    try {
-        Organization.find(
-            {
-                "status":"pending"
-            }
-        )
-            .then((organizations) => {
-                res.json(organizations);
-            })
-            .catch((err) => {
-                res.status(500).send({
-                    msg: "Error fetching data",
-                    error: err,
-                });
-            });
-    } catch (error) {
-        console.log(error);
+const getRequestedOrganizations = async (req, res, next) => {
+  try {
+    const organizations = await Organization.find({
+      status: "pending",
+    });
+
+    res.status(200).json(organizations);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
+    next(err);
+  }
 };
 
 module.exports = {
-    getRequestedOrganizations,
+  getRequestedOrganizations,
 };

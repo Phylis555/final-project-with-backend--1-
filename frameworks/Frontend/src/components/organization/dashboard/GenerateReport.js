@@ -5,6 +5,7 @@ import { getOrganizationByID, getReport } from '../../../api/organization.api';
 export default function GenerateReport({ organizationId }) {
     const [reportData, setReportData] = useState({})
 
+    // Get current date and month
     const date = new Date();
     const dateStr = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
 
@@ -31,7 +32,7 @@ export default function GenerateReport({ organizationId }) {
         })
         return total;
     }
-
+    // Report properties
     var props = {
         outputType: OutputType.Save,
         returnJsPDFDocObject: true,
@@ -94,8 +95,6 @@ export default function GenerateReport({ organizationId }) {
     }
 
     useEffect(() => {
-
-
     }, [organizationId])
 
     // generate report for this month

@@ -3,6 +3,8 @@ import { Pressable, Text, View, Image, StyleSheet, Platform } from "react-native
 import { useNavigation } from '@react-navigation/native'
 import Colors from "../utils/colors"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from 'axios';
+import { getAuthHeader } from "./authHeader"
 
 
 export default class Profile extends Component {
@@ -10,41 +12,46 @@ export default class Profile extends Component {
     {
         super(props)
         this.state = {
-            user: ''
+            userId: null,
+            profileData: null,
+            token: null,
+        };
+    }
+
+    // Fetch user ID and token from AsyncStorage
+    fetchData = async () => {
+        const storedUserId = await AsyncStorage.getItem('user_id');
+        const storedToken = await AsyncStorage.getItem('token');
+        this.setState({ userId: storedUserId, token: storedToken });
+
+        console.log("Fetched user ID:", storedUserId);
+        console.log("Fetched Token access:", storedToken);
+    };
+
+    // Effect to fetch data when component mounts
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    // Effect to fetch profile data when userId changes
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.userId !== this.state.userId) {
+            const { userId, token } = this.state;
+            if (userId) {
+                axios.get(`http://192.168.1.245:8070/requester/profile/${userId}`, getAuthHeader(token))
+                    .then((res) => {
+                        this.setState({ profileData: res.data.requester });
+                        console.log(res.data);
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    });
+            }
         }
     }
-
-    componentDidMount = () => {
-        AsyncStorage.getItem('user_id').then((value) => {
-            var user_id = value
-            
-            var data = {
-                user_id: user_id
-            }
-            
-            fetch (
-                "http://onedon.atwebpages.com/api/profile.php",
-                {
-                    method: "POST",
-                    headers: { 
-                        'Accept': 'application/json',
-                        'Content-Type': 'application.json'
-                    },
-                    body: JSON.stringify(data)
-                }
-            )
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({user: response[0].user})
-            })
-            .catch((error) => {
-                alert("Error: " + error);
-            })
-            
-        })
-    }
-
     render(){
+
+        const { profileData } = this.state;
 
         const userImage = require('../../assets/images/profile.jpeg')
 
@@ -53,11 +60,15 @@ export default class Profile extends Component {
                 <View style={styles.imageContainer}>
                     <Image style={styles.img} source={userImage} />
                 </View>
+                {profileData && (
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'baseline' }}>
+                                <Text style={styles.lvlTxt}>Hi, {profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)}</Text>
+                                <View style={styles.lvlStat}></View>
+                            </View>
+                        )}
+
                 <Text style={styles.user}> {this.state.user} </Text>
-                <View style={{flex:1, flexDirection: 'row', alignItems: 'baseline'}}>
-                    <Text style={styles.lvlTxt}> Level One Donor </Text>
-                    <View style={styles.lvlStat}></View>
-                </View>
+               
             </Pressable>
         )
     }

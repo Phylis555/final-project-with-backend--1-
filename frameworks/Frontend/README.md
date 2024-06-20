@@ -1,19 +1,17 @@
-# Food For All - Frontend
+# Instant Giving - Frontend
 
 ## Group Details
-Group Number - SER059
 
-| Name     | Student ID      | UserName  | Stakeholder
-| ------------- | ------------- | --------    | --------    |
-| Yasith Chandula | `IT20211646`  | yasithchandula   |Admin   |
-| Sachintha Gunaratne | `IT20208462`  | sxchintha   |Organization   |
-| Thushal Shaminda | `IT20216146`  | thushal-shaminda   |Requester   |
-| Akila Kavinda | `IT20211714`  | akilakavinda99   |Donator   |
+ Name     
+ ------------- 
+ Liat Sagi 
+ Liran Meirovich 
+ Phylis Mian
 
 
 ## Project Description
 
-`Food For All` is a donation management system. The system consists of four stakeholders namely the admin, donator, requester and the organization. The donator can create donations about what they can donate, and they can accept requests from requesters and also they can donate to fundraisers. The requesters get information about poor people and post requests about what they need and the donators can get information about them. The organizations can mainly raise funds to overcome hard situations.
+`Instant Giving` is a donation management system. The system consists of three stakeholders, namely the manager, the applicant and the organization. The applicant can create requests for equipment he needs, and he can receive requests from donors and they can also contribute to fundraising. The donors receive information about the donation requests that exist and they can donate to them or receive information about them. The organizations can mainly raise funds.
 
 ## Technologies
 `MERN stack`
@@ -23,22 +21,13 @@ Express - Backend Framework\
 React  - Frontend Framework\
 NodeJS - JS Runtime for the backend
 
-## How to get started
-### Prerequistes
- 1.NodeJs
- 
+
 ### Running the project
 
-1.Clone the repository\
-2. Navigate to the project directory.\
-3.Install nodemodules by entering `npm install`.\
+1. Navigate to the project directory.\
+2.Install nodemodules by entering `npm install`.\
+3. Make sure port 3000 is free.\
 4.After installation is success enter `npm start`
 
-**This repository contains only the frontend of our application the backend is also needed to run the application you can get it from [here](https://github.com/sxchintha/Food_for_All-Food_Donation-Backend)
 
-## Interfaces
-Below are some running interfaces of the application.
-
-![alt text](https://i.postimg.cc/J0fc7wV8/Screenshot-2022-10-20-133714.png)    ![alt text](https://i.postimg.cc/v8gKybfp/Screenshot-2022-10-20-133754.png) ![alt text](https://i.postimg.cc/N0vs6dY0/Screenshot-2022-10-20-133809.png) 
-![alt text](https://i.postimg.cc/PfVd3Xh9/Screenshot-2022-10-20-134015.png)  ![alt text](https://i.postimg.cc/TwPZgbyw/Screenshot-2022-10-20-134046.png) 
 

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import react, { Component } from 'react';
-import {View, Text, ScrollView, SafeAreaView, StyleSheet, Image} from 'react-native';
+import {View, Text, ScrollView, SafeAreaView, StyleSheet, Image,TouchableOpacity, TextInput} from 'react-native';
 import Colors from '../../utils/colors';
 import TypeAInput from '../../components/customInput';
 import CustomBtn1 from '../../components/customButton';
@@ -106,7 +106,7 @@ export default class Login extends Component{
         return(
             <>
             <SafeAreaView  style={styles.authcontainer}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
                     <StatusBar style="auto" />
                     <View style={{ marginBottom: 50, flexDirection: 'row', alignSelf: 'center'}}>
                         <Text style={styles.bgheader}>הבאים</Text>
@@ -160,9 +160,17 @@ export default class Login extends Component{
                     </Text>
                 </ScrollView>
             </SafeAreaView>
+
             {this.state.loginPending ? <Loader /> : null}
+
+
             </>
+
+            
         )
+
+
+      
     }
 }
 
@@ -174,7 +182,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 90,
         marginBottom: 20,
-        paddingHorizontal: 30
+        marginHorizontal: 15,
+        paddingHorizontal: 30,
     },
     smheader: {
         fontSize: 25,
@@ -204,6 +213,8 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         height: 100,
-        borderRadius: 95,
+        borderRadius: 20,
+        borderColor: Colors.primary,
+        borderWidth: 5
     }
 })

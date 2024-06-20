@@ -1,22 +1,17 @@
 const Fund = require("../../models/fund.model");
 
-const getAllFunds = (req, res) => {
-    try {
-        Fund.find()
-            .then((funds) => {
-                res.json(funds);
-            }).catch((err) => {
-                res.status(500).send({
-                    msg: "Error fetching data",
-                    error: err,
-                });
-            }
-            );
-    } catch (error) {
-        console.log(error);
+const getAllFunds = async (req, res, next) => {
+  try {
+    const funds = await Fund.find();
+    res.status(200).json(funds);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-}
+    next(err);
+  }
+};
 
 module.exports = {
-    getAllFunds,
+  getAllFunds,
 };

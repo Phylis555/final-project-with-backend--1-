@@ -15,17 +15,16 @@ export default function UpdateProfileDetails() {
   const navigate = useNavigate();
   const [changePassword, setChangePassword] = useState(false);
 
+  // Fetch user profile data when the component mounts
   useEffect(() => {
     requesterProfile(userId)
       .then((res) => {
         setUserData(res.data.requester)
-        // console.log(res.data)
       })
   }, []);
-
+  // Handle profile update form submission
   const handleUpdate = (e) => {
     e.preventDefault()
-
     updateProfile(userId, {
       firstName: userData.firstName,
       lastName: userData.lastName,
@@ -41,13 +40,12 @@ export default function UpdateProfileDetails() {
       })
       .catch((err) => {
         console.log(err);
-      });
+    });
   }
-
+  // Handle password change form submission
   const handlePassword = (e) => {
     e.preventDefault()
     setChangePassword(!changePassword);
-
 
     if (passData.npassword === passData.rpassword) {
       updatePassword(userId, {
@@ -76,27 +74,26 @@ export default function UpdateProfileDetails() {
       <div className='container' dir="rtl">
         <h4 className="pt-3 ms-4">הגדרות חשבון</h4>
         <hr className='hr-request-fund mx-4' />
-
-        <div class="container d-flex justify-content-center pt-4 pb-5">
+        <div className="container d-flex justify-content-center pt-4 pb-5">
           <div className="card z-index-0 fadeIn3 fadeInBottom ">
             <div className="card-body">
-
               <form className="form-control form-profile m-3">
 
+                {/* Profile image */}
                 <div className="row pt-4">
                   <div className="d-flex justify-content-center ps-2 ms-2">
-                    {/* <h1 class=" btn btn-secondary btn-lg rounded-circle"><i class="bi bi-person-plus-fill"></i></h1> */}
                     <img className='profile-image' src={Profile} />
                   </div>
                 </div>
 
+                {/* Profile form */}
                 <div className="row m-auto pt-5">
                   <div className="col ms-2 pe-5 ">
                     <div className="row">
                       <div className="col">
 
                         <div className="row input-group input-group-outline mb-4">
-                          <label for="formFile">שם פרטי</label>
+                          <label htmlFor="form-control">שם פרטי</label>
                           <input type="text"
                             className="form-control"
                             defaultValue={userData.firstName}
@@ -104,10 +101,10 @@ export default function UpdateProfileDetails() {
                           />
                         </div>
                       </div>
-                      <div className="col">
 
+                      <div className="col">
                         <div className="row input-group input-group-outline mb-4">
-                          <label for="formFile">שם משפחה</label>
+                          <label htmlFor="form-control">שם משפחה</label>
                           <input type="text"
                             className="form-control"
                             defaultValue={userData.lastName}
@@ -118,7 +115,7 @@ export default function UpdateProfileDetails() {
                     </div>
 
                     <div className="row input-group input-group-outline mb-4">
-                      <label for="formFile">מספר טלפון</label>
+                      <label htmlFor="form-control">מספר טלפון</label>
                       <input type="text"
                         className="form-control"
                         value={"0" + userData.contactNumber}
@@ -127,8 +124,9 @@ export default function UpdateProfileDetails() {
                     </div>
 
                     <div className="row input-group input-group-outline mb-4">
-                      <label for="formFile" >מייל</label>
+                      <label htmlFor="form-control" >מייל</label>
                       <input type="email"
+                        id="form-control"
                         className="form-control"
                         defaultValue={userData.email}
                         onChange={(e) => { setUserData({ ...userData, "email": e.target.value }) }}
@@ -142,14 +140,13 @@ export default function UpdateProfileDetails() {
                         {changePassword ? "סגור שינוי סיסמה" : "שינוי סיסמה"}
                       </button>
                     </div>
-
                   </div>
 
-
+                   {/* Password change section */}
                   {changePassword && (
                     <div className="row input-group input-group-outline col align-self-start me-5 border-end">
                       <div className="mb-4 ms-5">
-                        <label for="formFile">סיסמה חדשה</label>
+                        <label htmlFor="form-control">סיסמה חדשה</label>
                         <input
                           type="password"
                           placeholder="סיסמה חדשה"
@@ -160,7 +157,7 @@ export default function UpdateProfileDetails() {
                         />
                       </div>
                       <div className="mb-4 ms-5">
-                        <label for="formFile">אימות סיסמה</label>
+                        <label htmlFor="form-control">אימות סיסמה</label>
                         <input
                           type="password"
                           placeholder="אימות סיסמה"

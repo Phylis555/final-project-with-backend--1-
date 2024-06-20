@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { multiStepContextEdit } from './EditFundContext'
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,6 +10,7 @@ export default function StepOne() {
     const { fundData, setFundData, formErrorsStep1, handleNext } = useContext(multiStepContextEdit)
     const currDate = dayjs().add(1, 'year');
 
+    // Validate if budget is greater than current amount
     useEffect(() => {
         if (fundData.budget < fundData.currentAmount) {
             formErrorsStep1.budget = "התקציב חייב להיות גדול מהסכום שנאסף כעת (₪" + fundData.currentAmount + ")"
@@ -21,6 +21,7 @@ export default function StepOne() {
         <>
             <div className="card-body" dir="rtl">
                 <form className="text-start">
+                    {/* Title */}
                     <div className="form-group text-center pb-3">פרטי גיוס כספים</div>
                     <label className="form-label">כותרת</label>
                     <div className="input-group input-group-outline mb-1">
@@ -28,45 +29,45 @@ export default function StepOne() {
                             type="text"
                             className="form-control"
                             placeholder=""
-                            value={fundData['title']}
+                            value={fundData['title'] || ''}
                             onChange={(e) => { setFundData({ ...fundData, "title": e.target.value }) }} />
                     </div>
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.title}
                     </div>
-
+                    {/* Target */}
                     <label className="form-label">מטרה</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
                             type="text"
                             className="form-control"
                             placeholder=""
-                            value={fundData['target']}
+                            value={fundData['target'] || ''}
                             onChange={(e) => { setFundData({ ...fundData, "target": e.target.value }) }} />
                     </div>
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.target}
                     </div>
-
+                    {/* Description */}
                     <label className="form-label">תיאור</label>
                     <div className="input-group input-group-outline mb-1">
                         <textarea
                             rows="10"
                             className="form-control"
                             placeholder=""
-                            value={fundData['description']}
+                            value={fundData['description'] || ''}
                             onChange={(e) => { setFundData({ ...fundData, "description": e.target.value }) }} />
                     </div>
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.description}
                     </div>
-
+                    {/* Ending Date */}
                     <label className="form-label">תאריך סיום</label>
                     <div className="input-group input-group-outline mb-1">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Ending Date"
-                                    value={fundData['endingDate']}
+                                    value={fundData['endingDate'] || ''}
                                     onChange={(newValue) => {
                                         // console.log(newValue);
                                         setFundData({ ...fundData, "endingDate": newValue.$d });
@@ -86,14 +87,14 @@ export default function StepOne() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.endingDate}
                     </div>
-
+                    {/* Budget */}                    
                     <label className="form-label">סכום</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
                             type="text"
                             className="form-control"
                             placeholder=""
-                            value={fundData['budget']}
+                            value={fundData['budget'] || ''}
                             onChange={(e) => {
                                 e.preventDefault()
                                 setFundData({ ...fundData, "budget": e.target.value })
@@ -102,7 +103,7 @@ export default function StepOne() {
                     <div className="text-danger form-label mb-3">
                         {formErrorsStep1.budget}
                     </div>
-
+                    {/* Next Button */}            
                     <div className="row d-flex justify-content-center">
                         <div className='col-lg-4 col-md-4 col-sm-4'>
                             <button type="button" onClick={handleNext} className="btn bg-gradient-primary w-100 my-4 mb-2">הבא</button>

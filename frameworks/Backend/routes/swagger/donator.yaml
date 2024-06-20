@@ -1,0 +1,374 @@
+paths:
+  /createDonation:
+    post:
+      tags:
+        - donator
+      summary: Add a new donation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDonationRequest"
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Donation items not given
+        "422":
+          description: Validation failed
+
+  /getDonations:
+    get:
+      tags:
+        - donator
+      summary: Gives an array of all donations including their items
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Server error
+
+  /deleteDonation/{id}:
+    delete:
+      tags:
+        - donator
+      summary: Delete a donation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Donation already has items donated to it
+        "401":
+          description: User not authorized
+
+  /getCompletedDonations/{id}:
+    get:
+      tags:
+        - donator
+      summary: Get completed donations for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User not found
+
+  /updateDonation/{id}:
+    post:
+      tags:
+        - donator
+      summary: Update an existing donation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDonationRequest"
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Donation not found
+
+  /sendRequest:
+    post:
+      tags:
+        - donator
+      summary: Send a donation request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DonationRequestRequest"
+      responses:
+        "201":
+          description: Created
+
+  /donateFund/{id}:
+    post:
+      tags:
+        - donator
+      summary: Donate to a fund
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DonateFundRequest"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Amount needs to be greater than 0
+        "404":
+          description: Donation not found
+        "422":
+          description: Validation failed
+
+  /getPendingRequests/{id}:
+    get:
+      tags:
+        - donator
+      summary: Get pending donation requests for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User not found
+
+  /acceptRequest/{id}:
+    post:
+      tags:
+        - donator
+      summary: Accept a donation request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: User not auth
+        "404":
+          description: Request not found
+
+  /rejectRequest/{id}:
+    post:
+      tags:
+        - donator
+      summary: Reject a donation request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: User not auth
+        "404":
+          description: Request not found
+
+  /markAsCompleted/{id}:
+    post:
+      tags:
+        - donator
+      summary: Mark a donation as completed
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: User not auth
+        "404":
+          description: Donation not found
+
+  /getApprovedRequests/{id}:
+    get:
+      tags:
+        - donator
+      summary: Get approved donation requests for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User not found
+
+  /getUserDonations/{id}:
+    get:
+      tags:
+        - donator
+      summary: Get all donations for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateDonationRequest:
+      type: object
+      required:
+        - donationTitle
+        - email
+        - donationEndDate
+        - contactNumber
+        - donationDescription
+      properties:
+        donationTitle:
+          type: string
+          minLength: 5
+        email:
+          type: string
+          format: email
+        donationEndDate:
+          type: string
+          format: date-time
+          example: "2024-05-27T00:00:00Z"
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        donationDescription:
+          type: string
+          minLength: 5
+        wantedItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/WantedItem"
+
+    UpdateDonationRequest:
+      type: object
+      required:
+        - donationTitle
+        - email
+        - contactNumber
+        - donationDescription
+      properties:
+        donationTitle:
+          type: string
+          minLength: 5
+        email:
+          type: string
+          format: email
+        contactNumber:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        donationDescription:
+          type: string
+          minLength: 5
+
+    DonationRequestRequest:
+      type: object
+      required:
+        - requesterName
+        - requesterEmail
+        - requesterContact
+        - requestDescription
+      properties:
+        requesterName:
+          type: string
+        requesterEmail:
+          type: string
+          format: email
+        requesterContact:
+          type: string
+          pattern: '^(\+972|0)([23489]|5[0-9]|7[1237469])[0-9]{7}$'
+        requestDescription:
+          type: string
+          minLength: 5
+        items:
+          $ref: "#/components/schemas/WantedItem"
+    DonateFundRequest:
+      type: object
+      required:
+        - userID
+        - fundID
+        - amount
+        - organizationID
+      properties:
+        userID:
+          type: string
+        fundID:
+          type: string
+        amount:
+          type: number
+        organizationID:
+          type: string
+
+    WantedItem:
+      type: object
+      required:
+        - itemName
+        - itemType
+        - quantity
+      properties:
+        itemName:
+          type: string
+        itemType:
+          type: string
+        quantity:
+          type: integer

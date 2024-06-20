@@ -68,8 +68,8 @@ router.post(
   isAuth,
   updateFund
 );
-router.delete("/delete/:id", isAuth, isCorrectUser, deleteFund);
-router.post("/remove/:id", isAuth, isCorrectUser, removeFund);
+router.delete("/delete/:id", isAuth, deleteFund);
+router.post("/remove/:id", isAuth, deleteFund);
 router.get("/status/:status", getFundByStatus);
 router.get("/:oranizationID/:fundID", getOrganizationFunds);
 router.get("/:organizationID/status/:status", getFundByOrganizationAndStatus);
