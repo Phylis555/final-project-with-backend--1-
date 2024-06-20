@@ -19,7 +19,14 @@ export default function SideNav(props) {
   };
   return (
     <>
-      <div style={{ position: "absolute", top: "10px", left: "10px" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          cursor: "pointer",
+        }}
+      >
         <a
           href="http://localhost:8070/api-docs/#/"
           target="_blank"
