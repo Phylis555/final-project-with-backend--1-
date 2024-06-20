@@ -76,5 +76,41 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 });
+    inputContainer: {
+        backgroundColor: Colors.inputA, 
+        height: 50, 
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15
+    },
+    inputContent: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        flex: 1,
+        textAlign: 'right',
+        paddingHorizontal: 15
+    },
+    label: {
+        fontSize: 16, 
+        fontWeight: '500', 
+        color: Colors.primary, 
+        textAlign: 'right',
+        marginVertical: 10
+    },
+    icon: {
+        alignSelf: 'flex-end', 
+    },
+    inputContainer2: {
+        borderColor: Colors.primary, 
+        borderStyle: 'solid',
+        borderWidth: 2,
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15
+    }
+})
+
 
 export default TypeAInput;
