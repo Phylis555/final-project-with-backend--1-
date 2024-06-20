@@ -16,7 +16,7 @@ function BottomTabNavigator() {
     }}>
       <Tab.Screen name="home2" component={HomeScreen} options={{
         tabBarIcon: () => (
-            <Feather name="home" size={20} color={Colors.light}/>
+            <Feather name="home" size={20} color={Colors.primary}/>
         )
       }}/>
       <Tab.Screen name="addItem" component={AddItem} options={{
@@ -26,7 +26,7 @@ function BottomTabNavigator() {
       }}/>
       <Tab.Screen name="addFund" component={Account} options={{
         tabBarIcon: () => (
-            <Feather name="user" size={20} color={Colors.light}/>
+            <Feather name="user" size={20} color={Colors.primary}/>
         )
       }}/>
     </Tab.Navigator>

@@ -9,6 +9,7 @@ import { Feather } from '@expo/vector-icons'
 import Colors from '../utils/colors'
 import ChangePass from '../screens/authentication/changePassword'
 import CashBottomNav from './CashBottomNav'
+import Dashboard from '../screens/DashboardProfile'
 import UserHistory from '../screens/History'
 import Help from '../screens/HelpScreen'
 const Drawer = createDrawerNavigator();
@@ -45,27 +46,21 @@ function DrawerNav() {
           )
         }}
       /> */}
-      <Drawer.Screen name="Product Donation" component={BottomTabNavigator} 
-        options={{
-          drawerIcon: () => (
-            <Feather name='gift' size={15}/>
-          )
-        }}
-      />
-      <Drawer.Screen name="CashDonation" component={CashBottomNav} 
-        options={{
-          drawerIcon: () => (
-            <Feather name='dollar-sign' size={15}/>
-          )
-        }}
-      />
-      <Drawer.Screen name="history" component={UserHistory} 
+      <Drawer.Screen name="תרומות שלי" component={Dashboard} 
         options={{
           drawerIcon: () => (
             <Feather name='bookmark' size={15}/>
           )
         }}
       />
+      <Drawer.Screen name="גיוס כספים לעמותות" component={CashBottomNav} 
+        options={{
+          drawerIcon: () => (
+            <Feather name='dollar-sign' size={15}/>
+          )
+        }}
+      />
+ 
       <Drawer.Screen name="אודות" component={Help} 
         options={{
           drawerIcon: () => (

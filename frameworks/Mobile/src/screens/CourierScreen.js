@@ -85,20 +85,19 @@ export default class Messenger extends Component {
                         <TypeAInput label={'אימות סיסמא'} placeholder={'Password'} secureTextEntry={true} autoCapitalize="none" onChangeText={(confirmPassword) => this.setState({ confirmPassword })}/>
                     </View>
                         <CustomBtn1 title={'הירשם'} onPress={this.signUp}/>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Checkbox
-                                status={this.state.policy ? 'checked' : 'unchecked'}
-                                onPress={() => {this.setState({policy: !(this.state.policy)})}}
-                            />
-                            <Text style={{color: Colors.light, fontSize: 15.5}}>Agree with 
-                                <Text style={{color: Colors.primary}}
-                                onPress={() => alert('long list of privacy & policies go here')}
-                                > Policy </Text>
-                            </Text>
-                        </View>
-                    <View>
-                        
-                    </View>
+                        <View style={styles.policyContainer}>
+              <View style={styles.checkboxContainer}>
+                <Checkbox
+                  status={this.state.policy ? 'checked' : 'unchecked'}
+                  onPress={() => { this.setState({ policy: !(this.state.policy) }) }}
+                  color={Colors.primary} // Set the color of the checkbox
+                  uncheckedColor={Colors.primary} // Set the color when unchecked
+                />
+              </View>
+              <Text style={styles.policyText}>
+                אני מסכים עם כל התנאים, ההגבלות ולמדיניות הפרטיות
+              </Text>
+            </View>
                 </ScrollView>
             </SafeAreaView>
             </>
@@ -115,6 +114,22 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         paddingHorizontal: 30
     },
+    policyContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+      },
+      checkboxContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Transparent black background
+        borderRadius: 4,
+        padding: 4,
+      },
+      policyText: {
+        color: Colors.פ,
+        fontSize: 15.5,
+        flex: 1,
+        textAlign: 'right', // Align the text to the right
+      },
 })
 
 
