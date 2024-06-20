@@ -127,9 +127,30 @@ export default function CreateDonation() {
     }
 
     setLoading(true);
+<<<<<<< HEAD
     console.log(donationImage);
     const userID = userId;
 
+=======
+<<<<<<< HEAD
+    e.preventDefault();
+    const donationImage = filesarr.base64;
+    console.log("//////imageeee");
+    console.log(typeof donationImage);
+
+    console.log(donationImage);
+    const userID = userId;
+
+    console.log(donationEndDate);
+    console.log(typeof donationEndDate);
+
+
+=======
+    console.log(donationImage);
+    const userID = userId;
+
+>>>>>>> b4a170f4d0e369151f7819f6e985f51ca1d9ff6f
+>>>>>>> 2db0b4e (add error catch)
     const donation = {
       userID,
       donationTitle,
