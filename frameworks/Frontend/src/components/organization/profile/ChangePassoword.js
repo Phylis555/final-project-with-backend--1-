@@ -6,16 +6,18 @@ export default function ChangePassoword({ organizationId }) {
     const [rePassword, setRePassword] = useState("")
     const [formErrors, setFormErrors] = useState({})
     const [alert, setAlert] = useState({})
-
+    
+    // Handle password change submission
     const changePassword = (e) => {
         e.preventDefault()
+        // Validate new password
         if (newPassword.length < 8) {
             setFormErrors({ newPassword: "הסיסמה חייבת להיות באורך 8 תווים לפחות" })
         } else if (newPassword !== rePassword) {
             setFormErrors({ rePassword: "סיסמאות לא תואמות" })
         } else {
             setFormErrors({})
-            // console.log(organizationId, newPassword);
+            // Make API call to change password 
             changeOrganizationPassword(organizationId, { password: newPassword })
                 .then(res => {
                     setNewPassword("")
@@ -26,7 +28,7 @@ export default function ChangePassoword({ organizationId }) {
                 })
         }
     }
-
+    // Close the alert message
     const closeAlert = (e) => {
         e.preventDefault()
         setAlert({})
@@ -35,8 +37,8 @@ export default function ChangePassoword({ organizationId }) {
     return (
         <div>
             <div className="card-body">
-                {
-                    alert.type && alert.type === "success" ? (
+                {/* Display alert message */}
+                {alert.type && alert.type === "success" ? (
                         <div className="alert alert-success alert-dismissible text-white" role="alert">
                             <span className="text-sm">{alert.message}</span>
                             <button type="button" className="btn-close text-lg py-3 opacity-10" onClick={closeAlert}>
@@ -54,13 +56,13 @@ export default function ChangePassoword({ organizationId }) {
                         ) : null
                     )
                 }
+                {/* Change password form */}
                 <form className="text-start">
                     <label className="form-label">סיסמה חדשה</label>
                     <div className="input-group input-group-outline mb-1">
                         <input
                             type="password"
                             className="form-control"
-                            // placeholder="Password"
                             value={newPassword}
                             onChange={(e) => { setNewPassword(e.target.value) }} />
                     </div>
@@ -73,7 +75,6 @@ export default function ChangePassoword({ organizationId }) {
                         <input
                             type="password"
                             className="form-control"
-                            // placeholder="Re-type Password"
                             value={rePassword}
                             onChange={(e) => { setRePassword(e.target.value) }} />
                     </div>

@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const Organization = require("../../models/organization.model");
 
-const editOrganization = async (req, res) => {
+const editOrganization = async (req, res, next) => {
   try {
     // const errors = validationResult(req);
     // console.log(errors);
@@ -10,44 +10,45 @@ const editOrganization = async (req, res) => {
     //   return;
     // }
     const orgID = req.params.id;
-      const name=req.body.OrgName;
-      const address =req.body.OrgAddress;
-      const contactNumber =req.body.OrgContactNo;
-      const email =req.body.OrgEmail;
-      const status =req.body.OrgStatus;
-      const zipCode=req.body.OrgZipCode;
-      const presidentContactNumber=req.body.pContactNo;
-      const presidentEmail=req.body.pemail;
-      const presidentName=req.body.pname;
-      const secretaryContactNumber=req.body.sContactNo;
-      const secretaryEmail=req.body.semail;
-      const secretaryName= req.body.sname;
+    const name = req.body.OrgName;
+    const address = req.body.OrgAddress;
+    const contactNumber = req.body.OrgContactNo;
+    const email = req.body.OrgEmail;
+    const status = req.body.OrgStatus;
+    const zipCode = req.body.OrgZipCode;
+    const presidentContactNumber = req.body.pContactNo;
+    const presidentEmail = req.body.pemail;
+    const presidentName = req.body.pname;
+    const secretaryContactNumber = req.body.sContactNo;
+    const secretaryEmail = req.body.semail;
+    const secretaryName = req.body.sname;
 
     const updateOrganization = {
-       name,
-       address, 
-       contactNumber,
-       email, 
-       status, 
-       zipCode,
-       presidentContactNumber,
-       presidentEmail,
-       presidentName,
-       secretaryContactNumber,
-       secretaryEmail,
-       secretaryName,
+      name,
+      address,
+      contactNumber,
+      email,
+      status,
+      zipCode,
+      presidentContactNumber,
+      presidentEmail,
+      presidentName,
+      secretaryContactNumber,
+      secretaryEmail,
+      secretaryName,
     };
 
-    await Organization.findByIdAndUpdate(orgID, updateOrganization)
-      .then((organization) => {
-        console.log(organization);
-        res.status(200).send({ status: "Organization updated" });
-      })
-      .catch(() => {
-        res.status(500).send({ status: "error" });
-      });
-  } catch (error) {
-    console.log(error);
+    const organization = await Organization.findByIdAndUpdate(
+      orgID,
+      updateOrganization
+    );
+    console.log(organization);
+    res.status(200).send({ status: "Organization updated" });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 };
 

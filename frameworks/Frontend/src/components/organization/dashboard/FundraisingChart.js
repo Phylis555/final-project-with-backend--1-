@@ -5,11 +5,12 @@ import { getContributionChart } from '../../../api/organization.api';
 import GenerateReport from './GenerateReport';
 
 export default function FundraisingChart({ organizationId }) {
-
+    // Array to hold months of the year
     const months = [...Array(12).keys()].map((i) => i + 1);
-
+    // State to hold chart data
     const [chartData, setChartData] = useState([])
 
+    // Fetch contribution chart data when organizationId changes
     useEffect(() => {
         getContributionChart(organizationId).then((res) => {
             const data = res.data.chartData;
@@ -25,9 +26,11 @@ export default function FundraisingChart({ organizationId }) {
                 <div className="card-body p-0 ps-4 pt-4 ">
                     <h6 className="mb-0 ">גרף תרומות {new Date().getFullYear()}</h6>
                 </div>
+                {/* Chart container */}
                 <div className="card-header p-0 m-3 bg-transparent">
                     <div className="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
                         <div className="chart p-3">
+                            {/* Chart component */}
                             <Chart
                                 type='line'
                                 height={400}
@@ -36,7 +39,6 @@ export default function FundraisingChart({ organizationId }) {
                                     datasets: [{
                                         label: "This month",
                                         tension: 0,
-                                        // borderWidth: 0,
                                         pointRadius: 5,
                                         pointBackgroundColor: "rgba(255, 255, 255, .8)",
                                         pointBorderColor: "transparent",
@@ -110,6 +112,7 @@ export default function FundraisingChart({ organizationId }) {
                         </div>
                     </div>
                 </div>
+                {/* Generate report component */}
                 <GenerateReport organizationId={organizationId} />
             </div>
         </div>

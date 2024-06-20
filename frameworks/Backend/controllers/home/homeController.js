@@ -2,7 +2,7 @@ const Donation = require("../../models/donation.model");
 const Fund = require("../../models/fund.model");
 const RequestFund = require("../../models/requestFund.model");
 
-const getRandomDonations = async (req, res) => {
+const getRandomDonations = async (req, res, next) => {
   // Get 3 random donations to view in the home page
   // To increase the random number edit the size int
   try {
@@ -23,7 +23,7 @@ const getRandomDonations = async (req, res) => {
   }
 };
 
-const getRandomRequests = async (req, res) => {
+const getRandomRequests = async (req, res, next) => {
   try {
     await RequestFund.aggregate([
       { $match: { status: "active" } },
@@ -42,7 +42,7 @@ const getRandomRequests = async (req, res) => {
   }
 };
 
-const getRandomFunds = async (req, res) => {
+const getRandomFunds = async (req, res, next) => {
   try {
     await Fund.aggregate([
       { $match: { status: "approved" } },

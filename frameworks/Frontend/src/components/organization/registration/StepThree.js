@@ -3,9 +3,10 @@ import { multiStepContext } from './StepContex'
 import { FileUploader } from "react-drag-drop-files";
 
 export default function StepThree() {
+  // Accessing multiStepContext
   const { setCurrentStep, userData, setUserData, imageFile, setImageFile, formErrors } = useContext(multiStepContext)
+  // Allowed file types
   const fileTypes = ["JPEG", "JPG", "PNG"];
-
 
   // Convert file into base64
   function getBase64(file, cb) {
@@ -19,10 +20,10 @@ export default function StepThree() {
     };
   }
 
+  // Handle file change
   const handleChange = (file) => {
     setImageFile(file);
     getBase64(file, (result) => {
-      // let output = result;
       setUserData({ ...userData, "registrationCertificate": result })
     })
   }
@@ -30,6 +31,7 @@ export default function StepThree() {
   return (
     <>
       <div className="card-body">
+        {/* File Upload Section */}
         <div className="form-group text-center pb-3">העלה תעודת רישום/לוגו של הארגון</div>
         <div className='text-center'>
           <div className='d-flex justify-content-center'>
@@ -39,9 +41,11 @@ export default function StepThree() {
           <p>{imageFile ?
             <img className='rounded img-fluid w-50 mx-auto d-block' src={userData.registrationCertificate} alt={imageFile.name} /> : ""}</p>
         </div>
-        <div className="text-danger form-label mb-3">
+        {/* Display form errors */}
+        <div className="text-danger form-label mt-4">
           {formErrors.registrationCertificate}
         </div>
+        {/* Navigation Buttons */}
         <div className="row d-flex justify-content-center">
           <div className='col-lg-4 col-md-4 col-sm-4'>
             <button type="button" onClick={() => setCurrentStep(2)} className="btn bg-gradient-secondary w-100 my-4 mb-2">הקודם </button>

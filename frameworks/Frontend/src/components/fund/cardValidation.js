@@ -1,6 +1,6 @@
 var errors = {};
 
-const cardNumberPattern = /^[0-9]{16}$/;
+const cardNumberPattern = /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/;
 const cardExpiryPattern = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
 const cardCvvPattern = /^[0-9]{3,4}$/;
 

@@ -1,0 +1,362 @@
+paths:
+  /reqorglist:
+    get:
+      tags:
+        - admin
+      summary: Get requested organizations
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /approvedorg:
+    get:
+      tags:
+        - admin
+      summary: Get approved organizations
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /vieworg/{id}:
+    get:
+      tags:
+        - admin
+      summary: Get organization details
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Organization not found
+
+  /reqfunds:
+    get:
+      tags:
+        - admin
+      summary: Get requested funds
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /approvedfunds:
+    get:
+      tags:
+        - admin
+      summary: Get approved funds
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /deletereqorg/{id}:
+    delete:
+      tags:
+        - admin
+      summary: Delete requested organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Organization not found
+
+  /editorg/{id}:
+    put:
+      tags:
+        - admin
+      summary: Edit organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditOrganizationRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Organization not found
+
+  /uporgstatus/{id}:
+    put:
+      tags:
+        - admin
+      summary: Update organization status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrganizationStatusRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Organization not found
+
+  /upfundstatus/{id}:
+    put:
+      tags:
+        - admin
+      summary: Update fund status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFundStatusRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Fund not found
+
+  /updostauts/{id}:
+    put:
+      tags:
+        - admin
+      summary: Update donation status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDonationStatusRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Donation not found
+
+  /getpdon/:
+    get:
+      tags:
+        - admin
+      summary: Get all pending donations
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /getaccepteddon/:
+    get:
+      tags:
+        - admin
+      summary: Get all accepted donations
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /getusers:
+    get:
+      tags:
+        - admin
+      summary: Get all users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+
+  /deletedonreq/{id}:
+    delete:
+      tags:
+        - admin
+      summary: Delete donation request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Donation request not found
+
+  /rejectdonation/{id}:
+    put:
+      tags:
+        - admin
+      summary: Reject donation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RejectDonationRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Donation not found
+
+  /deleteuser/{id}:
+    delete:
+      tags:
+        - admin
+      summary: Delete user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: User not found
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    EditOrganizationRequest:
+      type: object
+      required:
+        - OrgName
+        - OrgAddress
+        - OrgContactNo
+        - OrgEmail
+        - OrgStatus
+        - OrgZipCode
+        - pContactNo
+        - pemail
+        - pname
+        - sContactNo
+        - semail
+        - sname
+      properties:
+        OrgName:
+          type: string
+        OrgAddress:
+          type: string
+        OrgContactNo:
+          type: string
+        OrgEmail:
+          type: string
+          format: email
+        OrgStatus:
+          type: string
+        OrgZipCode:
+          type: string
+        pContactNo:
+          type: string
+        pemail:
+          type: string
+          format: email
+        pname:
+          type: string
+        sContactNo:
+          type: string
+        semail:
+          type: string
+          format: email
+        sname:
+          type: string

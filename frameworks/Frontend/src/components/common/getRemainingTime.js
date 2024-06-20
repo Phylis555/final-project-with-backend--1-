@@ -1,8 +1,7 @@
 import moment from "moment";
 
-// Calculate the remaining time to endthe fundraising
+// Calculate the remaining time 
 export const getRemainingTime = (endingDate) => {
-    // endingDate = '2022-09-28';
     var timeDiff = moment(endingDate).diff(moment(), 'days');
     if (timeDiff === 0) {
         timeDiff = moment(endingDate).diff(moment(), 'hours');

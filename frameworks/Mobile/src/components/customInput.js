@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 16, 
         fontWeight: '500', 
-        color: Colors.light, 
+        color: Colors.primary, 
+        textAlign: 'right',
         marginVertical: 10
     },
     icon: {
