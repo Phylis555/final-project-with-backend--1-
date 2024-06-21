@@ -1,7 +1,7 @@
 
 # Instant-Giving - Donation App
 
-Instant-Giving is a mobile application developed with React Native and Expo that allows users to donate products and cash to various activities and causes. This 
+Instant-Giving is a mobile application developed with React Native and Expo that allows users to donate products and cash to various activities and causes. 
 
 
 
