@@ -7,6 +7,15 @@
 // import { getRemainingTime } from '../../../components/getRemainingTime'
 
 // const Card = ({details}) => {
+// import { Image, Pressable, StyleSheet, TouchableOpacity,Text, View } from 'react-native'
+// import React from 'react'
+// import fontStyle from '../../../utils/fontStyles'
+// import { SimpleLineIcons } from '@expo/vector-icons'
+// import Colors from '../../../utils/colors'
+// import { useNavigation } from '@react-navigation/native'
+// import { getRemainingTime } from '../../../components/getRemainingTime'
+
+// const Card = ({details}) => {
 
 //     const navigation = useNavigation();
 

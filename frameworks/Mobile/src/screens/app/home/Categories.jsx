@@ -1,3 +1,32 @@
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View , TouchableWithoutFeedback} from 'react-native'
+import React, { useState } from 'react'
+import fontStyle from '../../../utils/fontStyles'
+import Colors from '../../../utils/colors'
+import { categories } from '../../../utils/Constant'
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+
+
+const Categories = ({onCategorySelect, onSortPress }) => {
+  const [activeCategory,setActiveCategory] = useState('הכל');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [sortBy, setSortBy] = useState("");
+
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleSortOption = (option) => {
+    onSortPress(option); // Call the passed sorting function
+    setDropdownVisible(false);
+  };
+
+  const handleOutsidePress = () => {
+    if (dropdownVisible) {
+      setDropdownVisible(false);
+    }
+  };
+
 import {
   ScrollView,
   StyleSheet,

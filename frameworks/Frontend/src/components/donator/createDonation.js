@@ -196,6 +196,7 @@ export default function CreateDonation() {
 
     setLoading(true);
 <<<<<<< HEAD
+<<<<<<< HEAD
     e.preventDefault();
     const donationImage = filesarr.base64;
     console.log("//////imageeee");
@@ -207,6 +208,15 @@ export default function CreateDonation() {
     console.log(donationImage);
     const userID = userId;
 
+    console.log(donationEndDate);
+    console.log(typeof donationEndDate);
+
+
+=======
+    console.log(donationImage);
+    const userID = userId;
+
+>>>>>>> b4a170f4d0e369151f7819f6e985f51ca1d9ff6f
     console.log(donationEndDate);
     console.log(typeof donationEndDate);
 
@@ -511,6 +521,69 @@ export default function CreateDonation() {
                         הוסף
                       </button>
                       </button>
+                    </div>
+                    <div>
+                      {wantedItems.length > 0 && (
+                        <div>
+                          <h4>הפריטים המבוקשים:</h4>
+                          <ul>
+                            <table className="table  table-hover text-center">
+                              <thead className="table-primary ">
+                                <tr>
+                                  <th scope="col">קטגוריה</th>
+                                  <th scope="col">שם הפריט</th>
+                                  <th scope="col">כמות</th>
+                                  <th scope="col">פעולות</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {wantedItems.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{item.category}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>
+                                      <button
+                                        className="btn btn p-0 ms-5"
+                                        onClick={() => handleEditItem(index)}
+                                      >
+                                        <i className="fas fa-edit text-info fs-5"></i>
+                                      </button>
+                                      <button
+                                        className="btn p-0"
+                                        onClick={() => handleDeleteItem(index)}
+                                      >
+                                        <i className="bi bi-trash text-danger fs-5"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                    <div className="input-group mb-3 input-group input-group-outline mb-3">
+                      <textarea
+                        className="form-control"
+                        placeholder="תיאור אודות התרומה*"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        onChange={(e) => {
+                          setDonationDescription(e.target.value);
+                        }}
+                        required
+                      ></textarea>
+                    </div>
+                    <div>הוספת תמונה</div>
+                      <FileBase64 onDone={(files) => fileUpload(files)} />
+                    <div className="text-center">
+                      {wantedItems.length > 0 && (
+                        <button type="submit" className="btn btn-secondary" onClick={() => setSubmitButtonClicked(true)}>
+                         יצירת בקשה לתרומה
+                        </button>
+                      )}
                     </div>
                     <div>
                       {wantedItems.length > 0 && (
