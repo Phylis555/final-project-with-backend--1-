@@ -26,7 +26,6 @@ Once the app is running, you can use it to:
 
 -   Create an account and manage your donations.
 -   Donate products by providing item descriptions and viewing their locations on the map.
--   Email item donors with just one click.
 -   Donate cash to activities and view their status.
 -   Make open donations of any amount.
 -   Perform CRUD operations on items and activities.
