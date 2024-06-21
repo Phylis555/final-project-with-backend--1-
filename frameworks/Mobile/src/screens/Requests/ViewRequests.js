@@ -5,8 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getApprovedRequests, getOneDonation, getRequests } from "../../api/donator.api";
 import RequestCard from "./RequestCard";
 import NoItems from "../../components/NoItems";
-import { TabView } from 'react-native-tab-view';
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { TabView, TabBar } from 'react-native-tab-view';
+import  Colors  from "../../utils/colors";
 import PDFLib, { PDFDocument, PDFPage } from 'react-native-pdf-lib';
 
 const initialLayout = { width: Dimensions.get('window').width };
@@ -163,6 +163,13 @@ class ViewRequests extends Component {
         Alert.alert('PDF created', `PDF has been created at ${path}`);
       });
   };
+  renderTabBar = props => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: Colors.black }}
+      style={{ backgroundColor: Colors.primary }}
+    />
+  );
 
   render() {
     const { loading } = this.state;
@@ -179,6 +186,7 @@ class ViewRequests extends Component {
       <SafeAreaView style={styles.safeArea}>
         <TabView
           navigationState={{ index: this.state.index, routes: this.state.routes }}
+          renderTabBar={this.renderTabBar}
           renderScene={({ route }) => {
             switch (route.key) {
               case 'first':

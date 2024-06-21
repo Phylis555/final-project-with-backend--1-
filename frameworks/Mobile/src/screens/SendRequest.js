@@ -22,6 +22,7 @@ export default class SendRequest extends Component {
             requesterEmail:"",
             requesterContact:"",
             requestDescription:"",
+            donationItemsForItenAmount:[],
 
             donationItems: [],
             inputValues: [],
@@ -81,7 +82,7 @@ whenStartItemQuantityChange = () => {
             donationItemsForItenAmount: res.data.donation.wantedItems,
             loading: false,
           });
-          this.whenStartItemQuantityChange();
+        //  this.whenStartItemQuantityChange();
         })
         .catch((error) => {
           console.error("Error fetching donation:", error);
@@ -91,15 +92,16 @@ whenStartItemQuantityChange = () => {
 
 
     };
-    whenStartItemQuantityChange = () => {
-        this.setState((prevState) => ({
-          donationItems: prevState.donationItems.map((item) => ({ ...item, receivedAmount: 0 }))
-        }));
-        console.log("///////requestttttterr")
+    // whenStartItemQuantityChange = () => {
+        
+    //     this.setState((prevState) => ({
+    //       donationItems: prevState.donationItems.map((item) => ({ ...item, receivedAmount: 0 }))
+    //     }));
+    //     console.log("///////requestttttterr")
 
-        console.log(this.state.donationItems)
+    //     console.log(this.state.donationItems)
 
-      };
+    //   };
 
       handleItemQuantityChange = (itemId, quantity) => {
         const { donationItems } = this.state;
@@ -145,7 +147,7 @@ whenStartItemQuantityChange = () => {
                 {
                     text: 'OK',
 
-                    onPress: () =>  this.props.navigation.navigate('home'), // Adjust 'Home' to your home screen route
+                    onPress: () =>  this.props.navigation.navigate('home2'), // Adjust 'Home' to your home screen route
                 },
             ]);
         } catch (error) {
@@ -221,7 +223,7 @@ whenStartItemQuantityChange = () => {
                                                 width={90}
                                                 height={35}
                                                 rounded
-                                                value={item.receivedAmount}
+                                                value={0}
                                                 onChange={(value) => this.handleItemQuantityChange(item.item._id, parseInt(value))}
                                                 />
                                         </DataTable.Cell>

@@ -4,7 +4,7 @@
     TypeB ------->>>>> All other screens Input [@Michael]
 
 */
-import React  from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import Colors from "../utils/colors";
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
@@ -12,21 +12,28 @@ import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
 const TypeAInput = (props) => {
 
-    const [hidePassword, setHidePassword] = React.useState(props.password);
-
-    return(
-        <View style={{marginBottom: 20}}>
+    const [hidePassword, setHidePassword] = useState(props.password);
+    return (
+        <View style={{ marginBottom: 20 }}>
             <Text style={styles.label}>
                 {props.label}
             </Text>
             <View style={styles.inputContainer}>
-                <Icon name={props.iconName} size={15}/>
-                <TextInput 
+                <Icon name={props.iconName} size={15} />
+                {props.password && (
+                    <Icon
+                        name={hidePassword ? "eye-off" : "eye"}
+                        size={15}
+                        onPress={() => setHidePassword(!hidePassword)}
+                        style={styles.icon}
+                    />
+                )}
+                <TextInput
                     secureTextEntry={hidePassword}
                     style={styles.inputContent}
                     autoCorrect={false}
                     {...props}
-                    ></TextInput>
+                />
             </View>
         </View>
     );
@@ -53,8 +60,8 @@ export function TypeBInput(props) {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        backgroundColor: Colors.inputA, 
-        height: 50, 
+        backgroundColor: Colors.inputA,
+        height: 50,
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -65,22 +72,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         flex: 1,
         textAlign: 'right',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+
     },
     label: {
-        fontSize: 16, 
-        fontWeight: '500', 
-        color: Colors.primary, 
+        fontSize: 16,
+        fontWeight: '500',
+        color: Colors.primary,
         textAlign: 'right',
         marginVertical: 10
     },
     icon: {
-        alignSelf: 'flex-end', 
+        alignSelf: 'center',
+        marginLeft: 10,
     },
     inputContainer2: {
-        borderColor: Colors.primary, 
+        borderColor: Colors.primary,
         borderStyle: 'solid',
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',

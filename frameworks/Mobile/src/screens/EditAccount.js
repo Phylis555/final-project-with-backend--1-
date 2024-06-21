@@ -48,6 +48,8 @@ export default class EditAccount extends Component {
     // Effect to fetch data when component mounts
     componentDidMount() {
         this.fetchData();
+
+        
     }
 
     // Effect to fetch profile data when userId changes
@@ -75,14 +77,14 @@ export default class EditAccount extends Component {
         updateProfile(this.state.userId, {
             firstName: this.state.profileData.firstName,
             lastName: this.state.profileData.lastName,
-            contactNumber: '0' + this.state.profileData.contactNumber,
+            contactNumber: this.state.profileData.contactNumber,
             email: this.state.profileData.email,
         },this.state.token)
             .then(() => {
                 Alert.alert("הצלחה","הפרופיל עודכן בהצלחה");
                    
-                this.props.navigation.goBack()
-                    
+                this.props.navigation.navigate('account');
+    
              
             })
             .catch((error)=>{

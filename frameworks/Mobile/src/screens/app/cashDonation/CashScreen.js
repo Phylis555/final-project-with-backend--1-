@@ -1,83 +1,88 @@
-import { FlatList, StyleSheet, View, ImageBackground } from 'react-native'
-import React, { Component } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Header from './Header'
-import Card from './Card'
-import Loader from '../../../components/Loader'
-
+import { FlatList, StyleSheet, View, RefreshControl } from 'react-native';
+import React, { Component } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from './Header';
+import CashCard from './CashCard';
+import Loader from '../../../components/Loader';
+import { getFundByStatus } from '../../../api/fund.api';
 
 export default class CashScreen extends Component {
 
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      dataSource: []
+      ongoingFunds: [],
+      isRefreshing: false
+    };
+  }
+
+  componentDidMount() {
+    this.fetchFunds();
+
+    // Disable the slide back gesture
+    this.props.navigation.setOptions({
+      gestureEnabled: false,
+    });
+  }
+
+  fetchFunds = async () => {
+    try {
+      const res = await getFundByStatus('approved');
+      this.setState({ ongoingFunds: res.data.funds, isLoading: false, isRefreshing: false });
+    } catch (error) {
+      console.error(error);
+      this.setState({ isLoading: false, isRefreshing: false });
     }
-  }
+  };
 
-  
+  handleRefresh = () => {
+    this.setState({ isRefreshing: true });
+    this.fetchFunds();
+  };
 
-  componentDidMount () {
-    fetch("https://onedonation.000webhostapp.com/api/cash.php")
-    .then((response) => response.json())
-    .then((responseJson) => {
+  render() {
+    const { ongoingFunds, isLoading, isRefreshing } = this.state;
 
-      if (responseJson[0].message != "success") {
-          alert('Database Empty');
-          // this.props.navigation.navigate('home');
-      }else{
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson[0].content
-        })
-      }
-      
-    })
-    .catch((error) => {
-        alert('Error: ' + error)
-    })
-  }
-
-
-  render()
-  {
-    let { dataSource } = this.state
-    return(
+    return (
       <>
-      <View style={styles.container}>
-         <Header />
-         <View style={styles.cntContainer}>
-            <FlatList data={dataSource}
-                style={{marginTop:15}}         
-                renderItem={({item,index})=><Card details={item} />}
-                keyExtractor={item=>item.id}
-                contentContainerStyle={styles.content}
-                showsVerticalScrollIndicator={false}
+        <View style={styles.container}>
+          <Header />
+          <View style={styles.cntContainer}>
+            <FlatList
+              data={ongoingFunds}
+              style={{ marginTop: 15 }}
+              renderItem={({ item, index }) => <CashCard details={item} />}
+              keyExtractor={item => item._id}
+              contentContainerStyle={styles.content}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={this.handleRefresh}
+                />
+              }
             />
-         </View>
-     </View>
-     { this.state.isLoading ? <Loader /> : null }
-     </>
-    )
+          </View>
+        </View>
+        {isLoading ? <Loader /> : null}
+      </>
+    );
   }
-
 }
 
 const styles = StyleSheet.create({
-    content:{
-        paddingHorizontal: 20,
-        paddingVertical:20,
-        
-    },
-    container:{
-        flex:1
-    },
-    cntContainer: {
-        marginTop: -30,
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
-        backgroundColor: 'whitesmoke'
-    }
-})
+  content: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  container: {
+    flex: 1
+  },
+  cntContainer: {
+    marginTop: -50,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    backgroundColor: 'whitesmoke'
+  }
+});

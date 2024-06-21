@@ -1,38 +1,51 @@
 
 
 import React, { Component, useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native';
 
 import { SafeAreaView, 
     Text, 
     ScrollView, 
-  
     View,
     StyleSheet,
     FlatList,
     Image,
     Pressable 
 } from 'react-native'
+import { Button } from 'react-native-paper';
+import { DatePickerModal, registerTranslation, en } from 'react-native-paper-dates';
+
+
 import CustomBtn1 from '../components/customButton'
 import { TypeBInput } from '../components/customInput'
 import { Feather } from '@expo/vector-icons'
 import Topic from '../components/topic'
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+
 //import {launchImageLibrary} from 'react-native-image-picker';
 
 import { CategoryA } from '../components/categorySelector'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import ContentLoader from '../components/LoadContent'
-import DateTimePicker from "@react-native-community/datetimepicker";
+import Loader from '../components/Loader';
+
 import Colors from '../utils/colors'
 import { newDonation } from '../api/donator.api'
 import { requesterProfile } from '../api/requester.api'
-import MapView, { Marker, Region } from 'react-native-maps';
 import * as Location from 'expo-location'; // Import Location module
 import MapHandler from '../components/MapHandler';
 
 
+// Register the locale
+registerTranslation('en', en);
 
+const imgDir = FileSystem.documentDirectory + 'images/';
+
+const ensureDirExists = async () => {
+	const dirInfo = await FileSystem.getInfoAsync(imgDir);
+	if (!dirInfo.exists) {
+		await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true });
+	}
+};
 
 export default class AddItem extends Component {
     constructor(props)
@@ -47,7 +60,6 @@ export default class AddItem extends Component {
             donationEndDate: "",
             email:'',
             contactNumber:'',
-            donationEndDate_input: new Date(),
 
 
             donationImage_input: null,
@@ -65,20 +77,44 @@ export default class AddItem extends Component {
 
 
             isUploading: false,
-            isVisible: false
+            isVisible: false,
+
+            date: undefined,
+            open: false,
+
 
         }
 
 
         var dtToday = new Date();
-
-        var nextYear = new Date(dtToday.getFullYear() + 1, dtToday.getMonth(), dtToday.getDate());
-
+        this.nextYear = new Date(dtToday.getFullYear() + 1, dtToday.getMonth(), dtToday.getDate());
+        this.tomorrow = new Date(dtToday.getFullYear(), dtToday.getMonth(), dtToday.getDate() + 1);
 
    
 
     }
+    onDismissSingle = () => {
+        this.setState({ open: false });
+      };
 
+      onConfirmSingle = (params) => {
+        const formattedDate = params.date.toISOString().split('T')[0];
+        
+        this.setState({ open: false, date: params.date, donationEndDate: formattedDate });
+    };
+    
+    convertToBase64 = async (uri) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        return new Promise((resolve) => {
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+        });
+      };
+    
 
     pickImage = async () => {
         try {
@@ -94,10 +130,10 @@ export default class AddItem extends Component {
         if (!result.canceled) {
             console.log(result)
            const base64String = `data:${result.assets[0].mimeType};base64,${result.assets[0].uri}`;
-         //   const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, { encoding: 'base64' });
+           const base64Image = await this.convertToBase64(result.assets[0].uri);
             console.log(base64String)
 
-             this.setState({ donationImage: base64String}); 
+             this.setState({ donationImage: base64Image}); 
               this.setState({ donationImage_input: result.assets[0].uri});
 
 
@@ -116,7 +152,7 @@ export default class AddItem extends Component {
         if (!itemName || !selectedCategory || !wantedQuantity) {
             console.log("///////////empty");
 
-          alert('Please fill all fields');
+          alert('נא למלא את כל השדות');
           return;
         }
       
@@ -166,32 +202,7 @@ export default class AddItem extends Component {
 
 
 
-    onDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        this.setState({donationEndDate_input: currentDate})
-
-
-       
-
-        var month = this.state.donationEndDate_input.getMonth() + 1;
-        var day = this.state.donationEndDate_input.getDate() + 1;
-        var year = this.state.donationEndDate_input.getFullYear();
-        
-      
-        if (month < 10) month = "0" + month.toString();
-        if (day < 10) day = "0" + day.toString();
-
-        var expireDate = year + "-" + month + "-" + day;
-
-        console.log(expireDate)
-        console.log(typeof expireDate)
-
-
-        this.setState({donationEndDate: expireDate})
-        
-
-      };
-
+   
 
 
 
@@ -216,14 +227,14 @@ export default class AddItem extends Component {
             donationTitle: '',
             location: '',
             donationDescription: '',
-            donationEndDate_input: new Date(),
             wantedItems: [],
             itemName: '',
             selectedCategory: '',
             wantedQuantity: '',
             isUploading: false,
 
-
+            date: undefined,
+            open: false,
         });
     };
 
@@ -240,6 +251,12 @@ export default class AddItem extends Component {
     // Effect to fetch data when component mounts
     componentDidMount() {
         this.fetchData();
+
+
+          // Disable the slide back gesture
+        this.props.navigation.setOptions({
+        gestureEnabled: false,
+        });
     }
 
  
@@ -271,7 +288,6 @@ export default class AddItem extends Component {
 
     }
 
-
     }
 
     // Function to handle map press event
@@ -290,20 +306,30 @@ export default class AddItem extends Component {
         }
     };
 
+    clearImage = () => {
+        this.setState({ donationImage: null, donationImage_input: null });
+    }
+
+
     // INSERT FUNCTION
     InsertFunc = async ({navigation}) => {
 
-        // try {
-        console.log("///////////insertttt");
 
         let { wantedItems, userID, token, email, contactNumber, donationTitle,
              location, donationEndDate, donationDescription, donationImage} = this.state
-             console.log(email);
-             console.log(contactNumber);
+        
+            if(donationEndDate == "")
+                {
+                    alert('נא לבחור תאריך סיום לתרומה ');
+                    return;
+                }
 
-
+                if(donationTitle == "" ||location==""||  donationDescription=="")
+                    {
+                        alert(' נא למלא את כל השדות המסומנות בכוכבית(*)');
+                        return;
+                    }
             
-        console.log(token);
 
         if (wantedItems.length === 0) {
             alert('אנא הוסף פריט לפני הגשת הבקשה');
@@ -331,15 +357,16 @@ export default class AddItem extends Component {
             console.log(res);
             alert('תרומה נוצרה בהצלחה!');
             this.clearState();
+            this.setState({isUploading: false})
 
-            console.log(donation);
             this.props.navigation.navigate('dashBoard');
 
         } catch (err) {
-            this.setState({isUploading: true})
 
             console.log(err);
             alert("יצירת התרומה נכשלה");
+            this.setState({isUploading: false})
+
             this.props.navigation.goBack();
         }
           
@@ -349,7 +376,8 @@ export default class AddItem extends Component {
     {
         let {  donationImage_input, isVisible,nextYear, wantedItems,itemName, wantedQuantity, selectedCategory, donationTitle,donationDescription, donationEndDate_input, location} = this.state
       
-        
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
         return(
             <>
             <SafeAreaView style={styles.container}>
@@ -359,31 +387,53 @@ export default class AddItem extends Component {
         renderItem={this.renderItem}
         extraData={this.state}
         ListHeaderComponent={
+
+            
             <View>
                 <Topic title="צור את הבקשה לתרומה שלך" />
                 <Pressable style={styles.imgContainer} onPress={this.pickImage}>
                     <Feather name='plus' size={16} />
-                    <Text>Choose Image</Text>
+                    <Text>בחר תמונה</Text>
                 </Pressable>
-                {donationImage_input && <Image source={{ uri: donationImage_input }} style={styles.selected} />}
+
+
+                {donationImage_input && (
+                                    <>
+                                        <Image source={{ uri: donationImage_input }} style={styles.selected} />
+                                        <Button mode="outlined" onPress={this.clearImage} style={styles.clearButton}>
+                                            הסר תמונה
+                                        </Button>
+                                    </>
+                                )}
                 <TypeBInput label="כותרת*" value = {donationTitle} height={50} onChangeText={(donationTitle) => this.setState({ donationTitle })} />
 
                 <View>
+                <TypeBInput label="מיקום*" value={location} height={55} editable={false} onChangeText={(location) => this.setState({ location })} />
+                <Text style={styles.direvtive}>*לא ניתן להכניס כתובת מדויקת כדי לשמור על פרטיותכם (אנחנו ממליצים לבחור את מיקום ע"י לחיצה על האזור הרלוונטי במפה)</Text>
+
                 <View style={styles.section}>
-                <Text style={styles.label}>Map</Text>
+                <Text style={styles.label}>מפה</Text>
               <MapHandler setLocation={(location) => this.setState({ location })} />
                 </View>
-                            <TypeBInput label="מיקום*" value={location} height={50} onChangeText={(location) => this.setState({ location })} />
                         </View>
 
                 <Text style={styles.label}>תאריך סיום התרומה:</Text>
-                <DateTimePicker
-                    minimumDate={new Date()}
-                    maximumDate={nextYear}
-                    value={donationEndDate_input}
-                    mode={"date"}
-                    onChange={this.onDateChange}
-                />
+         
+                <Button onPress={() => this.setState({ open: true })} uppercase={false} mode="outlined">
+                    בחר תאריך
+            </Button>
+          {this.state.date && (
+                                    <Text style={styles.selectedDate}>תאריך שנבחר: {this.state.donationEndDate}</Text>
+                                )}
+          <DatePickerModal
+            locale="en"
+            mode="single"
+            validRange={{ startDate: this.tomorrow, endDate: this.nextYear }}
+            visible={this.state.open}
+            onDismiss={this.onDismissSingle}
+            date={this.state.date}
+            onConfirm={this.onConfirmSingle}
+          />
 
                 <TypeBInput label="תיאור אודות התרומה*" value = {donationDescription} height={80} multiline={true}numberOfLines={4} onChangeText={(donationDescription) => this.setState({ donationDescription })} />
 
@@ -403,9 +453,9 @@ export default class AddItem extends Component {
             </View>
         }
     />
-    {this.state.isUploading ? <ContentLoader /> : null}
+    {this.state.isUploading ? <Loader /> : null}
             </SafeAreaView>
-            { this.state.isUploading ? <ContentLoader /> : null }
+            { this.state.isUploading ? <Loader /> : null }
             </>
         )
     }
@@ -436,12 +486,22 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 8
     },
+    clearButton: {
+        marginTop: 10, // Add margin to separate from the image
+    },
     label: {
         fontSize: 16, 
         fontWeight: '500', 
         color: Colors.primary, 
         textAlign: 'right',
         marginVertical: 10
+      },
+      direvtive: {
+        fontSize: 10, 
+        fontWeight: '500', 
+        color: 'red', 
+        textAlign: 'right',
+        marginVertical: 5
       },
       row: {
         flexDirection: 'row-reverse',
@@ -468,5 +528,11 @@ const styles = StyleSheet.create({
       },
     map: {
         flex: 1,
+    },
+    selectedDate: {
+        marginTop: 10,
+        fontSize: 16,
+        color: Colors.black,
+        textAlign: 'right',
     }
 })

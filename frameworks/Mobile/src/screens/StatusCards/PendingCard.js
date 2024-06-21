@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, Text, View, StyleSheet,Alert, Pressable } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet,Alert, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import Colors from '../../utils/colors';
@@ -8,6 +8,8 @@ import axios from 'axios';
 
 import { API_URL } from '../../api/config';
 import { getAuthHeader } from '../../components/authHeader';
+import { Card,Button,Avatar,Text } from 'react-native-paper';
+
 
 
 
@@ -33,7 +35,6 @@ const PendingCard = ({ details }) => {
             Alert.alert('הפריט נמחק בהצלחה', '', [
                 {
                   text: 'אשר',
-                  onPress: () => navigation.navigate('dashBoard', { key: new Date().toISOString() }), // Simulate reload with navigation
                 },
               ]);
         } else {
@@ -56,36 +57,32 @@ const PendingCard = ({ details }) => {
 
 
   return (
-    // <View
-    <TouchableOpacity  style={styles.container} onPress={() => navigation.navigate('itemDetails', { pid: details._id })} >
-
-      {/* style={styles.container} */}
-    {/* //  onPress={() => navigation.navigate('itemDetails', { pid: details._id })} */}
-    
-
-          <View>
-
-            <Text
-              numberOfLines={1}
-              style={styles.cardTitle}
-            >
-              {details?.donationTitle}
-            </Text>
-         
-          </View>
-          <View style={styles.iconRow}>
-            <TouchableOpacity onPress={() =>{deleteDonation(details._id)}}>
-            <Icon name="delete" size={24} color={Colors.primary} />
-
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() =>  navigation.navigate('editDonation', { pid: details._id })}>
-            <Icon name="square-edit-outline" size={24} color={Colors.primary} />
-
-            </TouchableOpacity>
-          </View>
-  
+    <Card onPress={() => navigation.navigate('itemDetails', { pid: details._id })}>
    
-     </TouchableOpacity>
+    <View style={styles.cardInfo}>
+
+    <Card.Content>
+          <Text variant="titleLarge">{details.donationTitle}</Text>
+    </Card.Content>
+      
+
+                    <View style={styles.actionsContainer}>
+          <Button
+            onPress={() => deleteDonation(details._id)}
+            style={[styles.actionButton, { backgroundColor: 'white' }]}
+          >
+            <Icon name="delete" size={20} color={Colors.primary} />
+          </Button>
+          <Button
+            onPress={() => navigation.navigate('editDonation', { pid: details._id })}
+            style={[styles.actionButton, { backgroundColor: 'white' }]}
+          >
+            <Icon name="square-edit-outline" size={20} color={Colors.primary} />
+          </Button>
+        </View>
+    </View>
+
+</Card>
   );
 };
 
@@ -106,10 +103,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardInfo: {
-    flex: 1,
-    paddingLeft: 16,
-   // justifyContent: "space-between",
-    gap: 8,
+    flex: 7,
+    padding: 10,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: '#f5f0f0',
+    flexDirection: 'column',
+    alignItems: 'flex-end', // Align text to the right
   },
   cardTitle: {
     fontSize: 18,
@@ -143,5 +146,13 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     flex: 1,
     flexShrink: 1,
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 10,
+  },
+  actionButton: {
+    marginHorizontal: 5,
   },
 });

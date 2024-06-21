@@ -16,17 +16,13 @@ function CashBottomNav() {
     }}>
       <Tab.Screen name="home3" component={CashScreen} options={{
         tabBarIcon: () => (
-            <Feather name="home" size={20} color={Colors.primary}/>
+            <Feather name="home" size={20} color={Colors.yellow}/>
         )
       }}/>
-      <Tab.Screen name="addFund" component={AddFund} options={{
-        tabBarIcon: () => (
-            <Feather name="plus-circle" size={25} color={Colors.primary}/>
-        )
-      }}/>
+  
       <Tab.Screen name="profile" component={Account} options={{
         tabBarIcon: () => (
-            <Feather name="user" size={20} color={Colors.primary}/>
+            <Feather name="user" size={20} color={Colors.yellow}/>
         )
       }}/>
     </Tab.Navigator>

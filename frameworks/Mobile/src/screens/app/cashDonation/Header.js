@@ -4,85 +4,61 @@ import { Feather } from '@expo/vector-icons'
 import Colors from '../../../utils/colors'
 import fontStyle from '../../../utils/fontStyles'
 import { useNavigation } from '@react-navigation/native'
+import { FAB } from 'react-native-paper'
+
 
 const Header = () => {
 
   const navigation = useNavigation();
 
   return (
-    // <ImageBackground imageStyle={styles.image} resizeMode='cover' source={require('../../../../assets/images/headerBg.jpg')} style={styles.container}>
+     <ImageBackground imageStyle={styles.image} resizeMode='cover' source={require('../../../../assets/images/cashDonation.png')} style={styles.container}>
     <View style={styles.wrapper}>
-      <TouchableOpacity style={styles.menu} onPress={() => navigation.openDrawer()}>
-        <Feather name="menu" size={22} color={'white'}/>
-      </TouchableOpacity>
+    <FAB
+        style={styles.fab}
+        icon="home"
+        onPress={() => navigation.navigate('home2')}
 
-      <View style={styles.midTxt}>
-        <View style={styles.row}>
-          <Text style={styles.text}>What</Text>
-          <View style={styles.highlight}>
-              <Text style={[styles.text,fontStyle.bold]}>Goes</Text>
-          </View>
-          <Text style={styles.text}>Around,</Text>
-          <View style={styles.highlight}>
-              <Text style={[styles.text,fontStyle.bold]}>Comes</Text>
-          </View>
-          <Text style={styles.text}>Around</Text>
+      />
 
-        </View>
-      </View>
-
-      <Text style={styles.bottom}>Hello, Prince</Text>
     </View>
-    // </ImageBackground>
+     </ImageBackground>
   )
 }
 
 export default Header
 
 const styles = StyleSheet.create({
-    row:{
-        flexDirection:'row',
-        alignItems:'center',
-        flexWrap:'wrap'
-    },
-    highlight:{
-        backgroundColor:Colors.primary,
-        paddingHorizontal:2,
-        borderRadius:8,
-        paddingVertical:2,
-    },
-    text:{
-        ...fontStyle.medium,
-        color:Colors.typeAColor,
-        fontSize: 22,
-        marginHorizontal:4
-    },
-    midTxt:{
-        position:'absolute',
-        top: '55%',
-        paddingHorizontal:20
-    },
-    menu:{
-        width:30,
-        height:30,
-        backgroundColor:'rgba(151,122,248,.6)',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:6
-    },
-    wrapper:{
-        backgroundColor:"rgba(147,119,248,.8)",
-        height:'35%',
-        paddingHorizontal:20,
-        paddingTop:Platform.OS === 'ios'? 50: 60
-    },
-    bottom: {
-      position: 'absolute',
-      bottom: "20%",
-      left: 30,
-      ...fontStyle.bold,
-      color:Colors.typeAColor,
-      fontSize: 16,
-      marginHorizontal:4
-    }
+  row:{
+    flexDirection:'row-reverse',
+    alignItems:'center',
+    flexWrap:'wrap'
+},
+
+
+
+fab: {
+  position: 'absolute',
+  margin: 16,
+  left: 0,
+  top: 40, // Adjust the position as needed
+  backgroundColor: 'rgba(243, 195, 123, 0.8)',
+},
+wrapper:{
+    backgroundColor:"rgba(0,0,0,0.2)",
+    height:'100%',
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40,
+    paddingHorizontal:20,
+    paddingTop:Platform.OS === 'ios'? 50: 60
+},
+image:{
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40,
+},
+container:{
+    width:'100%',
+    height:240,
+ 
+}
 })

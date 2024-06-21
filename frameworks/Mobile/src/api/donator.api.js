@@ -16,7 +16,7 @@ export const acceptDonationRequest = (requestID, reqdata,token) =>API.post(`/acc
 export const rejectDonationRequest = (requestID, reqdata,token) =>API.post(`/rejectRequest/${requestID}`, reqdata, getAuthHeader(token));
 export const getPendingDonations = (userId,token) =>API.get(`/getPendingDonations/${userId}`, getAuthHeader(token));
 export const getRejectedDonations = (userId,token) =>API.get(`/getRejectedDonations/${userId}`, getAuthHeader(token));
-export const markDonationAsCompleted = (donationID) =>API.post(`/markAsCompleted/${donationID}`, undefined, getAuthHeader());
+export const markDonationAsCompleted = (donationID, token) =>API.post(`/markAsCompleted/${donationID}`, undefined, getAuthHeader(token));
 export const getOngoingDonations = (donationID, token) =>API.get(`/getOngoingDonations/${donationID}`, getAuthHeader(token));
 export const getCompletedDonations = (donationID, token) =>API.get(`/getCompletedDonations/${donationID}`, getAuthHeader(token));
 

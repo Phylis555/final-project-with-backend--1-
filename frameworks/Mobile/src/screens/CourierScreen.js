@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { View, SafeAreaView, ScrollView, StyleSheet, Text,TextInput,Alert} from "react-native"
+import { View, SafeAreaView, ScrollView, StyleSheet, Text,TextInput,Alert, ImageBackground,Platform} from "react-native"
 import CustomBtn1 from "../components/customButton"
 import TypeAInput from "../components/customInput"
 import Topic from "../components/topic"
@@ -73,8 +73,13 @@ export default class Messenger extends Component {
 
         return(
             <>
-            <SafeAreaView style={styles.authcontainer}>
+            <View style={styles.authcontainer}>
+
+            <ImageBackground source={require('../../assets/images/loginBg.png')} style={styles.imageBackground}>
+
                 <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ marginHorizontal:20 ,paddingTop:Platform.OS === 'ios'? 60: 70}}>
+
                     <Topic title={'הירשם כדי להתחיל לתמוך'}/>
                     <View>
                         <TypeAInput label={'שם פרטי'}  onChangeText={(firstName) => this.setState({ firstName })}/>
@@ -98,8 +103,10 @@ export default class Messenger extends Component {
                 אני מסכים עם כל התנאים, ההגבלות ולמדיניות הפרטיות
               </Text>
             </View>
+            </View>
                 </ScrollView>
-            </SafeAreaView>
+                </ImageBackground>
+            </View>
             </>
         )
     }
@@ -109,10 +116,10 @@ export default class Messenger extends Component {
 const styles = StyleSheet.create({
     authcontainer:{
         flex: 1,
-        justifyContent: 'center',
-        marginBottom: 20,
-        marginHorizontal: 15,
-        paddingHorizontal: 30
+        // justifyContent: 'center',
+        // marginBottom: 20,
+        // marginHorizontal: 15,
+        // paddingHorizontal: 30
     },
     policyContainer: {
         flexDirection: 'row',
@@ -130,6 +137,13 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'right', // Align the text to the right
       },
+      imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover', // Ensures the image covers the entire background
+        justifyContent: 'center',
+    },
 })
 
 

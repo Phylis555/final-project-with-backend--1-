@@ -1,119 +1,5 @@
 
 
-//////////////////////////working
-
-// import React, { useState, useEffect } from "react";
-// import { View, Text, SafeAreaView, ImageBackground, Image, StyleSheet } from "react-native";
-// import Colors from "../utils/colors";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import axios from 'axios';
-// import { getAuthHeader } from "../components/authHeader";
-
-// const Account = () => {
-//     const [userId, setUserId] = useState(null);
-//     const [profileData, setProfileData] = useState(null);
-//     const [token, setToken] = useState(null);
-
-
-//     // Fetch user ID from AsyncStorage
-//     const fetchData = async () => {
-//         const storedUserId = await AsyncStorage.getItem('user_id');
-//         const storedToken = await AsyncStorage.getItem('token');
-//         setToken(storedToken);
-//         setUserId(storedUserId);
-       
-//         console.log("Fetched user ID:", storedUserId);
-//         console.log("Fetched Token access:", storedToken);
-
-//     };
-
-//     // Effect to fetch data when component mounts
-//     useEffect(() => {
-//         fetchData();
-//     }, []); // Empty dependency array ensures effect runs once
-
-//     // Effect to fetch profile data when userId changes
-//     useEffect(() => {
-//         if (userId) {
-//             axios.get(`http://192.168.1.245:8070/requester/profile/${userId}`, getAuthHeader(token))
-//                 .then((res) => {
-//                     setProfileData(res.data.requester);
-//                     console.log(res.data);
-//                 })
-//                 .catch((e) => {
-//                     console.error(e);
-//                 });
-//         }
-//     }, [userId]); // Run effect when userId changes
-
-//     // Define the URIs for images
-//     const Uri = require('../../assets/images/accBg.jpg');
-//     const userImage = require('../../assets/images/profile.jpeg');
-
-//     // Return the component's view
-//     return (
-//         <SafeAreaView style={styles.container}>
-//             <ImageBackground resizeMode='cover' source={Uri} style={styles.container}>
-//                 <View style={styles.content}>
-//                     <View style={styles.imageContainer}>
-//                         <Image style={styles.img} source={userImage} />
-//                     </View>
-//                     {/* Only display profile data if it exists */}
-//                     {profileData && (
-//                         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-//                             <Text style={styles.lvlTxt}>{profileData.firstName}</Text>
-//                             <View style={styles.lvlStat}></View>
-//                         </View>
-//                     )}
-//                 </View>
-//             </ImageBackground>
-//         </SafeAreaView>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         justifyContent: 'flex-end',
-//     },
-//     content: {
-//         backgroundColor: '#efefef',
-//         alignSelf: 'center',
-//         height: '50%',
-//         width: '80%',
-//         marginBottom: '40%',
-//         borderRadius: 15,
-//         alignItems: 'center',
-//     },
-//     imageContainer: {
-//         width: 130,
-//         height: 130,
-//         backgroundColor: 'rgba(151, 122, 248, .2)',
-//         borderRadius: 100,
-//         marginBottom: 15,
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         alignSelf: 'center',
-//         marginTop: '-20%',
-//     },
-//     img: {
-//         width: '75%',
-//         height: '75%',
-//         borderRadius: 100,
-//     },
-//     lvlTxt: {
-//         fontSize: 15,
-//         color: 'rgba(0,0,0,.4)',
-//     },
-//     lvlStat: {
-//         width: 8,
-//         height: 8,
-//         backgroundColor: '#0fd415',
-//         borderRadius: 20,
-//         marginLeft: 5,
-//     },
-// });
-
 // export default Account;
 import React, { Component } from "react";
 import { View, Text, SafeAreaView, ImageBackground, Image, StyleSheet, TouchableOpacity } from "react-native";
@@ -126,6 +12,8 @@ import { getAuthHeader } from "../components/authHeader";
 import { requesterProfile } from "../api/requester.api";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import DashboardProfile from "./DashboardProfile";
+import { FAB } from 'react-native-paper'
+
 
 class Account extends Component {
     constructor(props) {
@@ -152,6 +40,10 @@ class Account extends Component {
     // Effect to fetch data when component mounts
     componentDidMount() {
         this.fetchData();
+        // Disable the slide back gesture
+        this.props.navigation.setOptions({
+        gestureEnabled: false,
+        });
     }
 
     // Effect to fetch profile data when userId changes
@@ -189,9 +81,17 @@ class Account extends Component {
         
 
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
+                  
                 <ImageBackground blurRadius={3} resizeMode='cover' source={Uri} style={styles.container}>
+                <FAB
+                        style={styles.fab}
+                        icon="home"
+                        onPress={() => this.props.navigation.navigate('home2')}
+
+                    />
                     <View style={styles.content}>
+             
                         <View style={styles.imageContainer}>
                             <Image style={styles.img} source={userImage} />
                         </View>
@@ -265,7 +165,7 @@ class Account extends Component {
                         )}
                     </View>
                 </ImageBackground>
-            </SafeAreaView>
+            </View>
         );
     }
 }
@@ -320,7 +220,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 10,
 
-    }
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        left: 0,
+        top: 40, // Adjust the position as needed
+        backgroundColor: 'rgba(243, 195, 123, 0.8)',
+      },
 });
 
 export default Account;
