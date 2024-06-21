@@ -6,7 +6,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView, 
     Text, 
     ScrollView, 
-  
     View,
     StyleSheet,
     FlatList,
